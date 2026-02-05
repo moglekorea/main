@@ -3,12 +3,21 @@ document.addEventListener('DOMContentLoaded', function() {
   fetch('sapphire_config.json')
     .then(res => res.json())
     .then(config => {
-      let html = document.body.innerHTML;
-      Object.keys(config).forEach(key => {
-        const regex = new RegExp('\\{\\{' + key + '\\}\\}', 'g');
-        html = html.replace(regex, config[key]);
-      });
-      document.body.innerHTML = html;
+      // 모든 텍스트 노드만 찾아서 교체 (DOM 구조는 유지)
+      function replaceTextNodes(node) {
+        if (node.nodeType === Node.TEXT_NODE) {
+          let text = node.textContent;
+          Object.keys(config).forEach(key => {
+            const regex = new RegExp('\\{\\{' + key + '\\}\\}', 'g');
+            text = text.replace(regex, config[key]);
+          });
+          node.textContent = text;
+        } else {
+          node.childNodes.forEach(child => replaceTextNodes(child));
+        }
+      }
+      
+      replaceTextNodes(document.body);
       if (typeof initOwlCarousel === 'function') initOwlCarousel();
     })
     .catch(err => console.warn('Config load failed:', err));
