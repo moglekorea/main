@@ -1014,7 +1014,13 @@ textarea.field-input {
       // 9. Remove buy.js (floating button not needed in preview)
       html = html.replace(/<script[^>]*buy\.js[^>]*>[\s\S]*?<\/script>/gi, '');
 
-      // 10. Set iframe content
+      // 10. Debug: log doctor_1 image state
+      const doctorMatch = html.match(/doctor_1[\s\S]{0,150}/);
+      console.log('[Preview] Doctor1 in final HTML:', doctorMatch?.[0]);
+      const scriptTags = html.match(/<script[^>]*>/g);
+      console.log('[Preview] Script tags in final HTML:', scriptTags);
+
+      // 11. Set iframe content
       iframe.srcdoc = html;
 
     } catch (e) {
