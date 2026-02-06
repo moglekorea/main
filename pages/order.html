@@ -1008,11 +1008,11 @@ textarea.field-input {
       // 7. Inject <base href> for CSS/JS relative paths
       html = html.replace(/<head([^>]*)>/i, `<head$1><base href="${baseUrl}">`);
 
-      // 8. Remove sapphire_main.js (config fetch would be redundant, all {{}} already replaced)
-      html = html.replace(/<script[^>]*sapphire_main\.js[^>]*><\/script>/gi, '');
+      // 8. Remove sapphire_main.js (it re-fetches config and overwrites our replacements)
+      html = html.replace(/<script[^>]*sapphire_main\.js[^>]*>[\s\S]*?<\/script>/gi, '');
 
       // 9. Remove buy.js (floating button not needed in preview)
-      html = html.replace(/<script[^>]*buy\.js[^>]*><\/script>/gi, '');
+      html = html.replace(/<script[^>]*buy\.js[^>]*>[\s\S]*?<\/script>/gi, '');
 
       // 10. Set iframe content
       iframe.srcdoc = html;
