@@ -21,6 +21,15 @@ document.addEventListener('DOMContentLoaded', function() {
               attr.value = val;
             }
           });
+          // data-src → src (deferred image/iframe loading)
+          if (node.hasAttribute('data-src') && !node.getAttribute('src')) {
+            node.setAttribute('src', node.getAttribute('data-src'));
+          }
+          // data-bg → background-image (deferred background loading)
+          if (node.hasAttribute('data-bg')) {
+            var bgVal = node.getAttribute('data-bg');
+            node.style.backgroundImage = "url('" + bgVal + "')";
+          }
           node.childNodes.forEach(child => replaceInNode(child));
         }
       }
