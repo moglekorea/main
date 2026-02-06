@@ -991,28 +991,25 @@ textarea.field-input {
         html = html.replace(regex, mergedConfig[key]);
       });
 
-      // 5. Replace data-src="value" with src="value" (since we already resolved paths)
-      //    This handles lazy-load images that use data-src
-      html = html.replace(/data-src="([^"]+)"/g, 'src="$1"');
-      html = html.replace(/data-bg="([^"]+)"/g, function(match, url) {
-        // data-bg is used for background-image, keep as data attribute
-        // but also add inline style
-        return match;
-      });
+      // 5. Fix image loading: remove empty src="" then convert data-src to src
+      //    HTML has: src="" data-src="{{resolved_url}}" pattern
+      //    Need to: remove the empty src, then rename data-src to src
+      html = html.replace(/src=""\s*data-src="/g, 'src="');
 
-      // 6. Inject <base href> for CSS/JS relative paths
-      html = html.replace(/<head([^>]*)>/i, `<head$1><base href="${baseUrl}">`);
-
-      // 7. Remove sapphire_main.js (config fetch would be redundant, all {{}} already replaced)
-      html = html.replace(/<script[^>]*sapphire_main\.js[^>]*><\/script>/gi, '');
-
-      // 8. Remove buy.js (floating button not needed in preview)
-      html = html.replace(/<script[^>]*buy\.js[^>]*><\/script>/gi, '');
-
-      // 9. Handle data-bg for background images (inject inline styles)
+      // 6. Handle data-bg for background images (hero slides etc.)
+      //    Convert data-bg="url" to style="background-image:url('url')"
       html = html.replace(/data-bg="([^"]+)"/g, function(match, url) {
         return `style="background-image:url('${url}')" ${match}`;
       });
+
+      // 7. Inject <base href> for CSS/JS relative paths
+      html = html.replace(/<head([^>]*)>/i, `<head$1><base href="${baseUrl}">`);
+
+      // 8. Remove sapphire_main.js (config fetch would be redundant, all {{}} already replaced)
+      html = html.replace(/<script[^>]*sapphire_main\.js[^>]*><\/script>/gi, '');
+
+      // 9. Remove buy.js (floating button not needed in preview)
+      html = html.replace(/<script[^>]*buy\.js[^>]*><\/script>/gi, '');
 
       // 10. Set iframe content
       iframe.srcdoc = html;
