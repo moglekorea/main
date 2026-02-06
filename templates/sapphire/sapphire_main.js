@@ -301,6 +301,7 @@ document.addEventListener('DOMContentLoaded', function() {
       const windowTop = $(window).scrollTop();
       const windowBottom = windowTop + windowHeight;
 
+      if (!this.animatedElements) return;
       this.animatedElements.each(function() {
         const element = $(this);
         const elementTop = element.offset().top;
@@ -501,7 +502,7 @@ document.addEventListener('DOMContentLoaded', function() {
       // Use native lazy loading if supported
       if ('loading' in HTMLImageElement.prototype) {
         $('img[data-src]').each(function() {
-          $(this).attr('src', $(this).data('src'));
+          // Config loader handles data-src → src
           $(this).attr('loading', 'lazy');
         });
       } else {
@@ -517,7 +518,7 @@ document.addEventListener('DOMContentLoaded', function() {
         lazyImages.each(function() {
           const img = $(this);
           if (Utils.isInViewport(this)) {
-            img.attr('src', img.data('src')).removeAttr('data-src');
+            img.removeAttr('data-src');
           }
         });
       };
