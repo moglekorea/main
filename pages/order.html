@@ -985,16 +985,16 @@ textarea.field-input {
         }
       });
 
-      // 4. Replace all {{key}} placeholders
+      // 4. Fix HTML structure BEFORE replacing placeholders
+      //    Convert src="" data-src="{{xxx}}" → src="{{xxx}}"
+      //    Convert data-bg="{{xxx}}" → will handle after replacement
+      html = html.replace(/src=""\s*data-src="/g, 'src="');
+
+      // 5. Replace all {{key}} placeholders
       Object.keys(mergedConfig).forEach(key => {
         const regex = new RegExp('\\{\\{' + key + '\\}\\}', 'g');
         html = html.replace(regex, mergedConfig[key]);
       });
-
-      // 5. Fix image loading: remove empty src="" then convert data-src to src
-      //    HTML has: src="" data-src="{{resolved_url}}" pattern
-      //    Need to: remove the empty src, then rename data-src to src
-      html = html.replace(/src=""\s*data-src="/g, 'src="');
 
       // 6. Handle data-bg for background images (hero slides etc.)
       //    Convert data-bg="url" to style="background-image:url('url')"
