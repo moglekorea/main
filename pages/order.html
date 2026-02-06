@@ -970,19 +970,30 @@ textarea.field-input {
         }
       });
 
-      // 3. Replace image keys with blob URLs (uploaded) or absolute paths (default)
+      // 3. Replace image keys with data URLs (uploaded) or absolute paths (default)
       const baseUrl = new URL(`../templates/${templateName}/`, window.location.href).href;
 
       console.log('[Preview] Uploaded images:', Object.keys(uploadedImages));
 
+      // Convert uploaded files to base64 data URLs
+      const imageDataUrls = {};
+      for (const key of Object.keys(uploadedImages)) {
+        const file = uploadedImages[key];
+        imageDataUrls[key] = await new Promise((resolve) => {
+          const reader = new FileReader();
+          reader.onload = () => resolve(reader.result);
+          reader.readAsDataURL(file);
+        });
+        console.log('[Preview] DataURL:', key, imageDataUrls[key].substring(0, 50));
+      }
+
       Object.keys(mergedConfig).forEach(key => {
         if (key.startsWith('image_') || key.startsWith('icon_')) {
-          if (uploadedImages[key]) {
-            // Uploaded image → blob URL
-            mergedConfig[key] = URL.createObjectURL(uploadedImages[key]);
-            console.log('[Preview] Blob:', key, mergedConfig[key].substring(0, 50));
+          if (imageDataUrls[key]) {
+            // Uploaded image → base64 data URL
+            mergedConfig[key] = imageDataUrls[key];
           } else {
-            // Default image → absolute URL (for blob context)
+            // Default image → absolute URL
             mergedConfig[key] = baseUrl + mergedConfig[key];
           }
         }
