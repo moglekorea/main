@@ -1,0 +1,857 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Mogle — 템플릿 커스터마이징</title>
+<link rel="icon" href="../favicon.png">
+<link href="https://fonts.googleapis.com/css2?family=Noto+Sans+KR:wght@400;500;700&display=swap" rel="stylesheet">
+<style>
+*, *::before, *::after { margin: 0; padding: 0; box-sizing: border-box; }
+
+:root {
+  --bg: #ffffff;
+  --text: #202124;
+  --text-sub: #5f6368;
+  --border: #e0e0e0;
+  --border-focus: #202124;
+  --accent: #202124;
+  --accent-hover: #000000;
+  --section-bg: #fafafa;
+  --tag-bg: #f1f3f4;
+  --success: #0d9488;
+  --error: #dc2626;
+}
+
+body {
+  font-family: 'Noto Sans KR', sans-serif;
+  background: var(--bg);
+  color: var(--text);
+  line-height: 1.6;
+  -webkit-font-smoothing: antialiased;
+}
+
+/* ── Loading ── */
+.loading-screen {
+  position: fixed; inset: 0;
+  display: flex; align-items: center; justify-content: center;
+  background: var(--bg);
+  z-index: 10000;
+  transition: opacity 0.4s;
+}
+.loading-screen.hide { opacity: 0; pointer-events: none; }
+.loading-spinner {
+  width: 32px; height: 32px;
+  border: 3px solid var(--border);
+  border-top-color: var(--accent);
+  border-radius: 50%;
+  animation: spin 0.8s linear infinite;
+}
+@keyframes spin { to { transform: rotate(360deg); } }
+
+/* ── Header ── */
+.header {
+  position: sticky; top: 0; z-index: 100;
+  background: var(--bg);
+  border-bottom: 1px solid var(--border);
+  padding: 16px 24px;
+  display: flex; align-items: center; justify-content: space-between;
+}
+.header-logo {
+  font-size: 20px; font-weight: 700; color: var(--text);
+  text-decoration: none;
+}
+.header-logo span { color: var(--text-sub); font-weight: 400; font-size: 14px; margin-left: 8px; }
+.header-right { display: flex; gap: 10px; }
+
+/* ── Container ── */
+.container {
+  max-width: 720px;
+  margin: 0 auto;
+  padding: 32px 20px 120px;
+}
+
+/* ── Page title ── */
+.page-title {
+  font-size: clamp(22px, 4vw, 28px);
+  font-weight: 700;
+  margin-bottom: 4px;
+}
+.page-subtitle {
+  color: var(--text-sub);
+  font-size: 14px;
+  margin-bottom: 32px;
+}
+
+/* ── Progress ── */
+.progress-bar {
+  position: sticky; top: 57px; z-index: 90;
+  background: var(--bg);
+  padding: 12px 0;
+  margin-bottom: 24px;
+}
+.progress-track {
+  height: 3px;
+  background: var(--border);
+  border-radius: 2px;
+  overflow: hidden;
+}
+.progress-fill {
+  height: 100%;
+  background: var(--accent);
+  border-radius: 2px;
+  transition: width 0.3s ease;
+  width: 0%;
+}
+.progress-label {
+  font-size: 12px;
+  color: var(--text-sub);
+  margin-top: 6px;
+  text-align: right;
+}
+
+/* ── Sections ── */
+.section {
+  margin-bottom: 8px;
+  border: 1px solid var(--border);
+  border-radius: 12px;
+  overflow: hidden;
+  transition: box-shadow 0.2s;
+}
+.section:hover { box-shadow: 0 2px 8px rgba(0,0,0,0.04); }
+.section-header {
+  padding: 16px 20px;
+  display: flex; align-items: center; justify-content: space-between;
+  cursor: pointer;
+  user-select: none;
+  background: var(--bg);
+  transition: background 0.15s;
+}
+.section-header:hover { background: var(--section-bg); }
+.section-title {
+  font-size: 15px; font-weight: 700;
+  display: flex; align-items: center; gap: 10px;
+}
+.section-badge {
+  font-size: 11px; font-weight: 500;
+  padding: 2px 8px;
+  border-radius: 10px;
+  background: var(--tag-bg);
+  color: var(--text-sub);
+}
+.section-badge.required { background: var(--accent); color: #fff; }
+.section-chevron {
+  width: 20px; height: 20px;
+  transition: transform 0.25s;
+  color: var(--text-sub);
+}
+.section.open .section-chevron { transform: rotate(180deg); }
+.section-body {
+  max-height: 0;
+  overflow: hidden;
+  transition: max-height 0.35s ease;
+}
+.section.open .section-body { max-height: 4000px; }
+.section-content {
+  padding: 4px 20px 20px;
+}
+
+/* ── Fields ── */
+.field {
+  margin-bottom: 16px;
+}
+.field-label {
+  display: block;
+  font-size: 13px;
+  font-weight: 500;
+  color: var(--text);
+  margin-bottom: 5px;
+}
+.field-label .key-name {
+  font-size: 11px;
+  color: var(--text-sub);
+  font-weight: 400;
+  margin-left: 6px;
+}
+.field-input {
+  width: 100%;
+  padding: 10px 14px;
+  font-family: 'Noto Sans KR', sans-serif;
+  font-size: 14px;
+  color: var(--text);
+  background: var(--bg);
+  border: 1px solid var(--border);
+  border-radius: 8px;
+  outline: none;
+  transition: border-color 0.15s;
+}
+.field-input:focus { border-color: var(--border-focus); }
+.field-input::placeholder { color: #bbb; }
+textarea.field-input {
+  min-height: 72px;
+  resize: vertical;
+  line-height: 1.5;
+}
+
+/* ── Image upload ── */
+.image-upload {
+  margin-bottom: 16px;
+}
+.image-upload-label {
+  display: block;
+  font-size: 13px; font-weight: 500;
+  margin-bottom: 5px;
+}
+.image-upload-label .dimensions {
+  font-size: 11px; color: var(--text-sub); font-weight: 400; margin-left: 4px;
+}
+.image-drop {
+  border: 2px dashed var(--border);
+  border-radius: 8px;
+  padding: 20px;
+  text-align: center;
+  cursor: pointer;
+  transition: border-color 0.15s, background 0.15s;
+  position: relative;
+  overflow: hidden;
+}
+.image-drop:hover,
+.image-drop.dragover {
+  border-color: var(--accent);
+  background: var(--section-bg);
+}
+.image-drop-text {
+  font-size: 13px;
+  color: var(--text-sub);
+}
+.image-drop-text svg {
+  display: block;
+  margin: 0 auto 8px;
+  color: var(--border);
+}
+.image-drop input[type="file"] {
+  position: absolute; inset: 0;
+  opacity: 0; cursor: pointer;
+}
+.image-preview {
+  display: none;
+  margin-top: 8px;
+  position: relative;
+  border-radius: 8px;
+  overflow: hidden;
+  border: 1px solid var(--border);
+}
+.image-preview img {
+  width: 100%;
+  max-height: 200px;
+  object-fit: cover;
+  display: block;
+}
+.image-preview .remove-btn {
+  position: absolute; top: 8px; right: 8px;
+  width: 28px; height: 28px;
+  background: rgba(0,0,0,0.6);
+  color: #fff;
+  border: none; border-radius: 50%;
+  cursor: pointer;
+  display: flex; align-items: center; justify-content: center;
+  font-size: 14px;
+  transition: background 0.15s;
+}
+.image-preview .remove-btn:hover { background: rgba(0,0,0,0.85); }
+
+/* ── Buttons ── */
+.btn {
+  display: inline-flex; align-items: center; justify-content: center; gap: 8px;
+  padding: 12px 28px;
+  font-family: 'Noto Sans KR', sans-serif;
+  font-size: 14px; font-weight: 700;
+  border: none; border-radius: 50px;
+  cursor: pointer;
+  transition: all 0.2s;
+  text-decoration: none;
+}
+.btn-primary {
+  background: var(--accent); color: #fff;
+}
+.btn-primary:hover { background: var(--accent-hover); transform: translateY(-1px); box-shadow: 0 4px 12px rgba(0,0,0,0.15); }
+.btn-secondary {
+  background: var(--bg); color: var(--text);
+  border: 1px solid var(--border);
+}
+.btn-secondary:hover { background: var(--section-bg); }
+
+/* ── Bottom bar ── */
+.bottom-bar {
+  position: fixed; bottom: 0; left: 0; right: 0;
+  background: var(--bg);
+  border-top: 1px solid var(--border);
+  padding: 14px 24px;
+  display: flex; align-items: center; justify-content: center; gap: 12px;
+  z-index: 100;
+}
+
+/* ── Toast ── */
+.toast {
+  position: fixed; bottom: 90px; left: 50%; transform: translateX(-50%);
+  padding: 12px 24px;
+  background: var(--accent); color: #fff;
+  border-radius: 50px;
+  font-size: 13px; font-weight: 500;
+  opacity: 0; pointer-events: none;
+  transition: opacity 0.3s, bottom 0.3s;
+  z-index: 200;
+}
+.toast.show { opacity: 1; bottom: 100px; }
+
+/* ── Error page ── */
+.error-page {
+  display: none;
+  text-align: center;
+  padding: 120px 20px;
+}
+.error-page h2 { font-size: 20px; margin-bottom: 8px; }
+.error-page p { color: var(--text-sub); font-size: 14px; margin-bottom: 24px; }
+
+/* ── Responsive ── */
+@media (max-width: 600px) {
+  .header { padding: 12px 16px; }
+  .container { padding: 24px 16px 120px; }
+  .section-content { padding: 4px 16px 16px; }
+  .bottom-bar { padding: 12px 16px; }
+  .btn { padding: 11px 22px; font-size: 13px; }
+}
+</style>
+</head>
+<body>
+
+<!-- Loading -->
+<div class="loading-screen" id="loadingScreen">
+  <div class="loading-spinner"></div>
+</div>
+
+<!-- Error -->
+<div class="error-page" id="errorPage">
+  <h2>템플릿을 불러올 수 없습니다</h2>
+  <p id="errorMsg">URL에 template 파라미터가 없습니다.</p>
+  <a href="../index.html" class="btn btn-primary">템플릿 둘러보기</a>
+</div>
+
+<!-- Main -->
+<div id="mainContent" style="display:none;">
+
+<header class="header">
+  <a href="../index.html" class="header-logo">Mogle <span id="templateLabel"></span></a>
+  <div class="header-right">
+    <a href="#" class="btn btn-secondary" id="previewLink" target="_blank" style="font-size:13px; padding:8px 16px;">미리보기</a>
+  </div>
+</header>
+
+<div class="container">
+  <h1 class="page-title">템플릿 커스터마이징</h1>
+  <p class="page-subtitle">내 병원 정보로 수정하세요. 빈 칸은 기본값이 적용됩니다.</p>
+
+  <div class="progress-bar">
+    <div class="progress-track"><div class="progress-fill" id="progressFill"></div></div>
+    <div class="progress-label" id="progressLabel">0 / 0 항목 입력</div>
+  </div>
+
+  <div id="formSections"></div>
+</div>
+
+<div class="bottom-bar">
+  <button class="btn btn-secondary" id="btnReset">초기화</button>
+  <button class="btn btn-primary" id="btnDownload">
+    <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"/><polyline points="7 10 12 15 17 10"/><line x1="12" y1="15" x2="12" y2="3"/></svg>
+    다운로드
+  </button>
+</div>
+
+</div><!-- /mainContent -->
+
+<div class="toast" id="toast"></div>
+
+<script src="https://cdnjs.cloudflare.com/ajax/libs/jszip/3.10.1/jszip.min.js"></script>
+<script>
+(function() {
+  'use strict';
+
+  // ── Config 섹션 정의 ──
+  // config.json의 키를 의미 있는 섹션으로 그룹핑
+  const SECTIONS = [
+    {
+      id: 'basic',
+      title: '기본 정보',
+      badge: '필수',
+      required: true,
+      open: true,
+      fields: [
+        { key: 'hospital_name', label: '병원명', type: 'text' },
+        { key: 'phone', label: '전화번호', type: 'text' },
+        { key: 'fax', label: '팩스', type: 'text' },
+        { key: 'email', label: '이메일', type: 'text' },
+        { key: 'address', label: '주소 (짧은)', type: 'text' },
+        { key: 'address_full', label: '주소 (전체)', type: 'text' },
+        { key: 'postal_code', label: '우편번호', type: 'text' },
+        { key: 'hours', label: '진료시간', type: 'text' },
+      ]
+    },
+    {
+      id: 'meta',
+      title: 'SEO / 메타',
+      badge: '선택',
+      fields: [
+        { key: 'meta_subtitle', label: '부제목', type: 'text' },
+        { key: 'meta_description', label: '사이트 설명', type: 'textarea' },
+        { key: 'meta_keywords', label: '키워드', type: 'textarea' },
+        { key: 'site_url', label: '사이트 URL', type: 'text' },
+        { key: 'copyright_year', label: '저작권 연도', type: 'text' },
+      ]
+    },
+    {
+      id: 'nav',
+      title: '네비게이션',
+      badge: '선택',
+      fields: [
+        { key: 'nav_1_name', label: '메뉴 1', type: 'text' },
+        { key: 'nav_2_name', label: '메뉴 2', type: 'text' },
+        { key: 'nav_3_name', label: '메뉴 3', type: 'text' },
+        { key: 'nav_4_name', label: '메뉴 4', type: 'text' },
+        { key: 'nav_5_name', label: '메뉴 5', type: 'text' },
+        { key: 'nav_6_name', label: '메뉴 6', type: 'text' },
+      ]
+    },
+    {
+      id: 'hero',
+      title: '히어로 슬라이드',
+      badge: '선택',
+      fields: [
+        { key: 'hero_1_title', label: '슬라이드 1 제목', type: 'text' },
+        { key: 'hero_1_subtitle', label: '슬라이드 1 부제', type: 'text' },
+        { key: 'hero_1_btn', label: '슬라이드 1 버튼', type: 'text' },
+        { key: 'hero_2_title', label: '슬라이드 2 제목', type: 'text' },
+        { key: 'hero_2_subtitle', label: '슬라이드 2 부제', type: 'text' },
+        { key: 'hero_2_btn', label: '슬라이드 2 버튼', type: 'text' },
+        { key: 'hero_3_title', label: '슬라이드 3 제목', type: 'text' },
+        { key: 'hero_3_subtitle', label: '슬라이드 3 부제', type: 'text' },
+        { key: 'hero_3_btn', label: '슬라이드 3 버튼', type: 'text' },
+      ],
+      images: [
+        { key: 'image_hero_1', label: '히어로 1', dim: '1920×800' },
+        { key: 'image_hero_2', label: '히어로 2', dim: '1920×800' },
+        { key: 'image_hero_3', label: '히어로 3', dim: '1920×800' },
+      ]
+    },
+    {
+      id: 'intro',
+      title: '병원 소개',
+      badge: '선택',
+      fields: [
+        { key: 'intro_title', label: '소개 제목', type: 'text' },
+        { key: 'intro_desc', label: '소개 한줄 설명', type: 'text' },
+        { key: 'intro_heading', label: '소개 소제목', type: 'text' },
+        { key: 'intro_text_1', label: '소개 본문 1', type: 'textarea' },
+        { key: 'intro_text_2', label: '소개 본문 2', type: 'textarea' },
+      ],
+      images: [
+        { key: 'image_intro', label: '병원 소개', dim: '800×600' },
+      ]
+    },
+    {
+      id: 'dept',
+      title: '진료과',
+      badge: '선택',
+      fields: [
+        { key: 'dept_1_name', label: '진료과 1', type: 'text' },
+        { key: 'dept_1_desc', label: '진료과 1 설명', type: 'text' },
+        { key: 'dept_2_name', label: '진료과 2', type: 'text' },
+        { key: 'dept_2_desc', label: '진료과 2 설명', type: 'text' },
+        { key: 'dept_3_name', label: '진료과 3', type: 'text' },
+        { key: 'dept_3_desc', label: '진료과 3 설명', type: 'text' },
+        { key: 'dept_4_name', label: '진료과 4', type: 'text' },
+        { key: 'dept_4_desc', label: '진료과 4 설명', type: 'text' },
+      ],
+      images: [
+        { key: 'image_dept_1', label: '진료과 1', dim: '400×400' },
+        { key: 'image_dept_2', label: '진료과 2', dim: '400×400' },
+        { key: 'image_dept_3', label: '진료과 3', dim: '400×400' },
+        { key: 'image_dept_4', label: '진료과 4', dim: '400×400' },
+      ]
+    },
+    {
+      id: 'doctor',
+      title: '의료진',
+      badge: '선택',
+      fields: [
+        { key: 'doctor_1_name', label: '의사 1 이름', type: 'text' },
+        { key: 'doctor_1_specialty', label: '의사 1 전공', type: 'text' },
+        { key: 'doctor_1_desc', label: '의사 1 설명', type: 'text' },
+        { key: 'doctor_2_name', label: '의사 2 이름', type: 'text' },
+        { key: 'doctor_2_specialty', label: '의사 2 전공', type: 'text' },
+        { key: 'doctor_2_desc', label: '의사 2 설명', type: 'text' },
+        { key: 'doctor_3_name', label: '의사 3 이름', type: 'text' },
+        { key: 'doctor_3_specialty', label: '의사 3 전공', type: 'text' },
+        { key: 'doctor_3_desc', label: '의사 3 설명', type: 'text' },
+      ],
+      images: [
+        { key: 'image_doctor_1', label: '의사 1 사진', dim: '400×500' },
+        { key: 'image_doctor_2', label: '의사 2 사진', dim: '400×500' },
+        { key: 'image_doctor_3', label: '의사 3 사진', dim: '400×500' },
+      ]
+    },
+    {
+      id: 'facility',
+      title: '시설',
+      badge: '선택',
+      fields: [
+        { key: 'facility_1_name', label: '시설 1 이름', type: 'text' },
+        { key: 'facility_1_desc', label: '시설 1 설명', type: 'text' },
+        { key: 'facility_2_name', label: '시설 2 이름', type: 'text' },
+        { key: 'facility_2_desc', label: '시설 2 설명', type: 'text' },
+        { key: 'facility_3_name', label: '시설 3 이름', type: 'text' },
+        { key: 'facility_3_desc', label: '시설 3 설명', type: 'text' },
+      ],
+      images: [
+        { key: 'image_facility_1', label: '시설 1', dim: '800×600' },
+        { key: 'image_facility_2', label: '시설 2', dim: '800×600' },
+        { key: 'image_facility_3', label: '시설 3', dim: '800×600' },
+      ]
+    },
+    {
+      id: 'footer',
+      title: '푸터 / SNS',
+      badge: '선택',
+      fields: [
+        { key: 'footer_desc', label: '푸터 설명', type: 'textarea' },
+        { key: 'instagram_url', label: '인스타그램 URL', type: 'text' },
+        { key: 'youtube_url', label: '유튜브 URL', type: 'text' },
+        { key: 'map_embed', label: '구글맵 임베드 URL', type: 'textarea' },
+        { key: 'theme_color', label: '테마 색상', type: 'text' },
+      ]
+    },
+    {
+      id: 'brand',
+      title: '로고 / 아이콘',
+      badge: '선택',
+      images: [
+        { key: 'image_logo', label: '로고 (밝은배경)', dim: '200×60' },
+        { key: 'image_logo_white', label: '로고 (어두운배경)', dim: '200×60' },
+        { key: 'icon_instagram', label: '인스타 아이콘', dim: '48×48' },
+        { key: 'icon_youtube', label: '유튜브 아이콘', dim: '48×48' },
+        { key: 'icon_location', label: '위치 아이콘', dim: '64×64' },
+        { key: 'icon_phone', label: '전화 아이콘', dim: '64×64' },
+        { key: 'icon_clock', label: '시계 아이콘', dim: '64×64' },
+      ]
+    },
+    {
+      id: 'subpage',
+      title: '서브페이지 이미지',
+      badge: '고급',
+      images: [
+        { key: 'image_about_hero', label: '소개 히어로', dim: '1920×400' },
+        { key: 'image_about_interior', label: '소개 인테리어', dim: '800×600' },
+        { key: 'image_about_gallery_1', label: '소개 갤러리 1', dim: '600×400' },
+        { key: 'image_about_gallery_2', label: '소개 갤러리 2', dim: '600×400' },
+        { key: 'image_joint_hero', label: '관절 히어로', dim: '1920×400' },
+        { key: 'image_joint_intro', label: '관절 소개', dim: '800×600' },
+        { key: 'image_joint_acl', label: '십자인대', dim: '400×400' },
+        { key: 'image_joint_arthritis', label: '관절염', dim: '400×400' },
+        { key: 'image_shoulder_frozen', label: '오십견', dim: '400×400' },
+        { key: 'image_treatment_injection', label: '주사치료', dim: '600×400' },
+        { key: 'image_treatment_rehab', label: '재활치료', dim: '600×400' },
+        { key: 'image_treatment_surgery', label: '수술치료', dim: '600×400' },
+        { key: 'image_spine_hero', label: '척추 히어로', dim: '1920×400' },
+        { key: 'image_spine_intro', label: '척추 소개', dim: '800×600' },
+        { key: 'image_spine_turtle', label: '거북목', dim: '400×400' },
+        { key: 'image_spine_stenosis', label: '협착증', dim: '400×400' },
+        { key: 'image_spine_disc', label: '디스크', dim: '400×400' },
+        { key: 'image_sports_hero', label: '스포츠 히어로', dim: '1920×400' },
+        { key: 'image_sports_intro', label: '스포츠 소개', dim: '800×600' },
+        { key: 'image_sports_injury', label: '스포츠 손상', dim: '400×400' },
+        { key: 'image_sports_post_surgery', label: '수술후 재활', dim: '400×400' },
+        { key: 'image_therapist_1', label: '치료사 1', dim: '300×300' },
+        { key: 'image_therapist_2', label: '치료사 2', dim: '300×300' },
+        { key: 'image_therapist_3', label: '치료사 3', dim: '300×300' },
+      ]
+    },
+  ];
+
+  // ── State ──
+  let originalConfig = {};
+  let templateName = '';
+  const uploadedImages = {}; // key → File
+
+  // ── Init ──
+  document.addEventListener('DOMContentLoaded', init);
+
+  async function init() {
+    const params = new URLSearchParams(window.location.search);
+    templateName = params.get('template');
+
+    if (!templateName) {
+      showError('URL에 template 파라미터가 없습니다.');
+      return;
+    }
+
+    const configUrl = `../templates/${templateName}/${templateName}_config.json`;
+
+    try {
+      const res = await fetch(configUrl);
+      if (!res.ok) throw new Error(`${res.status} ${res.statusText}`);
+      originalConfig = await res.json();
+    } catch (e) {
+      showError(`"${templateName}" 템플릿의 config.json을 불러올 수 없습니다.\n경로: ${configUrl}`);
+      return;
+    }
+
+    // Set header info
+    document.getElementById('templateLabel').textContent = `— ${templateName}`;
+    document.getElementById('previewLink').href = `../templates/${templateName}/${templateName}_index.html`;
+
+    renderForm();
+    updateProgress();
+    bindEvents();
+
+    document.getElementById('loadingScreen').classList.add('hide');
+    document.getElementById('mainContent').style.display = '';
+  }
+
+  // ── Render ──
+  function renderForm() {
+    const container = document.getElementById('formSections');
+    let html = '';
+
+    SECTIONS.forEach(sec => {
+      const hasFields = sec.fields && sec.fields.length > 0;
+      const hasImages = sec.images && sec.images.length > 0;
+      if (!hasFields && !hasImages) return;
+
+      // 존재하는 키만 필터
+      const fields = (sec.fields || []).filter(f => f.key in originalConfig);
+      const images = (sec.images || []).filter(i => i.key in originalConfig);
+      if (fields.length === 0 && images.length === 0) return;
+
+      const badgeClass = sec.required ? 'required' : '';
+      const openClass = sec.open ? ' open' : '';
+
+      html += `
+        <div class="section${openClass}" data-section="${sec.id}">
+          <div class="section-header" onclick="this.parentElement.classList.toggle('open')">
+            <div class="section-title">
+              ${sec.title}
+              <span class="section-badge ${badgeClass}">${sec.badge}</span>
+            </div>
+            <svg class="section-chevron" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><polyline points="6 9 12 15 18 9"/></svg>
+          </div>
+          <div class="section-body">
+            <div class="section-content">`;
+
+      // Text fields
+      fields.forEach(f => {
+        const val = originalConfig[f.key] || '';
+        const tag = f.type === 'textarea' ? 'textarea' : 'input';
+        if (tag === 'textarea') {
+          html += `
+            <div class="field">
+              <label class="field-label">${f.label} <span class="key-name">${f.key}</span></label>
+              <textarea class="field-input" data-key="${f.key}" placeholder="${escHtml(val)}">${''}</textarea>
+            </div>`;
+        } else {
+          html += `
+            <div class="field">
+              <label class="field-label">${f.label} <span class="key-name">${f.key}</span></label>
+              <input class="field-input" type="text" data-key="${f.key}" placeholder="${escHtml(val)}" value="">
+            </div>`;
+        }
+      });
+
+      // Image uploads
+      images.forEach(img => {
+        html += `
+          <div class="image-upload" data-img-key="${img.key}">
+            <label class="image-upload-label">${img.label} <span class="dimensions">${img.dim}</span> <span class="key-name">${img.key}</span></label>
+            <div class="image-drop" ondragover="event.preventDefault();this.classList.add('dragover')" ondragleave="this.classList.remove('dragover')" ondrop="handleDrop(event,'${img.key}')">
+              <div class="image-drop-text">
+                <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="3" y="3" width="18" height="18" rx="2"/><circle cx="8.5" cy="8.5" r="1.5"/><polyline points="21 15 16 10 5 21"/></svg>
+                클릭 또는 드래그하여 업로드
+              </div>
+              <input type="file" accept="image/*" onchange="handleFileSelect(event,'${img.key}')">
+            </div>
+            <div class="image-preview" id="preview_${img.key}">
+              <img src="" alt="">
+              <button class="remove-btn" onclick="removeImage('${img.key}')" type="button">&times;</button>
+            </div>
+          </div>`;
+      });
+
+      html += `
+            </div>
+          </div>
+        </div>`;
+    });
+
+    container.innerHTML = html;
+  }
+
+  // ── Image handlers (global) ──
+  window.handleFileSelect = function(e, key) {
+    const file = e.target.files[0];
+    if (!file) return;
+    setImage(key, file);
+  };
+
+  window.handleDrop = function(e, key) {
+    e.preventDefault();
+    e.currentTarget.classList.remove('dragover');
+    const file = e.dataTransfer.files[0];
+    if (!file || !file.type.startsWith('image/')) return;
+    setImage(key, file);
+  };
+
+  window.removeImage = function(key) {
+    delete uploadedImages[key];
+    const preview = document.getElementById('preview_' + key);
+    preview.style.display = 'none';
+    preview.querySelector('img').src = '';
+    // Reset file input
+    const drop = preview.previousElementSibling;
+    if (drop) {
+      const input = drop.querySelector('input[type="file"]');
+      if (input) input.value = '';
+    }
+    updateProgress();
+  };
+
+  function setImage(key, file) {
+    uploadedImages[key] = file;
+    const preview = document.getElementById('preview_' + key);
+    const img = preview.querySelector('img');
+    img.src = URL.createObjectURL(file);
+    preview.style.display = 'block';
+    updateProgress();
+  }
+
+  // ── Progress ──
+  function updateProgress() {
+    const inputs = document.querySelectorAll('.field-input');
+    let total = inputs.length;
+    let filled = 0;
+    inputs.forEach(inp => {
+      if (inp.value.trim()) filled++;
+    });
+    // Count images
+    const imgUploads = document.querySelectorAll('.image-upload');
+    total += imgUploads.length;
+    filled += Object.keys(uploadedImages).length;
+
+    const pct = total > 0 ? Math.round((filled / total) * 100) : 0;
+    document.getElementById('progressFill').style.width = pct + '%';
+    document.getElementById('progressLabel').textContent = `${filled} / ${total} 항목 입력 (${pct}%)`;
+  }
+
+  // ── Events ──
+  function bindEvents() {
+    // Track input changes for progress
+    document.addEventListener('input', function(e) {
+      if (e.target.classList.contains('field-input')) {
+        updateProgress();
+      }
+    });
+
+    // Reset
+    document.getElementById('btnReset').addEventListener('click', function() {
+      if (!confirm('모든 입력을 초기화하시겠습니까?')) return;
+      document.querySelectorAll('.field-input').forEach(inp => { inp.value = ''; });
+      Object.keys(uploadedImages).forEach(key => removeImage(key));
+      updateProgress();
+      showToast('초기화 완료');
+    });
+
+    // Download
+    document.getElementById('btnDownload').addEventListener('click', handleDownload);
+  }
+
+  // ── Download ──
+  async function handleDownload() {
+    // 1. Build new config
+    const newConfig = JSON.parse(JSON.stringify(originalConfig));
+
+    document.querySelectorAll('.field-input').forEach(inp => {
+      const key = inp.dataset.key;
+      const val = inp.value.trim();
+      if (val && key in newConfig) {
+        newConfig[key] = val;
+      }
+      // 빈 칸이면 기본값 유지 (originalConfig 값)
+    });
+
+    // 2. Update image paths in config for uploaded images
+    const imageKeys = Object.keys(uploadedImages);
+    imageKeys.forEach(key => {
+      const file = uploadedImages[key];
+      const ext = file.name.split('.').pop().toLowerCase();
+      // 새 파일명: 키 기반
+      const newFileName = key + '.' + ext;
+      newConfig[key] = 'assets/' + newFileName;
+    });
+
+    // 3. Create ZIP
+    const zip = new JSZip();
+
+    // config.json
+    const configStr = JSON.stringify(newConfig, null, 2);
+    zip.file('config.json', configStr);
+
+    // Images
+    if (imageKeys.length > 0) {
+      const assetsFolder = zip.folder('assets');
+      for (const key of imageKeys) {
+        const file = uploadedImages[key];
+        const ext = file.name.split('.').pop().toLowerCase();
+        const newFileName = key + '.' + ext;
+        assetsFolder.file(newFileName, file);
+      }
+    }
+
+    // 4. Generate and download
+    showToast('ZIP 생성 중...');
+    try {
+      const blob = await zip.generateAsync({ type: 'blob' });
+      const url = URL.createObjectURL(blob);
+      const a = document.createElement('a');
+      a.href = url;
+      a.download = `${templateName}_custom.zip`;
+      document.body.appendChild(a);
+      a.click();
+      document.body.removeChild(a);
+      URL.revokeObjectURL(url);
+      showToast('다운로드 완료!');
+    } catch (e) {
+      showToast('오류가 발생했습니다.');
+      console.error(e);
+    }
+  }
+
+  // ── Helpers ──
+  function showError(msg) {
+    document.getElementById('loadingScreen').classList.add('hide');
+    document.getElementById('errorMsg').textContent = msg;
+    document.getElementById('errorPage').style.display = 'block';
+  }
+
+  function showToast(msg) {
+    const t = document.getElementById('toast');
+    t.textContent = msg;
+    t.classList.add('show');
+    clearTimeout(t._timer);
+    t._timer = setTimeout(() => t.classList.remove('show'), 2500);
+  }
+
+  function escHtml(str) {
+    return str.replace(/&/g,'&amp;').replace(/"/g,'&quot;').replace(/</g,'&lt;').replace(/>/g,'&gt;');
+  }
+
+})();
+</script>
+</body>
+</html>
