@@ -69,7 +69,7 @@
     <div class="header__inner">
       <div class="header__logo">
         <a href="/">
-          <img src="sapphire_assets/sapphire_logo_1_200x60.webp" alt="{{hospital_name}}" class="logo-img">
+          <img src="{{image_logo}}" alt="{{hospital_name}}" class="logo-img">
         </a>
       </div>
       <nav class="header__nav">
@@ -126,7 +126,7 @@
   <section class="hero">
     <div class="hero__slider owl-carousel">
       <!-- Slide 1 -->
-      <div class="hero__slide" style="background-image: url('sapphire_assets/sapphire_hero_1_1920x800.webp');">
+      <div class="hero__slide" style="background-image: url('{{image_hero_1}}');">
         <div class="hero__content">
           <h1 class="hero__title">{{hero_1_title}}</h1>
           <p class="hero__subtitle">{{hero_1_subtitle}}</p>
@@ -134,7 +134,7 @@
         </div>
       </div>
       <!-- Slide 2 -->
-      <div class="hero__slide" style="background-image: url('sapphire_assets/sapphire_hero_2_1920x800.webp');">
+      <div class="hero__slide" style="background-image: url('{{image_hero_2}}');">
         <div class="hero__content">
           <h1 class="hero__title">{{hero_2_title}}</h1>
           <p class="hero__subtitle">{{hero_2_subtitle}}</p>
@@ -142,7 +142,7 @@
         </div>
       </div>
       <!-- Slide 3 -->
-      <div class="hero__slide" style="background-image: url('sapphire_assets/sapphire_hero_3_1920x800.webp');">
+      <div class="hero__slide" style="background-image: url('{{image_hero_3}}');">
         <div class="hero__content">
           <h1 class="hero__title">{{hero_3_title}}</h1>
           <p class="hero__subtitle">{{hero_3_subtitle}}</p>
@@ -163,7 +163,7 @@
       <div class="row">
         <div class="col col-6">
           <div class="fade-in">
-            <img src="sapphire_assets/sapphire_hospital_1_800x600.webp" alt="{{hospital_name}} 소개" class="rounded shadow">
+            <img src="{{image_intro}}" alt="{{hospital_name}} 소개" class="rounded shadow">
           </div>
         </div>
         <div class="col col-6">
@@ -190,7 +190,7 @@
         <div class="col col-3">
           <a href="#" class="department-card fade-in">
             <div class="department-card__icon">
-              <img src="sapphire_assets/sapphire_knee_1_400x400.webp" alt="{{dept_1_name}}">
+              <img src="{{image_dept_1}}" alt="{{dept_1_name}}">
             </div>
             <h4 class="department-card__title">{{dept_1_name}}</h4>
             <p class="department-card__text">{{dept_1_desc}}</p>
@@ -199,7 +199,7 @@
         <div class="col col-3">
           <a href="#" class="department-card fade-in" data-delay="100">
             <div class="department-card__icon">
-              <img src="sapphire_assets/sapphire_shoulder_1_400x400.webp" alt="{{dept_2_name}}">
+              <img src="{{image_dept_2}}" alt="{{dept_2_name}}">
             </div>
             <h4 class="department-card__title">{{dept_2_name}}</h4>
             <p class="department-card__text">{{dept_2_desc}}</p>
@@ -208,7 +208,7 @@
         <div class="col col-3">
           <a href="#" class="department-card fade-in" data-delay="200">
             <div class="department-card__icon">
-              <img src="sapphire_assets/sapphire_spine_1_400x400.webp" alt="{{dept_3_name}}">
+              <img src="{{image_dept_3}}" alt="{{dept_3_name}}">
             </div>
             <h4 class="department-card__title">{{dept_3_name}}</h4>
             <p class="department-card__text">{{dept_3_desc}}</p>
@@ -217,7 +217,7 @@
         <div class="col col-3">
           <a href="#" class="department-card fade-in" data-delay="300">
             <div class="department-card__icon">
-              <img src="sapphire_assets/sapphire_foot_1_400x400.webp" alt="{{dept_4_name}}">
+              <img src="{{image_dept_4}}" alt="{{dept_4_name}}">
             </div>
             <h4 class="department-card__title">{{dept_4_name}}</h4>
             <p class="department-card__text">{{dept_4_desc}}</p>
@@ -239,7 +239,7 @@
         <div class="col col-4">
           <div class="doctor-card fade-in">
             <div class="doctor-card__image">
-              <img src="sapphire_assets/sapphire_doctor_1_400x500.webp" alt="{{doctor_1_name}}">
+              <img src="{{image_doctor_1}}" alt="{{doctor_1_name}}">
             </div>
             <h4 class="doctor-card__name">{{doctor_1_name}}</h4>
             <p class="doctor-card__specialty">{{doctor_1_specialty}}</p>
@@ -249,7 +249,7 @@
         <div class="col col-4">
           <div class="doctor-card fade-in" data-delay="100">
             <div class="doctor-card__image">
-              <img src="sapphire_assets/sapphire_doctor_2_400x500.webp" alt="{{doctor_2_name}}">
+              <img src="{{image_doctor_2}}" alt="{{doctor_2_name}}">
             </div>
             <h4 class="doctor-card__name">{{doctor_2_name}}</h4>
             <p class="doctor-card__specialty">{{doctor_2_specialty}}</p>
@@ -259,7 +259,7 @@
         <div class="col col-4">
           <div class="doctor-card fade-in" data-delay="200">
             <div class="doctor-card__image">
-              <img src="sapphire_assets/sapphire_doctor_3_400x500.webp" alt="{{doctor_3_name}}">
+              <img src="{{image_doctor_3}}" alt="{{doctor_3_name}}">
             </div>
             <h4 class="doctor-card__name">{{doctor_3_name}}</h4>
             <p class="doctor-card__specialty">{{doctor_3_specialty}}</p>
@@ -281,7 +281,7 @@
       <div class="row">
         <div class="col col-4">
           <div class="facility-card fade-in">
-            <img src="sapphire_assets/sapphire_surgery_1_800x600.webp" alt="{{facility_1_name}}" class="facility-card__image">
+            <img src="{{image_facility_1}}" alt="{{facility_1_name}}" class="facility-card__image">
             <div class="facility-card__overlay"></div>
             <div class="facility-card__content">
               <h4 class="facility-card__title">{{facility_1_name}}</h4>
@@ -291,7 +291,7 @@
         </div>
         <div class="col col-4">
           <div class="facility-card fade-in" data-delay="100">
-            <img src="sapphire_assets/sapphire_rehab_1_800x600.webp" alt="{{facility_2_name}}" class="facility-card__image">
+            <img src="{{image_facility_2}}" alt="{{facility_2_name}}" class="facility-card__image">
             <div class="facility-card__overlay"></div>
             <div class="facility-card__content">
               <h4 class="facility-card__title">{{facility_2_name}}</h4>
@@ -301,7 +301,7 @@
         </div>
         <div class="col col-4">
           <div class="facility-card fade-in" data-delay="200">
-            <img src="sapphire_assets/sapphire_imaging_1_800x600.webp" alt="{{facility_3_name}}" class="facility-card__image">
+            <img src="{{image_facility_3}}" alt="{{facility_3_name}}" class="facility-card__image">
             <div class="facility-card__overlay"></div>
             <div class="facility-card__content">
               <h4 class="facility-card__title">{{facility_3_name}}</h4>
@@ -326,7 +326,7 @@
       <div class="location__info">
         <div class="location__info-item fade-in">
           <div class="location__info-icon">
-            <img src="sapphire_assets/sapphire_location_1_64x64.webp" alt="주소">
+            <img src="{{icon_location}}" alt="주소">
           </div>
           <div>
             <h5 class="location__info-title">주소</h5>
@@ -335,7 +335,7 @@
         </div>
         <div class="location__info-item fade-in" data-delay="100">
           <div class="location__info-icon">
-            <img src="sapphire_assets/sapphire_phone_1_64x64.webp" alt="전화">
+            <img src="{{icon_phone}}" alt="전화">
           </div>
           <div>
             <h5 class="location__info-title">전화번호</h5>
@@ -344,7 +344,7 @@
         </div>
         <div class="location__info-item fade-in" data-delay="200">
           <div class="location__info-icon">
-            <img src="sapphire_assets/sapphire_clock_1_64x64.webp" alt="진료시간">
+            <img src="{{icon_clock}}" alt="진료시간">
           </div>
           <div>
             <h5 class="location__info-title">진료시간</h5>
@@ -361,17 +361,17 @@
       <div class="footer__grid">
         <div class="footer__col">
           <div class="footer__logo">
-            <img src="sapphire_assets/sapphire_logowhite_1_200x60.webp" alt="{{hospital_name}}">
+            <img src="{{image_logo_white}}" alt="{{hospital_name}}">
           </div>
           <p class="footer__desc">
             {{footer_desc}}
           </p>
           <div class="footer__social">
             <a href="{{instagram_url}}" target="_blank" aria-label="Instagram">
-              <img src="sapphire_assets/sapphire_instagram_1_48x48.webp" alt="Instagram">
+              <img src="{{icon_instagram}}" alt="Instagram">
             </a>
             <a href="{{youtube_url}}" target="_blank" aria-label="YouTube">
-              <img src="sapphire_assets/sapphire_youtube_1_48x48.webp" alt="YouTube">
+              <img src="{{icon_youtube}}" alt="YouTube">
             </a>
           </div>
         </div>
