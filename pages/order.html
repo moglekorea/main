@@ -455,7 +455,7 @@ textarea.field-input {
   </div>
   <div class="preview-frame-wrap" id="previewFrameWrap" data-device="desktop">
     <div class="preview-frame">
-      <iframe id="previewIframe" sandbox="allow-same-origin allow-scripts"></iframe>
+      <iframe id="previewIframe"></iframe>
     </div>
   </div>
 </div>
@@ -973,11 +973,14 @@ textarea.field-input {
       // 3. Replace image keys with blob URLs (uploaded) or absolute paths (default)
       const baseUrl = new URL(`../templates/${templateName}/`, window.location.href).href;
 
+      console.log('[Preview] Uploaded images:', Object.keys(uploadedImages));
+
       Object.keys(mergedConfig).forEach(key => {
         if (key.startsWith('image_') || key.startsWith('icon_')) {
           if (uploadedImages[key]) {
             // Uploaded image → blob URL
             mergedConfig[key] = URL.createObjectURL(uploadedImages[key]);
+            console.log('[Preview] Blob:', key, mergedConfig[key].substring(0, 50));
           } else {
             // Default image → absolute URL (for blob context)
             mergedConfig[key] = baseUrl + mergedConfig[key];
