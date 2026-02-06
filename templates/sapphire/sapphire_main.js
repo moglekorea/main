@@ -3,21 +3,29 @@ document.addEventListener('DOMContentLoaded', function() {
   fetch('sapphire_config.json')
     .then(res => res.json())
     .then(config => {
-      // 모든 텍스트 노드만 찾아서 교체 (DOM 구조는 유지)
-      function replaceTextNodes(node) {
+      function replaceInNode(node) {
         if (node.nodeType === Node.TEXT_NODE) {
           let text = node.textContent;
           Object.keys(config).forEach(key => {
-            const regex = new RegExp('\\{\\{' + key + '\\}\\}', 'g');
-            text = text.replace(regex, config[key]);
+            text = text.replace(new RegExp('\\{\\{' + key + '\\}\\}', 'g'), config[key]);
           });
           node.textContent = text;
-        } else {
-          node.childNodes.forEach(child => replaceTextNodes(child));
+        } else if (node.nodeType === Node.ELEMENT_NODE) {
+          // 속성값(src, href, style 등) 치환
+          Array.from(node.attributes || []).forEach(attr => {
+            if (attr.value.includes('{{')) {
+              let val = attr.value;
+              Object.keys(config).forEach(key => {
+                val = val.replace(new RegExp('\\{\\{' + key + '\\}\\}', 'g'), config[key]);
+              });
+              attr.value = val;
+            }
+          });
+          node.childNodes.forEach(child => replaceInNode(child));
         }
       }
-      
-      replaceTextNodes(document.body);
+
+      replaceInNode(document.body);
       if (typeof initOwlCarousel === 'function') initOwlCarousel();
     })
     .catch(err => console.warn('Config load failed:', err));
