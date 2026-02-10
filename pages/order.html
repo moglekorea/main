@@ -6,6 +6,7 @@
 <title>Mogle — 템플릿 커스터마이징</title>
 <link rel="icon" href="../favicon.png">
 <link href="https://fonts.googleapis.com/css2?family=Noto+Sans+KR:wght@400;500;700&display=swap" rel="stylesheet">
+<script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
 <style>
 *, *::before, *::after { margin: 0; padding: 0; box-sizing: border-box; }
 
@@ -68,7 +69,7 @@ body {
 .container {
   max-width: 720px;
   margin: 0 auto;
-  padding: 32px 20px 120px;
+  padding: 72px 20px 120px;
 }
 
 /* ── Page title ── */
@@ -291,6 +292,59 @@ textarea.field-input {
   z-index: 100;
 }
 
+/* ── Auth bar ── */
+.auth-bar {
+  position: fixed; top: 56px; left: 0; right: 0;
+  background: #fef9c3; border-bottom: 1px solid #fbbf24;
+  padding: 10px 24px;
+  display: flex; align-items: center; justify-content: center; gap: 12px;
+  z-index: 99; font-size: 13px;
+}
+.auth-bar.logged-in { background: #dcfce7; border-color: #86efac; }
+.auth-bar .auth-user { font-weight: 500; }
+.btn-kakao {
+  background: #FEE500; color: #000; border: none;
+  padding: 8px 16px; border-radius: 6px; font-size: 13px;
+  font-weight: 500; cursor: pointer; font-family: 'Noto Sans KR', sans-serif;
+  display: inline-flex; align-items: center; gap: 6px;
+}
+.btn-kakao:hover { background: #fdd835; }
+.btn-logout {
+  background: transparent; border: 1px solid var(--border);
+  padding: 6px 12px; border-radius: 6px; font-size: 12px;
+  cursor: pointer; font-family: 'Noto Sans KR', sans-serif;
+}
+
+/* ── Deploy Modal ── */
+.deploy-overlay {
+  position: fixed; inset: 0;
+  background: rgba(0,0,0,0.5);
+  z-index: 10001;
+  display: none; align-items: center; justify-content: center;
+}
+.deploy-overlay.show { display: flex; }
+.deploy-modal {
+  background: #fff; border-radius: 12px;
+  padding: 32px; max-width: 440px; width: 90%;
+  box-shadow: 0 20px 60px rgba(0,0,0,0.3);
+}
+.deploy-modal h3 { font-size: 18px; margin-bottom: 4px; }
+.deploy-modal p { font-size: 13px; color: var(--text-sub); margin-bottom: 20px; }
+.deploy-field { margin-bottom: 14px; }
+.deploy-field label { display: block; font-size: 13px; font-weight: 500; margin-bottom: 4px; }
+.deploy-field input {
+  width: 100%; padding: 10px 12px; border: 1px solid var(--border);
+  border-radius: 6px; font-size: 14px; font-family: 'Noto Sans KR', sans-serif;
+}
+.deploy-field input:focus { outline: none; border-color: var(--border-focus); }
+.deploy-field small { color: var(--text-sub); font-size: 11px; }
+.deploy-btns { display: flex; gap: 8px; margin-top: 20px; }
+.deploy-btns .btn { flex: 1; }
+.deploy-status { margin-top: 16px; font-size: 13px; text-align: center; display: none; }
+.deploy-status.deploying { color: var(--accent); display: block; }
+.deploy-status.success { color: var(--success); display: block; }
+.deploy-status.error { color: var(--error); display: block; }
+
 /* ── Toast ── */
 .toast {
   position: fixed; bottom: 90px; left: 50%; transform: translateX(-50%);
@@ -403,6 +457,17 @@ textarea.field-input {
   <a href="../index.html" class="btn btn-primary">템플릿 둘러보기</a>
 </div>
 
+<!-- Auth Bar -->
+<div class="auth-bar" id="authBar">
+  <span id="authMessage">사이트를 배포하려면 로그인이 필요합니다</span>
+  <button class="btn-kakao" id="btnKakaoLogin" onclick="kakaoLogin()">
+    <svg width="16" height="16" viewBox="0 0 24 24"><path d="M12 3C6.48 3 2 6.58 2 10.89c0 2.78 1.86 5.21 4.65 6.6l-.97 3.6c-.07.26.2.47.43.33l4.2-2.78c.55.07 1.11.11 1.69.11 5.52 0 10-3.58 10-7.86C22 6.58 17.52 3 12 3z" fill="#000"/></svg>
+    카카오 로그인
+  </button>
+  <span class="auth-user" id="authUser" style="display:none;"></span>
+  <button class="btn-logout" id="btnLogout" style="display:none;" onclick="logout()">로그아웃</button>
+</div>
+
 <!-- Main -->
 <div id="mainContent" style="display:none;">
 
@@ -431,13 +496,43 @@ textarea.field-input {
     <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><path d="M1 12s4-8 11-8 11 8 11 8-4 8-11 8-11-8-11-8z"/><circle cx="12" cy="12" r="3"/></svg>
     미리보기
   </button>
-  <button class="btn btn-primary" id="btnDownload">
+  <button class="btn btn-primary" id="btnDeploy" onclick="openDeployModal()">
+    <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><path d="M22 2L11 13"/><path d="M22 2L15 22L11 13L2 9L22 2Z"/></svg>
+    적용하기
+  </button>
+  <button class="btn btn-secondary" id="btnDownload">
     <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"/><polyline points="7 10 12 15 17 10"/><line x1="12" y1="15" x2="12" y2="3"/></svg>
     다운로드
   </button>
 </div>
 
 </div><!-- /mainContent -->
+
+<!-- Deploy Modal -->
+<div class="deploy-overlay" id="deployOverlay">
+  <div class="deploy-modal">
+    <h3>🚀 사이트 배포</h3>
+    <p>입력한 정보로 병원 홈페이지를 생성합니다.</p>
+    <div class="deploy-field">
+      <label>사이트 주소 (영문)</label>
+      <input type="text" id="deployRepoName" placeholder="예: pooph-hospital" oninput="this.value=this.value.replace(/[^a-zA-Z0-9\-]/g,'')">
+      <small>https://moglekorea.github.io/<strong id="repoPreview">___</strong>/ 로 생성됩니다</small>
+    </div>
+    <div class="deploy-field">
+      <label>담당자 이름</label>
+      <input type="text" id="deployName" placeholder="홍길동">
+    </div>
+    <div class="deploy-field">
+      <label>연락처</label>
+      <input type="text" id="deployPhone" placeholder="010-0000-0000">
+    </div>
+    <div class="deploy-btns">
+      <button class="btn btn-secondary" onclick="closeDeployModal()">취소</button>
+      <button class="btn btn-primary" id="btnConfirmDeploy" onclick="confirmDeploy()">배포 시작</button>
+    </div>
+    <div class="deploy-status" id="deployStatus"></div>
+  </div>
+</div>
 
 <!-- Preview Modal -->
 <div class="preview-overlay" id="previewOverlay">
@@ -463,6 +558,161 @@ textarea.field-input {
 <div class="toast" id="toast"></div>
 
 <script src="https://cdnjs.cloudflare.com/ajax/libs/jszip/3.10.1/jszip.min.js"></script>
+<script>
+// ── Supabase Auth ──
+const SUPABASE_URL = 'https://nboknglklvpmcmwhhgxs.supabase.co';
+const SUPABASE_ANON_KEY = 'sb_publishable_lGtmHgSMxUeVoI-OcdBjXA_M_YdLZgW';
+const supabase = window.supabase.createClient(SUPABASE_URL, SUPABASE_ANON_KEY);
+
+let currentUser = null;
+
+// Check session on load
+(async function checkAuth() {
+  const { data: { session } } = await supabase.auth.getSession();
+  if (session) {
+    currentUser = session.user;
+    updateAuthUI(true);
+  }
+  // Listen for auth changes (callback from OAuth)
+  supabase.auth.onAuthStateChange((event, session) => {
+    if (session) {
+      currentUser = session.user;
+      updateAuthUI(true);
+    } else {
+      currentUser = null;
+      updateAuthUI(false);
+    }
+  });
+})();
+
+function updateAuthUI(loggedIn) {
+  const bar = document.getElementById('authBar');
+  const msg = document.getElementById('authMessage');
+  const btnLogin = document.getElementById('btnKakaoLogin');
+  const userSpan = document.getElementById('authUser');
+  const btnLogout = document.getElementById('btnLogout');
+
+  if (loggedIn && currentUser) {
+    bar.classList.add('logged-in');
+    msg.textContent = '로그인 완료';
+    btnLogin.style.display = 'none';
+    userSpan.style.display = '';
+    userSpan.textContent = currentUser.user_metadata?.name || currentUser.email || '사용자';
+    btnLogout.style.display = '';
+  } else {
+    bar.classList.remove('logged-in');
+    msg.textContent = '사이트를 배포하려면 로그인이 필요합니다';
+    btnLogin.style.display = '';
+    userSpan.style.display = 'none';
+    btnLogout.style.display = 'none';
+  }
+}
+
+async function kakaoLogin() {
+  const { error } = await supabase.auth.signInWithOAuth({
+    provider: 'kakao',
+    options: {
+      redirectTo: window.location.href,
+    }
+  });
+  if (error) alert('로그인 오류: ' + error.message);
+}
+
+async function logout() {
+  await supabase.auth.signOut();
+  currentUser = null;
+  updateAuthUI(false);
+}
+
+// ── Deploy Modal ──
+window.openDeployModal = function() {
+  if (!currentUser) {
+    alert('배포하려면 먼저 카카오 로그인을 해주세요.');
+    return;
+  }
+  document.getElementById('deployOverlay').classList.add('show');
+  document.getElementById('deployStatus').className = 'deploy-status';
+  document.getElementById('deployStatus').textContent = '';
+  document.getElementById('btnConfirmDeploy').disabled = false;
+
+  // Auto-fill name from repo name input
+  const repoInput = document.getElementById('deployRepoName');
+  repoInput.addEventListener('input', function() {
+    document.getElementById('repoPreview').textContent = this.value || '___';
+  });
+};
+
+window.closeDeployModal = function() {
+  document.getElementById('deployOverlay').classList.remove('show');
+};
+
+window.confirmDeploy = async function() {
+  const repoName = document.getElementById('deployRepoName').value.trim();
+  const customerName = document.getElementById('deployName').value.trim();
+  const customerPhone = document.getElementById('deployPhone').value.trim();
+
+  if (!repoName) { alert('사이트 주소를 입력하세요.'); return; }
+  if (repoName.length < 3) { alert('사이트 주소는 3자 이상이어야 합니다.'); return; }
+
+  const statusEl = document.getElementById('deployStatus');
+  const btnDeploy = document.getElementById('btnConfirmDeploy');
+  statusEl.className = 'deploy-status deploying';
+  statusEl.textContent = '🔄 배포 중... 잠시만 기다려주세요 (1~2분 소요)';
+  btnDeploy.disabled = true;
+
+  try {
+    // Build config
+    const newConfig = JSON.parse(JSON.stringify(window.originalConfig));
+    document.querySelectorAll('.field-input').forEach(inp => {
+      const key = inp.dataset.key;
+      const val = inp.value.trim();
+      if (val && key in newConfig) newConfig[key] = val;
+    });
+
+    // Build FormData
+    const formData = new FormData();
+    formData.append('repo_name', repoName);
+    formData.append('template', window.templateName);
+    formData.append('config_json', JSON.stringify(newConfig));
+    formData.append('customer_name', customerName);
+    formData.append('customer_phone', customerPhone);
+    formData.append('customer_email', currentUser.email || '');
+
+    // Append uploaded images
+    Object.keys(window.uploadedImages).forEach(key => {
+      formData.append(key, window.uploadedImages[key]);
+    });
+
+    // Get auth token
+    const { data: { session } } = await supabase.auth.getSession();
+    const token = session?.access_token;
+
+    // Call Edge Function
+    const res = await fetch(`${SUPABASE_URL}/functions/v1/deploy`, {
+      method: 'POST',
+      headers: {
+        'Authorization': `Bearer ${token}`,
+      },
+      body: formData,
+    });
+
+    const result = await res.json();
+
+    if (res.ok && result.success) {
+      statusEl.className = 'deploy-status success';
+      statusEl.innerHTML = `✅ 배포 완료!<br><a href="${result.site_url}" target="_blank" style="color:var(--success);font-weight:700;">${result.site_url}</a><br><small>(GitHub Pages 활성화까지 1~2분 소요될 수 있습니다)</small>`;
+    } else {
+      statusEl.className = 'deploy-status error';
+      statusEl.textContent = '❌ 오류: ' + (result.error || '알 수 없는 오류');
+      btnDeploy.disabled = false;
+    }
+  } catch (e) {
+    statusEl.className = 'deploy-status error';
+    statusEl.textContent = '❌ 네트워크 오류: ' + e.message;
+    btnDeploy.disabled = false;
+  }
+};
+</script>
 <script>
 (function() {
   'use strict';
@@ -669,8 +919,10 @@ textarea.field-input {
 
   // ── State ──
   let originalConfig = {};
+  window.originalConfig = originalConfig; // expose for deploy
   let templateName = '';
   const uploadedImages = {}; // key → File
+  window.uploadedImages = uploadedImages; // expose for deploy
 
   // ── Init ──
   document.addEventListener('DOMContentLoaded', init);
@@ -678,6 +930,7 @@ textarea.field-input {
   async function init() {
     const params = new URLSearchParams(window.location.search);
     templateName = params.get('template');
+    window.templateName = templateName;
 
     if (!templateName) {
       showError('URL에 template 파라미터가 없습니다.');
@@ -690,6 +943,7 @@ textarea.field-input {
       const res = await fetch(configUrl);
       if (!res.ok) throw new Error(`${res.status} ${res.statusText}`);
       originalConfig = await res.json();
+      window.originalConfig = originalConfig;
     } catch (e) {
       showError(`"${templateName}" 템플릿의 config.json을 불러올 수 없습니다.\n경로: ${configUrl}`);
       return;
