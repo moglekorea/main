@@ -562,19 +562,19 @@ textarea.field-input {
 // ── Supabase Auth ──
 const SUPABASE_URL = 'https://nboknglklvpmcmwhhgxs.supabase.co';
 const SUPABASE_ANON_KEY = 'sb_publishable_lGtmHgSMxUeVoI-OcdBjXA_M_YdLZgW';
-const supabase = window.supabase.createClient(SUPABASE_URL, SUPABASE_ANON_KEY);
+const supabaseClient = window.supabase.createClient(SUPABASE_URL, SUPABASE_ANON_KEY);
 
 let currentUser = null;
 
 // Check session on load
 (async function checkAuth() {
-  const { data: { session } } = await supabase.auth.getSession();
+  const { data: { session } } = await supabaseClient.auth.getSession();
   if (session) {
     currentUser = session.user;
     updateAuthUI(true);
   }
   // Listen for auth changes (callback from OAuth)
-  supabase.auth.onAuthStateChange((event, session) => {
+  supabaseClient.auth.onAuthStateChange((event, session) => {
     if (session) {
       currentUser = session.user;
       updateAuthUI(true);
@@ -609,7 +609,7 @@ function updateAuthUI(loggedIn) {
 }
 
 async function kakaoLogin() {
-  const { error } = await supabase.auth.signInWithOAuth({
+  const { error } = await supabaseClient.auth.signInWithOAuth({
     provider: 'kakao',
     options: {
       redirectTo: window.location.href,
@@ -619,7 +619,7 @@ async function kakaoLogin() {
 }
 
 async function logout() {
-  await supabase.auth.signOut();
+  await supabaseClient.auth.signOut();
   currentUser = null;
   updateAuthUI(false);
 }
@@ -684,7 +684,7 @@ window.confirmDeploy = async function() {
     });
 
     // Get auth token
-    const { data: { session } } = await supabase.auth.getSession();
+    const { data: { session } } = await supabaseClient.auth.getSession();
     const token = session?.access_token;
 
     // Call Edge Function
