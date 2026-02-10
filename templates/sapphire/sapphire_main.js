@@ -9,7 +9,13 @@ document.addEventListener('DOMContentLoaded', function() {
           Object.keys(config).forEach(key => {
             text = text.replace(new RegExp('\\{\\{' + key + '\\}\\}', 'g'), config[key]);
           });
-          node.textContent = text;
+
+          if (text !== node.textContent) {
+            const span = document.createElement('span');
+            span.innerHTML = text;
+            node.parentNode.replaceChild(span, node);
+          }          
+          
         } else if (node.nodeType === Node.ELEMENT_NODE) {
           // 속성값(src, href, style 등) 치환
           Array.from(node.attributes || []).forEach(attr => {
