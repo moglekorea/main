@@ -1068,13 +1068,29 @@ window.confirmDeploy = async function() {
   };
 
   function setImage(key, file) {
-    uploadedImages[key] = file;
-    const preview = document.getElementById('preview_' + key);
-    const img = preview.querySelector('img');
-    img.src = URL.createObjectURL(file);
-    preview.style.display = 'block';
-    updateProgress();
-  }
+      // Convert to webp via Canvas API
+      const img = new Image();
+      img.onload = function() {
+        const canvas = document.createElement('canvas');
+        canvas.width = img.naturalWidth;
+        canvas.height = img.naturalHeight;
+        canvas.getContext('2d').drawImage(img, 0, 0);
+        canvas.toBlob(function(blob) {
+          if (blob) {
+            const webpFile = new File([blob], key + '.webp', { type: 'image/webp' });
+            uploadedImages[key] = webpFile;
+          } else {
+            uploadedImages[key] = file; // fallback
+          }
+          const preview = document.getElementById('preview_' + key);
+          const previewImg = preview.querySelector('img');
+          previewImg.src = URL.createObjectURL(uploadedImages[key]);
+          preview.style.display = 'block';
+          updateProgress();
+        }, 'image/webp', 0.85);
+      };
+      img.src = URL.createObjectURL(file);
+    }
 
   // ── Progress ──
   function updateProgress() {
