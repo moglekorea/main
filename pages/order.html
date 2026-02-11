@@ -72,45 +72,6 @@ body {
   padding: 72px 20px 120px;
 }
 
-/* ── Page title ── */
-.page-title {
-  font-size: clamp(22px, 4vw, 28px);
-  font-weight: 700;
-  margin-bottom: 4px;
-}
-.page-subtitle {
-  color: var(--text-sub);
-  font-size: 14px;
-  margin-bottom: 32px;
-}
-
-/* ── Progress ── */
-.progress-bar {
-  position: sticky; top: 57px; z-index: 90;
-  background: var(--bg);
-  padding: 12px 0;
-  margin-bottom: 24px;
-}
-.progress-track {
-  height: 3px;
-  background: var(--border);
-  border-radius: 2px;
-  overflow: hidden;
-}
-.progress-fill {
-  height: 100%;
-  background: var(--accent);
-  border-radius: 2px;
-  transition: width 0.3s ease;
-  width: 0%;
-}
-.progress-label {
-  font-size: 12px;
-  color: var(--text-sub);
-  margin-top: 6px;
-  text-align: right;
-}
-
 /* ── Sections ── */
 .section {
   margin-bottom: 8px;
@@ -292,16 +253,7 @@ textarea.field-input {
   z-index: 100;
 }
 
-/* ── Auth bar ── */
-.auth-bar {
-  position: fixed; top: 56px; left: 0; right: 0;
-  background: #fef9c3; border-bottom: 1px solid #fbbf24;
-  padding: 10px 24px;
-  display: flex; align-items: center; justify-content: center; gap: 12px;
-  z-index: 99; font-size: 13px;
-}
-.auth-bar.logged-in { background: #dcfce7; border-color: #86efac; }
-.auth-bar .auth-user { font-weight: 500; }
+/* ── Kakao button ── */
 .btn-kakao {
   background: #FEE500; color: #000; border: none;
   padding: 8px 16px; border-radius: 6px; font-size: 13px;
@@ -309,11 +261,6 @@ textarea.field-input {
   display: inline-flex; align-items: center; gap: 6px;
 }
 .btn-kakao:hover { background: #fdd835; }
-.btn-logout {
-  background: transparent; border: 1px solid var(--border);
-  padding: 6px 12px; border-radius: 6px; font-size: 12px;
-  cursor: pointer; font-family: 'Noto Sans KR', sans-serif;
-}
 
 /* ── Deploy Modal ── */
 .deploy-overlay {
@@ -340,10 +287,6 @@ textarea.field-input {
 .deploy-field small { color: var(--text-sub); font-size: 11px; }
 .deploy-btns { display: flex; gap: 8px; margin-top: 20px; }
 .deploy-btns .btn { flex: 1; }
-.deploy-status { margin-top: 16px; font-size: 13px; text-align: center; display: none; }
-.deploy-status.deploying { color: var(--accent); display: block; }
-.deploy-status.success { color: var(--success); display: block; }
-.deploy-status.error { color: var(--error); display: block; }
 
 /* ── Toast ── */
 .toast {
@@ -441,6 +384,28 @@ textarea.field-input {
   .bottom-bar { padding: 12px 16px; }
   .btn { padding: 11px 22px; font-size: 13px; }
 }
+
+/* ── Header back ── */
+.header-back {
+  font-size: 14px; color: var(--text-sub);
+  text-decoration: none; display: flex; align-items: center; gap: 4px;
+}
+.header-back:hover { color: var(--text); }
+
+/* ── Gauge bar ── */
+.gauge-track {
+  height: 6px; background: var(--border); border-radius: 3px; overflow: hidden;
+}
+.gauge-fill {
+  height: 100%; background: var(--accent); border-radius: 3px;
+  transition: width 0.5s ease; width: 0%;
+}
+.gauge-error { background: var(--error); }
+
+/* ── Image login notice ── */
+.image-login-notice {
+  font-size: 11px; color: var(--text-sub); margin-top: 6px; text-align: center;
+}
 </style>
 </head>
 <body>
@@ -457,80 +422,90 @@ textarea.field-input {
   <a href="../index.html" class="btn btn-primary">템플릿 둘러보기</a>
 </div>
 
-<!-- Auth Bar -->
-<div class="auth-bar" id="authBar">
-  <span id="authMessage">사이트를 배포하려면 로그인이 필요합니다</span>
-  <button class="btn-kakao" id="btnKakaoLogin" onclick="kakaoLogin()">
-    <svg width="16" height="16" viewBox="0 0 24 24"><path d="M12 3C6.48 3 2 6.58 2 10.89c0 2.78 1.86 5.21 4.65 6.6l-.97 3.6c-.07.26.2.47.43.33l4.2-2.78c.55.07 1.11.11 1.69.11 5.52 0 10-3.58 10-7.86C22 6.58 17.52 3 12 3z" fill="#000"/></svg>
-    카카오 로그인
-  </button>
-  <span class="auth-user" id="authUser" style="display:none;"></span>
-  <button class="btn-logout" id="btnLogout" style="display:none;" onclick="logout()">로그아웃</button>
-</div>
-
 <!-- Main -->
 <div id="mainContent" style="display:none;">
 
 <header class="header">
-  <a href="../index.html" class="header-logo">Mogle <span id="templateLabel"></span></a>
-  <div class="header-right">
-    <a href="#" class="btn btn-secondary" id="previewLink" onclick="openPreview(); return false;" style="font-size:13px; padding:8px 16px;">미리보기</a>
-  </div>
+  <a href="#" class="header-back" id="btnBack" onclick="goBack(); return false;">&#8592; 뒤로</a>
 </header>
 
 <div class="container">
-  <h1 class="page-title">템플릿 커스터마이징</h1>
-  <p class="page-subtitle">내 병원 정보로 수정하세요. 빈 칸은 기본값이 적용됩니다.</p>
-
-  <div class="progress-bar">
-    <div class="progress-track"><div class="progress-fill" id="progressFill"></div></div>
-    <div class="progress-label" id="progressLabel">0 / 0 항목 입력</div>
-  </div>
-
   <div id="formSections"></div>
 </div>
 
 <div class="bottom-bar">
-  <button class="btn btn-secondary" id="btnReset">초기화</button>
   <button class="btn btn-secondary" onclick="openPreview()">
     <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><path d="M1 12s4-8 11-8 11 8 11 8-4 8-11 8-11-8-11-8z"/><circle cx="12" cy="12" r="3"/></svg>
     미리보기
   </button>
-  <button class="btn btn-primary" id="btnDeploy" onclick="openDeployModal()">
+  <button class="btn btn-primary" id="btnDeploy" onclick="onDeployClick()">
     <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><path d="M22 2L11 13"/><path d="M22 2L15 22L11 13L2 9L22 2Z"/></svg>
-    적용하기
-  </button>
-  <button class="btn btn-secondary" id="btnDownload">
-    <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"/><polyline points="7 10 12 15 17 10"/><line x1="12" y1="15" x2="12" y2="3"/></svg>
-    다운로드
+    <span id="btnDeployText">홈페이지 만들기</span>
   </button>
 </div>
 
 </div><!-- /mainContent -->
 
+<!-- Login Modal -->
+<div class="deploy-overlay" id="loginOverlay">
+  <div class="deploy-modal" style="text-align:center;">
+    <h3 style="font-size:16px;margin-bottom:20px;">로그인이 필요합니다</h3>
+    <button class="btn-kakao" onclick="kakaoLogin()" style="width:100%;justify-content:center;padding:12px 16px;font-size:14px;border-radius:8px;margin-bottom:12px;">
+      <svg width="16" height="16" viewBox="0 0 24 24"><path d="M12 3C6.48 3 2 6.58 2 10.89c0 2.78 1.86 5.21 4.65 6.6l-.97 3.6c-.07.26.2.47.43.33l4.2-2.78c.55.07 1.11.11 1.69.11 5.52 0 10-3.58 10-7.86C22 6.58 17.52 3 12 3z" fill="#000"/></svg>
+      카카오 로그인
+    </button>
+    <button class="btn btn-secondary" onclick="closeLoginModal()" style="width:100%;">취소</button>
+  </div>
+</div>
+
 <!-- Deploy Modal -->
 <div class="deploy-overlay" id="deployOverlay">
-  <div class="deploy-modal">
-    <h3>🚀 사이트 배포</h3>
-    <p>입력한 정보로 병원 홈페이지를 생성합니다.</p>
-    <div class="deploy-field">
-      <label>사이트 주소 (영문)</label>
-      <input type="text" id="deployRepoName" placeholder="예: pooph-hospital" oninput="this.value=this.value.replace(/[^a-zA-Z0-9\-]/g,'')">
-      <small>https://moglekorea.github.io/<strong id="repoPreview">___</strong>/ 로 생성됩니다</small>
+  <div class="deploy-modal" id="deployModalContent">
+    <!-- Phase 1: Name input -->
+    <div id="deployPhaseInput">
+      <h3 style="font-size:16px;margin-bottom:16px;">홈페이지 이름 정하기</h3>
+      <div style="font-size:13px;color:var(--text-sub);margin-bottom:6px;">moglekorea.github.io/</div>
+      <input type="text" id="deployRepoName" class="field-input" placeholder="영문, 숫자, - 만 입력" oninput="onRepoNameInput(this)" style="margin-bottom:4px;">
+      <div id="repoNameError" style="font-size:12px;color:var(--error);display:none;margin-bottom:8px;"></div>
+      <div class="deploy-btns" style="margin-top:16px;">
+        <button class="btn btn-secondary" onclick="closeDeployModal()">취소</button>
+        <button class="btn btn-primary" id="btnConfirmDeploy" onclick="confirmDeploy()">만들기</button>
+      </div>
     </div>
-    <div class="deploy-field">
-      <label>담당자 이름</label>
-      <input type="text" id="deployName" placeholder="홍길동">
+    <!-- Phase 2: Progress gauge -->
+    <div id="deployPhaseProgress" style="display:none;">
+      <h3 style="font-size:16px;margin-bottom:16px;" id="progressTitle">홈페이지를 만들고 있습니다</h3>
+      <div class="gauge-track">
+        <div class="gauge-fill" id="gaugeFill"></div>
+      </div>
+      <div style="display:flex;justify-content:space-between;margin-top:6px;">
+        <span style="font-size:12px;color:var(--text-sub);" id="progressMessage">설정 저장 중...</span>
+        <span style="font-size:12px;color:var(--text-sub);" id="progressPercent">10%</span>
+      </div>
     </div>
-    <div class="deploy-field">
-      <label>연락처</label>
-      <input type="text" id="deployPhone" placeholder="010-0000-0000">
+    <!-- Phase 3: Complete -->
+    <div id="deployPhaseComplete" style="display:none;text-align:center;">
+      <h3 style="font-size:16px;margin-bottom:12px;">완료!</h3>
+      <div class="gauge-track"><div class="gauge-fill" style="width:100%;"></div></div>
+      <div style="font-size:12px;color:var(--text-sub);text-align:right;margin-top:6px;">100%</div>
+      <a href="#" id="completeSiteUrl" target="_blank" style="display:block;margin-top:16px;font-size:14px;color:var(--success);font-weight:700;word-break:break-all;"></a>
+      <button class="btn btn-primary" id="btnViewSite" onclick="" style="margin-top:16px;width:100%;">사이트 보기</button>
     </div>
-    <div class="deploy-btns">
-      <button class="btn btn-secondary" onclick="closeDeployModal()">취소</button>
-      <button class="btn btn-primary" id="btnConfirmDeploy" onclick="confirmDeploy()">배포 시작</button>
+    <!-- Phase 4: Error -->
+    <div id="deployPhaseError" style="display:none;text-align:center;">
+      <h3 style="font-size:16px;margin-bottom:12px;" id="errorTitle">문제가 발생했습니다</h3>
+      <div class="gauge-track"><div class="gauge-fill gauge-error" id="gaugeError"></div></div>
+      <p style="font-size:13px;color:var(--text-sub);margin-top:12px;" id="errorMessage">잠시 후 다시 시도해주세요</p>
+      <button class="btn btn-secondary" onclick="closeDeployModal()" style="margin-top:16px;width:100%;">닫기</button>
     </div>
-    <div class="deploy-status" id="deployStatus"></div>
+    <!-- Edit confirm phase -->
+    <div id="deployPhaseEditConfirm" style="display:none;">
+      <h3 style="font-size:16px;margin-bottom:16px;">수정사항을 반영할까요?</h3>
+      <div class="deploy-btns" style="margin-top:16px;">
+        <button class="btn btn-secondary" onclick="closeDeployModal()">취소</button>
+        <button class="btn btn-primary" id="btnConfirmEdit" onclick="confirmDeploy()">수정하기</button>
+      </div>
+    </div>
   </div>
 </div>
 
@@ -557,7 +532,6 @@ textarea.field-input {
 
 <div class="toast" id="toast"></div>
 
-<script src="https://cdnjs.cloudflare.com/ajax/libs/jszip/3.10.1/jszip.min.js"></script>
 <script>
 // ── Supabase Auth ──
 const SUPABASE_URL = 'https://nboknglklvpmcmwhhgxs.supabase.co';
@@ -571,44 +545,21 @@ let currentUser = null;
   const { data: { session } } = await supabaseClient.auth.getSession();
   if (session) {
     currentUser = session.user;
-    updateAuthUI(true);
   }
   // Listen for auth changes (callback from OAuth)
   supabaseClient.auth.onAuthStateChange((event, session) => {
     if (session) {
       currentUser = session.user;
-      updateAuthUI(true);
     } else {
       currentUser = null;
-      updateAuthUI(false);
     }
   });
 })();
 
-function updateAuthUI(loggedIn) {
-  const bar = document.getElementById('authBar');
-  const msg = document.getElementById('authMessage');
-  const btnLogin = document.getElementById('btnKakaoLogin');
-  const userSpan = document.getElementById('authUser');
-  const btnLogout = document.getElementById('btnLogout');
-
-  if (loggedIn && currentUser) {
-    bar.classList.add('logged-in');
-    msg.textContent = '로그인 완료';
-    btnLogin.style.display = 'none';
-    userSpan.style.display = '';
-    userSpan.textContent = currentUser.user_metadata?.name || currentUser.email || '사용자';
-    btnLogout.style.display = '';
-  } else {
-    bar.classList.remove('logged-in');
-    msg.textContent = '사이트를 배포하려면 로그인이 필요합니다';
-    btnLogin.style.display = '';
-    userSpan.style.display = 'none';
-    btnLogout.style.display = 'none';
-  }
-}
-
 async function kakaoLogin() {
+  // Save draft before redirect
+  saveDraft();
+  closeLoginModal();
   const { error } = await supabaseClient.auth.signInWithOAuth({
     provider: 'kakao',
     options: {
@@ -621,49 +572,194 @@ async function kakaoLogin() {
 async function logout() {
   await supabaseClient.auth.signOut();
   currentUser = null;
-  updateAuthUI(false);
 }
 
-// ── Deploy Modal ──
-window.openDeployModal = function() {
+// ── SessionStorage Draft ──
+function saveDraft() {
+  const saved = {};
+  document.querySelectorAll('.field-input').forEach(function(inp) {
+    const val = inp.value.trim();
+    if (val) saved[inp.dataset.key] = val;
+  });
+  sessionStorage.setItem('mogle_draft', JSON.stringify(saved));
+}
+
+function restoreDraft() {
+  const draft = sessionStorage.getItem('mogle_draft');
+  if (!draft) return false;
+  try {
+    const saved = JSON.parse(draft);
+    document.querySelectorAll('.field-input').forEach(function(inp) {
+      if (saved[inp.dataset.key]) inp.value = saved[inp.dataset.key];
+    });
+    sessionStorage.removeItem('mogle_draft');
+    return true;
+  } catch(e) { return false; }
+}
+
+// ── Login Modal ──
+function openLoginModal() {
+  document.getElementById('loginOverlay').classList.add('show');
+}
+function closeLoginModal() {
+  document.getElementById('loginOverlay').classList.remove('show');
+}
+
+// ── Back button ──
+window.goBack = function() {
+  const params = new URLSearchParams(window.location.search);
+  if (params.get('mode') === 'edit') {
+    location.href = '/pages/mypage.html';
+  } else {
+    location.href = '/';
+  }
+};
+
+// ── Deploy click (main button) ──
+window.onDeployClick = function() {
   if (!currentUser) {
-    alert('배포하려면 먼저 카카오 로그인을 해주세요.');
+    saveDraft();
+    openLoginModal();
     return;
   }
-  document.getElementById('deployOverlay').classList.add('show');
-  document.getElementById('deployStatus').className = 'deploy-status';
-  document.getElementById('deployStatus').textContent = '';
-  document.getElementById('btnConfirmDeploy').disabled = false;
+  openDeployModal();
+};
 
-  // Auto-fill name from repo name input
-  const repoInput = document.getElementById('deployRepoName');
-  repoInput.addEventListener('input', function() {
-    document.getElementById('repoPreview').textContent = this.value || '___';
-  });
+// ── Deploy Modal ──
+let repoCheckTimer = null;
+let repoNameValid = true;
+
+window.openDeployModal = function() {
+  const overlay = document.getElementById('deployOverlay');
+  overlay.classList.add('show');
+
+  // Reset all phases
+  document.getElementById('deployPhaseInput').style.display = '';
+  document.getElementById('deployPhaseProgress').style.display = 'none';
+  document.getElementById('deployPhaseComplete').style.display = 'none';
+  document.getElementById('deployPhaseError').style.display = 'none';
+  document.getElementById('deployPhaseEditConfirm').style.display = 'none';
+  document.getElementById('repoNameError').style.display = 'none';
+  document.getElementById('btnConfirmDeploy').disabled = false;
+  repoNameValid = true;
+
+  if (window.editMode) {
+    // Edit mode: show confirm phase directly
+    document.getElementById('deployPhaseInput').style.display = 'none';
+    document.getElementById('deployPhaseEditConfirm').style.display = '';
+  }
 };
 
 window.closeDeployModal = function() {
   document.getElementById('deployOverlay').classList.remove('show');
 };
 
+// ── Repo name input: sanitize + debounce duplicate check ──
+window.onRepoNameInput = function(el) {
+  el.value = el.value.replace(/[^a-zA-Z0-9\-]/g, '');
+  // Clear error on any input
+  document.getElementById('repoNameError').style.display = 'none';
+  el.style.borderColor = '';
+  document.getElementById('btnConfirmDeploy').disabled = false;
+  repoNameValid = true;
+
+  clearTimeout(repoCheckTimer);
+  const name = el.value.trim();
+  if (!name) return;
+
+  repoCheckTimer = setTimeout(async function() {
+    try {
+      const res = await fetch('https://api.github.com/repos/moglekorea/' + name);
+      if (res.status === 200) {
+        // Duplicate
+        document.getElementById('repoNameError').textContent = '이미 사용 중인 이름입니다';
+        document.getElementById('repoNameError').style.display = 'block';
+        el.style.borderColor = 'var(--error)';
+        document.getElementById('btnConfirmDeploy').disabled = true;
+        repoNameValid = false;
+      }
+    } catch(e) { /* network error, allow */ }
+  }, 500);
+};
+
+// ── Gauge animation (time-based) ──
+let gaugeInterval = null;
+const gaugeSteps = [
+  { time: 0, pct: 10, msg: '설정 저장 중...' },
+  { time: 3000, pct: 25, msg: '홈페이지 생성 중...' },
+  { time: 10000, pct: 50, msg: '파일 복사 중...' },
+  { time: 20000, pct: 75, msg: '파일 업로드 중...' },
+  { time: 40000, pct: 90, msg: '마무리 중...' },
+];
+
+function startGauge(isEdit) {
+  document.getElementById('deployPhaseInput').style.display = 'none';
+  document.getElementById('deployPhaseEditConfirm').style.display = 'none';
+  document.getElementById('deployPhaseProgress').style.display = '';
+  document.getElementById('progressTitle').textContent = isEdit
+    ? '수정사항을 반영하고 있습니다'
+    : '홈페이지를 만들고 있습니다';
+
+  const fill = document.getElementById('gaugeFill');
+  const msg = document.getElementById('progressMessage');
+  const pct = document.getElementById('progressPercent');
+  let stepIdx = 0;
+
+  // Set initial
+  fill.style.width = gaugeSteps[0].pct + '%';
+  msg.textContent = gaugeSteps[0].msg;
+  pct.textContent = gaugeSteps[0].pct + '%';
+
+  const startTime = Date.now();
+  gaugeInterval = setInterval(function() {
+    const elapsed = Date.now() - startTime;
+    for (let i = gaugeSteps.length - 1; i >= 0; i--) {
+      if (elapsed >= gaugeSteps[i].time && i > stepIdx) {
+        stepIdx = i;
+        fill.style.width = gaugeSteps[i].pct + '%';
+        msg.textContent = gaugeSteps[i].msg;
+        pct.textContent = gaugeSteps[i].pct + '%';
+        break;
+      }
+    }
+  }, 500);
+}
+
+function stopGauge() {
+  if (gaugeInterval) { clearInterval(gaugeInterval); gaugeInterval = null; }
+}
+
+function showComplete(siteUrl) {
+  stopGauge();
+  document.getElementById('deployPhaseProgress').style.display = 'none';
+  document.getElementById('deployPhaseComplete').style.display = '';
+  document.getElementById('completeSiteUrl').textContent = siteUrl;
+  document.getElementById('completeSiteUrl').href = siteUrl;
+  document.getElementById('btnViewSite').onclick = function() { window.open(siteUrl, '_blank'); };
+}
+
+function showError(title, message) {
+  stopGauge();
+  document.getElementById('deployPhaseProgress').style.display = 'none';
+  document.getElementById('deployPhaseError').style.display = '';
+  if (title) document.getElementById('errorTitle').textContent = title;
+  if (message) document.getElementById('errorMessage').textContent = message;
+}
+
+// ── Confirm Deploy ──
 window.confirmDeploy = async function() {
-  const repoName = document.getElementById('deployRepoName').value.trim();
-  const customerName = document.getElementById('deployName').value.trim();
-  const customerPhone = document.getElementById('deployPhone').value.trim();
+  const isEdit = window.editMode;
+  const repoName = isEdit ? window.editRepoName : document.getElementById('deployRepoName').value.trim();
 
-  if (!repoName) { alert('사이트 주소를 입력하세요.'); return; }
-  if (repoName.length < 3) { alert('사이트 주소는 3자 이상이어야 합니다.'); return; }
+  if (!isEdit && !repoName) { alert('홈페이지 이름을 입력하세요.'); return; }
+  if (!isEdit && !repoNameValid) return;
 
-  const statusEl = document.getElementById('deployStatus');
-  const btnDeploy = document.getElementById('btnConfirmDeploy');
-  statusEl.className = 'deploy-status deploying';
-  statusEl.textContent = '🔄 배포 중... 잠시만 기다려주세요 (1~2분 소요)';
-  btnDeploy.disabled = true;
+  startGauge(isEdit);
 
   try {
     // Build config
     const newConfig = JSON.parse(JSON.stringify(window.originalConfig));
-    document.querySelectorAll('.field-input').forEach(inp => {
+    document.querySelectorAll('.field-input').forEach(function(inp) {
       const key = inp.dataset.key;
       const val = inp.value.trim();
       if (val && key in newConfig) newConfig[key] = val;
@@ -674,12 +770,16 @@ window.confirmDeploy = async function() {
     formData.append('repo_name', repoName);
     formData.append('template', window.templateName);
     formData.append('config_json', JSON.stringify(newConfig));
-    formData.append('customer_name', customerName);
-    formData.append('customer_phone', customerPhone);
+    formData.append('customer_name', '');
+    formData.append('customer_phone', '');
     formData.append('customer_email', currentUser.email || '');
 
+    if (isEdit) {
+      formData.append('mode', 'edit');
+    }
+
     // Append uploaded images
-    Object.keys(window.uploadedImages).forEach(key => {
+    Object.keys(window.uploadedImages).forEach(function(key) {
       formData.append(key, window.uploadedImages[key]);
     });
 
@@ -688,28 +788,21 @@ window.confirmDeploy = async function() {
     const token = session?.access_token;
 
     // Call Edge Function
-    const res = await fetch(`${SUPABASE_URL}/functions/v1/deploy`, {
+    const res = await fetch(SUPABASE_URL + '/functions/v1/deploy', {
       method: 'POST',
-      headers: {
-        'Authorization': `Bearer ${token}`,
-      },
+      headers: { 'Authorization': 'Bearer ' + token },
       body: formData,
     });
 
     const result = await res.json();
 
     if (res.ok && result.success) {
-      statusEl.className = 'deploy-status success';
-      statusEl.innerHTML = `✅ 배포 완료!<br><a href="${result.site_url}" target="_blank" style="color:var(--success);font-weight:700;">${result.site_url}</a><br><small>(GitHub Pages 활성화까지 1~2분 소요될 수 있습니다)</small>`;
+      showComplete(result.site_url);
     } else {
-      statusEl.className = 'deploy-status error';
-      statusEl.textContent = '❌ 오류: ' + (result.error || '알 수 없는 오류');
-      btnDeploy.disabled = false;
+      showError('문제가 발생했습니다', result.error || '잠시 후 다시 시도해주세요');
     }
   } catch (e) {
-    statusEl.className = 'deploy-status error';
-    statusEl.textContent = '❌ 네트워크 오류: ' + e.message;
-    btnDeploy.disabled = false;
+    showError('문제가 발생했습니다', '네트워크 오류: ' + e.message);
   }
 };
 </script>
@@ -919,46 +1012,108 @@ window.confirmDeploy = async function() {
 
   // ── State ──
   let originalConfig = {};
-  window.originalConfig = originalConfig; // expose for deploy
+  window.originalConfig = originalConfig;
   let templateName = '';
-  const uploadedImages = {}; // key → File
-  window.uploadedImages = uploadedImages; // expose for deploy
+  const uploadedImages = {};
+  window.uploadedImages = uploadedImages;
+
+  // ── Edit mode state ──
+  let editMode = false;
+  let editRepoName = '';
+  window.editMode = false;
+  window.editRepoName = '';
 
   // ── Init ──
   document.addEventListener('DOMContentLoaded', init);
 
   async function init() {
     const params = new URLSearchParams(window.location.search);
-    templateName = params.get('template');
-    window.templateName = templateName;
+    const mode = params.get('mode');
+    const repo = params.get('repo');
 
-    if (!templateName) {
-      showError('URL에 template 파라미터가 없습니다.');
-      return;
+    if (mode === 'edit' && repo) {
+      editMode = true;
+      editRepoName = repo;
+      window.editMode = true;
+      window.editRepoName = repo;
+
+      // Fetch existing config from deployed site
+      try {
+        const configRes = await fetch('https://moglekorea.github.io/' + repo + '/config.json?t=' + Date.now());
+        if (!configRes.ok) throw new Error(configRes.status);
+        var editConfig = await configRes.json();
+      } catch (e) {
+        showFormError('기존 사이트의 설정을 불러올 수 없습니다.');
+        return;
+      }
+
+      templateName = params.get('template') || 'sapphire';
+      window.templateName = templateName;
+
+      // Load template default config for key structure
+      try {
+        const res = await fetch('../templates/' + templateName + '/' + templateName + '_config.json');
+        if (!res.ok) throw new Error(res.status);
+        originalConfig = await res.json();
+        window.originalConfig = originalConfig;
+      } catch (e) {
+        showFormError('템플릿을 불러올 수 없습니다.');
+        return;
+      }
+
+      // Change button text
+      document.getElementById('btnDeployText').textContent = '수정 완료';
+
+    } else {
+      templateName = params.get('template');
+      window.templateName = templateName;
+
+      if (!templateName) {
+        showFormError('URL에 template 파라미터가 없습니다.');
+        return;
+      }
+
+      try {
+        const res = await fetch('../templates/' + templateName + '/' + templateName + '_config.json');
+        if (!res.ok) throw new Error(res.status + ' ' + res.statusText);
+        originalConfig = await res.json();
+        window.originalConfig = originalConfig;
+      } catch (e) {
+        showFormError(templateName + ' 템플릿을 불러올 수 없습니다.');
+        return;
+      }
     }
-
-    const configUrl = `../templates/${templateName}/${templateName}_config.json`;
-
-    try {
-      const res = await fetch(configUrl);
-      if (!res.ok) throw new Error(`${res.status} ${res.statusText}`);
-      originalConfig = await res.json();
-      window.originalConfig = originalConfig;
-    } catch (e) {
-      showError(`"${templateName}" 템플릿의 config.json을 불러올 수 없습니다.\n경로: ${configUrl}`);
-      return;
-    }
-
-    // Set header info
-    document.getElementById('templateLabel').textContent = `— ${templateName}`;
-    document.getElementById('previewLink').href = `../templates/${templateName}/${templateName}_index.html`;
 
     renderForm();
-    updateProgress();
+
+    // Edit mode: pre-fill with existing config
+    if (editMode && editConfig) {
+      prefillForm(editConfig);
+    }
+
+    // Restore draft from sessionStorage (after login redirect)
+    var restored = restoreDraft();
+    if (restored && currentUser) {
+      showToast('로그인 완료');
+    }
+
     bindEvents();
 
     document.getElementById('loadingScreen').classList.add('hide');
     document.getElementById('mainContent').style.display = '';
+  }
+
+  function prefillForm(config) {
+    document.querySelectorAll('.field-input').forEach(function(inp) {
+      const key = inp.dataset.key;
+      if (key && config[key] !== undefined && config[key] !== null) {
+        const val = String(config[key]);
+        // Skip image paths
+        if (val && !val.startsWith('sapphire_assets/') && !val.startsWith('assets/')) {
+          inp.value = val;
+        }
+      }
+    });
   }
 
   // ── Render ──
@@ -1012,6 +1167,7 @@ window.confirmDeploy = async function() {
 
       // Image uploads
       images.forEach(img => {
+        const loginNotice = currentUser ? '' : '<div class="image-login-notice">로그인해야 저장됩니다</div>';
         html += `
           <div class="image-upload" data-img-key="${img.key}">
             <label class="image-upload-label">${img.label} <span class="dimensions">${img.dim}</span> <span class="key-name">${img.key}</span></label>
@@ -1022,6 +1178,7 @@ window.confirmDeploy = async function() {
               </div>
               <input type="file" accept="image/*" onchange="handleFileSelect(event,'${img.key}')">
             </div>
+            ${loginNotice}
             <div class="image-preview" id="preview_${img.key}">
               <img src="" alt="">
               <button class="remove-btn" onclick="removeImage('${img.key}')" type="button">&times;</button>
@@ -1060,11 +1217,10 @@ window.confirmDeploy = async function() {
     preview.querySelector('img').src = '';
     // Reset file input
     const drop = preview.previousElementSibling;
-    if (drop) {
+    if (drop && drop.classList && drop.classList.contains('image-drop')) {
       const input = drop.querySelector('input[type="file"]');
       if (input) input.value = '';
     }
-    updateProgress();
   };
 
   function setImage(key, file) {
@@ -1086,115 +1242,20 @@ window.confirmDeploy = async function() {
           const previewImg = preview.querySelector('img');
           previewImg.src = URL.createObjectURL(uploadedImages[key]);
           preview.style.display = 'block';
-          updateProgress();
         }, 'image/webp', 0.85);
       };
       img.src = URL.createObjectURL(file);
     }
 
-  // ── Progress ──
-  function updateProgress() {
-    const inputs = document.querySelectorAll('.field-input');
-    let total = inputs.length;
-    let filled = 0;
-    inputs.forEach(inp => {
-      if (inp.value.trim()) filled++;
-    });
-    // Count images
-    const imgUploads = document.querySelectorAll('.image-upload');
-    total += imgUploads.length;
-    filled += Object.keys(uploadedImages).length;
-
-    const pct = total > 0 ? Math.round((filled / total) * 100) : 0;
-    document.getElementById('progressFill').style.width = pct + '%';
-    document.getElementById('progressLabel').textContent = `${filled} / ${total} 항목 입력 (${pct}%)`;
-  }
+  // ── (progress removed) ──
 
   // ── Events ──
   function bindEvents() {
-    // Track input changes for progress
-    document.addEventListener('input', function(e) {
-      if (e.target.classList.contains('field-input')) {
-        updateProgress();
-      }
-    });
-
-    // Reset
-    document.getElementById('btnReset').addEventListener('click', function() {
-      if (!confirm('모든 입력을 초기화하시겠습니까?')) return;
-      document.querySelectorAll('.field-input').forEach(inp => { inp.value = ''; });
-      Object.keys(uploadedImages).forEach(key => removeImage(key));
-      updateProgress();
-      showToast('초기화 완료');
-    });
-
-    // Download
-    document.getElementById('btnDownload').addEventListener('click', handleDownload);
-  }
-
-  // ── Download ──
-  async function handleDownload() {
-    // 1. Build new config
-    const newConfig = JSON.parse(JSON.stringify(originalConfig));
-
-    document.querySelectorAll('.field-input').forEach(inp => {
-      const key = inp.dataset.key;
-      const val = inp.value.trim();
-      if (val && key in newConfig) {
-        newConfig[key] = val;
-      }
-      // 빈 칸이면 기본값 유지 (originalConfig 값)
-    });
-
-    // 2. Update image paths in config for uploaded images
-    const imageKeys = Object.keys(uploadedImages);
-    imageKeys.forEach(key => {
-      const file = uploadedImages[key];
-      const ext = file.name.split('.').pop().toLowerCase();
-      // 새 파일명: 키 기반
-      const newFileName = key + '.' + ext;
-      newConfig[key] = 'assets/' + newFileName;
-    });
-
-    // 3. Create ZIP
-    const zip = new JSZip();
-
-    // config.json
-    const configStr = JSON.stringify(newConfig, null, 2);
-    zip.file('config.json', configStr);
-
-    // Images
-    if (imageKeys.length > 0) {
-      const assetsFolder = zip.folder('assets');
-      for (const key of imageKeys) {
-        const file = uploadedImages[key];
-        const ext = file.name.split('.').pop().toLowerCase();
-        const newFileName = key + '.' + ext;
-        assetsFolder.file(newFileName, file);
-      }
-    }
-
-    // 4. Generate and download
-    showToast('ZIP 생성 중...');
-    try {
-      const blob = await zip.generateAsync({ type: 'blob' });
-      const url = URL.createObjectURL(blob);
-      const a = document.createElement('a');
-      a.href = url;
-      a.download = `${templateName}_custom.zip`;
-      document.body.appendChild(a);
-      a.click();
-      document.body.removeChild(a);
-      URL.revokeObjectURL(url);
-      showToast('다운로드 완료!');
-    } catch (e) {
-      showToast('오류가 발생했습니다.');
-      console.error(e);
-    }
+    // Nothing extra needed - buttons use onclick directly
   }
 
   // ── Helpers ──
-  function showError(msg) {
+  function showFormError(msg) {
     document.getElementById('loadingScreen').classList.add('hide');
     document.getElementById('errorMsg').textContent = msg;
     document.getElementById('errorPage').style.display = 'block';
