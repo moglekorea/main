@@ -125,11 +125,14 @@ async function logout() {
 async function loadSites() {
   var content = document.getElementById('content');
 
-  // TODO: Supabase sites 테이블에서 조회
-  // var { data: sites } = await supabaseClient.from('sites').select('*').eq('user_id', currentUser.id);
+  // orders 테이블에서 현재 유저의 주문 조회
+  var result = await supabaseClient
+    .from('orders')
+    .select('*')
+    .eq('user_id', currentUser.id)
+    .order('created_at', { ascending: false });
 
-  // 더미 데이터 (테스트용, sites 테이블 생성 후 위 코드로 교체)
-  var sites = [];
+  var sites = result.data || [];
 
   if (!sites || sites.length === 0) {
     content.innerHTML = '<div class="empty">'
@@ -143,15 +146,17 @@ async function loadSites() {
   for (var i = 0; i < sites.length; i++) {
     var s = sites[i];
     var siteUrl = 'https://moglekorea.github.io/' + s.repo_name + '/';
+    var hospitalName = (s.config_json && s.config_json.hospital_name) ? s.config_json.hospital_name : s.repo_name;
+    var templateName = s.template || 'sapphire';
     html += '<div class="site-card">'
       + '<div class="site-info">'
-      + '<div class="site-name">' + escapeHtml(s.hospital_name) + '</div>'
+      + '<div class="site-name">' + escapeHtml(hospitalName) + '</div>'
       + '<div class="site-actions">'
       + '<button class="btn-site" onclick="window.open(\'' + siteUrl + '\',\'_blank\')">사이트 보기</button>'
-      + '<button class="btn-site" onclick="location.href=\'/pages/order.html?mode=edit&repo=' + s.repo_name + '\'">설정 수정</button>'
+      + '<button class="btn-site" onclick="location.href=\'/pages/order.html?mode=edit&repo=' + s.repo_name + '&template=' + templateName + '\'">설정 수정</button>'
       + '</div>'
       + '</div>'
-      + '<div class="qr-area" id="qr-' + i + '" onclick="openQRModal(\'' + siteUrl + '\',\'' + escapeHtml(s.hospital_name) + '\')"></div>'
+      + '<div class="qr-area" id="qr-' + i + '" onclick="openQRModal(\'' + siteUrl + '\',\'' + escapeHtml(hospitalName) + '\')"></div>'
       + '</div>';
   }
 
