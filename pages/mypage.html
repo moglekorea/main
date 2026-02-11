@@ -1,0 +1,217 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<title>Mogle — 내 정보</title>
+<link href="https://fonts.googleapis.com/css2?family=Noto+Sans+KR:wght@400;700&display=swap" rel="stylesheet">
+<link rel="icon" href="../favicon.png">
+<script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"><\/script>
+<script src="https://cdn.jsdelivr.net/npm/qrcode/build/qrcode.min.js"><\/script>
+<style>
+*{margin:0;padding:0;box-sizing:border-box}
+body{font-family:'Noto Sans KR',sans-serif;background:#fff;color:#202124}
+a{text-decoration:none;color:inherit}
+
+/* Header */
+.header{display:flex;justify-content:space-between;align-items:center;padding:clamp(12px,2vw,16px) clamp(16px,3vw,24px);border-bottom:1px solid #e0e0e0}
+.header-logo{font-size:clamp(18px,2.5vw,22px);font-weight:700;color:#202124;cursor:pointer}
+.btn-logout{color:#5f6368;font-size:clamp(12px,1.5vw,14px);background:none;border:none;cursor:pointer;font-family:inherit}
+.btn-logout:hover{color:#202124}
+
+/* Profile */
+.profile{text-align:center;padding:clamp(24px,4vw,40px) clamp(16px,3vw,24px);border-bottom:1px solid #e0e0e0}
+.profile-name{font-size:clamp(16px,2.2vw,20px);font-weight:700}
+.profile-email{font-size:clamp(12px,1.5vw,14px);color:#5f6368;margin-top:clamp(2px,0.5vw,4px)}
+
+/* Content */
+.content{max-width:clamp(320px,90vw,640px);margin:0 auto;padding:clamp(16px,3vw,32px) clamp(16px,3vw,24px)}
+
+/* Empty State */
+.empty{text-align:center;padding:clamp(48px,8vw,80px) 0}
+.empty-text{font-size:clamp(14px,1.8vw,16px);color:#5f6368;margin-bottom:clamp(16px,3vw,24px)}
+.btn-new-glow{color:#1a73e8;font-size:clamp(14px,1.8vw,16px);font-weight:700;background:none;border:none;cursor:pointer;font-family:inherit;animation:glow 2s ease-in-out infinite}
+.btn-new-glow:hover{text-decoration:underline}
+@keyframes glow{
+  0%,100%{text-shadow:0 0 4px rgba(26,115,232,0.2)}
+  50%{text-shadow:0 0 14px rgba(26,115,232,0.5),0 0 24px rgba(26,115,232,0.2)}
+}
+
+/* Site Card */
+.site-card{display:flex;justify-content:space-between;align-items:center;background:#fafafa;border:1px solid #e0e0e0;border-radius:clamp(8px,1.5vw,12px);padding:clamp(12px,2vw,20px);margin-bottom:clamp(10px,1.5vw,16px)}
+.site-info{flex:1;min-width:0}
+.site-name{font-size:clamp(14px,1.8vw,17px);font-weight:700;margin-bottom:clamp(6px,1vw,10px)}
+.site-actions{display:flex;gap:clamp(8px,1.5vw,12px)}
+.btn-site{font-size:clamp(12px,1.4vw,13px);color:#5f6368;background:none;border:1px solid #e0e0e0;border-radius:clamp(4px,0.8vw,6px);padding:clamp(4px,0.8vw,6px) clamp(10px,1.5vw,14px);cursor:pointer;font-family:inherit;transition:all 0.2s}
+.btn-site:hover{border-color:#202124;color:#202124}
+.qr-area{width:clamp(60px,10vw,80px);height:clamp(60px,10vw,80px);margin-left:clamp(10px,2vw,16px);cursor:pointer;display:flex;align-items:center;justify-content:center;border:1px solid #e0e0e0;border-radius:clamp(4px,0.8vw,6px);background:#fff;flex-shrink:0;overflow:hidden}
+.qr-area canvas{width:100%!important;height:100%!important}
+
+/* Footer action */
+.footer-action{text-align:center;padding:clamp(20px,3vw,32px) 0;border-top:1px solid #e0e0e0;margin-top:clamp(8px,1.5vw,16px)}
+.btn-new{font-size:clamp(13px,1.6vw,15px);color:#202124;font-weight:700;background:none;border:none;cursor:pointer;font-family:inherit}
+.btn-new:hover{color:#5f6368}
+
+/* Modal */
+.modal-overlay{display:none;position:fixed;inset:0;background:rgba(0,0,0,0.5);z-index:1000;align-items:center;justify-content:center}
+.modal-overlay.active{display:flex}
+.modal{background:#fff;border-radius:clamp(8px,1.5vw,12px);padding:clamp(20px,3vw,32px);text-align:center;width:clamp(260px,70vw,360px)}
+.modal-text{font-size:clamp(14px,1.8vw,16px);color:#202124;margin-bottom:clamp(16px,2.5vw,24px);line-height:1.6}
+.modal-buttons{display:flex;gap:clamp(8px,1.5vw,12px);justify-content:center}
+.btn-modal{font-size:clamp(13px,1.5vw,14px);padding:clamp(6px,1vw,10px) clamp(16px,2.5vw,24px);border-radius:clamp(4px,0.8vw,6px);cursor:pointer;font-family:inherit;transition:all 0.2s}
+.btn-download{background:#202124;color:#fff;border:none}
+.btn-download:hover{background:#000}
+.btn-cancel{background:#fff;color:#5f6368;border:1px solid #e0e0e0}
+.btn-cancel:hover{border-color:#202124;color:#202124}
+</style>
+</head>
+<body>
+
+<header class="header">
+  <span class="header-logo" onclick="location.href='/'">Mogle</span>
+  <button class="btn-logout" onclick="logout()">로그아웃</button>
+</header>
+
+<section class="profile">
+  <div class="profile-name" id="userName">—</div>
+  <div class="profile-email" id="userEmail"></div>
+</section>
+
+<section class="content" id="content"></section>
+
+<div class="modal-overlay" id="qrModal">
+  <div class="modal">
+    <div class="modal-text">QR 코드 이미지를<br>저장하시겠습니까?</div>
+    <div class="modal-buttons">
+      <button class="btn-modal btn-download" onclick="confirmDownloadQR()">다운로드</button>
+      <button class="btn-modal btn-cancel" onclick="closeQRModal()">닫기</button>
+    </div>
+  </div>
+</div>
+
+<script>
+var SUPABASE_URL = 'https://nboknglklvpmcmwhhgxs.supabase.co';
+var SUPABASE_ANON_KEY = 'sb_publishable_lGtmHgSMxUeVoI-OcdBjXA_M_YdLZgW';
+var supabaseClient = window.supabase.createClient(SUPABASE_URL, SUPABASE_ANON_KEY);
+var currentUser = null;
+var pendingQR = null;
+
+(async function checkAuth() {
+  var r = await supabaseClient.auth.getSession();
+  if (r.data.session) {
+    currentUser = r.data.session.user;
+    updateProfile();
+    loadSites();
+  } else {
+    location.href = '/';
+  }
+  supabaseClient.auth.onAuthStateChange(function(event, session) {
+    if (!session) location.href = '/';
+  });
+})();
+
+function updateProfile() {
+  var name = (currentUser.user_metadata && currentUser.user_metadata.name) ? currentUser.user_metadata.name : '사용자';
+  var email = currentUser.email || '';
+  document.getElementById('userName').textContent = name;
+  document.getElementById('userEmail').textContent = email;
+}
+
+async function logout() {
+  await supabaseClient.auth.signOut();
+  location.href = '/';
+}
+
+async function loadSites() {
+  var content = document.getElementById('content');
+
+  // TODO: Supabase sites 테이블에서 조회
+  // var { data: sites } = await supabaseClient.from('sites').select('*').eq('user_id', currentUser.id);
+
+  // 더미 데이터 (테스트용, sites 테이블 생성 후 위 코드로 교체)
+  var sites = [];
+
+  if (!sites || sites.length === 0) {
+    content.innerHTML = '<div class="empty">'
+      + '<div class="empty-text">생성된 홈페이지가 없습니다</div>'
+      + '<button class="btn-new-glow" onclick="location.href=\'/\'">새로운 홈페이지 만들기</button>'
+      + '</div>';
+    return;
+  }
+
+  var html = '';
+  for (var i = 0; i < sites.length; i++) {
+    var s = sites[i];
+    var siteUrl = 'https://moglekorea.github.io/' + s.repo_name + '/';
+    html += '<div class="site-card">'
+      + '<div class="site-info">'
+      + '<div class="site-name">' + escapeHtml(s.hospital_name) + '</div>'
+      + '<div class="site-actions">'
+      + '<button class="btn-site" onclick="window.open(\'' + siteUrl + '\',\'_blank\')">사이트 보기</button>'
+      + '<button class="btn-site" onclick="location.href=\'/pages/order.html?mode=edit&repo=' + s.repo_name + '\'">설정 수정</button>'
+      + '</div>'
+      + '</div>'
+      + '<div class="qr-area" id="qr-' + i + '" onclick="openQRModal(\'' + siteUrl + '\',\'' + escapeHtml(s.hospital_name) + '\')"></div>'
+      + '</div>';
+  }
+
+  html += '<div class="footer-action">'
+    + '<button class="btn-new" onclick="location.href=\'/\'">새로운 홈페이지 만들기</button>'
+    + '</div>';
+
+  content.innerHTML = html;
+
+  for (var j = 0; j < sites.length; j++) {
+    var url = 'https://moglekorea.github.io/' + sites[j].repo_name + '/';
+    var el = document.getElementById('qr-' + j);
+    if (el) {
+      QRCode.toCanvas(el.appendChild(document.createElement('canvas')), url, {
+        width: 200, margin: 1,
+        color: { dark: '#202124', light: '#ffffff' }
+      });
+    }
+  }
+}
+
+function escapeHtml(str) {
+  var d = document.createElement('div');
+  d.textContent = str;
+  return d.innerHTML;
+}
+
+function openQRModal(url, name) {
+  pendingQR = { url: url, name: name };
+  document.getElementById('qrModal').classList.add('active');
+}
+
+function closeQRModal() {
+  document.getElementById('qrModal').classList.remove('active');
+  pendingQR = null;
+}
+
+function confirmDownloadQR() {
+  if (!pendingQR) return;
+  var canvas = document.createElement('canvas');
+  QRCode.toCanvas(canvas, pendingQR.url, {
+    width: 512, margin: 2, errorCorrectionLevel: 'H',
+    color: { dark: '#000000', light: '#ffffff' }
+  }, function(err) {
+    if (err) { alert("QR 코드 생성 실패"); return; }
+    canvas.toBlob(function(blob) {
+      if (!blob) { alert("QR 코드 변환 실패"); return; }
+      var a = document.createElement('a');
+      a.href = URL.createObjectURL(blob);
+      a.download = pendingQR.name + '_QR.png';
+      a.click();
+      URL.revokeObjectURL(a.href);
+      closeQRModal();
+    }, 'image/png');
+  });
+}
+
+document.getElementById('qrModal').addEventListener('click', function(e) {
+  if (e.target === this) closeQRModal();
+});
+</script>
+</body>
+</html>

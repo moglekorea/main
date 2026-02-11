@@ -11,9 +11,10 @@
 <meta property="og:description" content="수백만원 하던 병원 홈페이지. 이젠, 모글에서 무료.">
 <meta property="og:image" content="https://www.moglekorea.com/og.png">
 <meta name="naver-site-verification" content="b7b796849ed99aaa47adb91b8c0df4d8d73ac79a">
-<meta name="google-site-verification" content="jdUNQbrSiasWwoI3jhJ6RmK93sg07TQFsOZomTz07RE" />  
+<meta name="google-site-verification" content="jdUNQbrSiasWwoI3jhJ6RmK93sg07TQFsOZomTz07RE" />
 <link href="https://fonts.googleapis.com/css2?family=Noto+Sans+KR:wght@400;700&display=swap" rel="stylesheet">
 <link rel="icon" href="favicon.png">
+<script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
 <style>
 *{margin:0;padding:0;box-sizing:border-box}
 body{font-family:'Noto Sans KR',sans-serif;background:#fff;color:#202124}
@@ -25,6 +26,20 @@ a{text-decoration:none;color:inherit}
 .mm{display:none;text-align:center;padding:12px;border-bottom:1px solid #e0e0e0}
 .mm.open{display:block}
 .mm a{display:block;padding:8px;color:#5f6368;font-size:14px}
+
+/* Auth UI */
+.topbar-right{display:flex;flex-direction:column;align-items:flex-end;gap:2px}
+.btn-edit{color:#1a73e8;font-size:14px;background:none;border:none;cursor:pointer;font-family:inherit;animation:glow 2s ease-in-out infinite}
+.btn-edit:hover{text-decoration:underline}
+@keyframes glow{
+  0%,100%{text-shadow:0 0 4px rgba(26,115,232,0.2)}
+  50%{text-shadow:0 0 14px rgba(26,115,232,0.5),0 0 24px rgba(26,115,232,0.2)}
+}
+.btn-logout{color:#5f6368;font-size:12px;background:none;border:none;cursor:pointer;font-family:inherit}
+.btn-logout:hover{color:#202124}
+.btn-login{color:#5f6368;font-size:14px;background:none;border:none;cursor:pointer;font-family:inherit}
+.btn-login:hover{color:#1a73e8}
+
 .hero{display:flex;flex-direction:column;align-items:center;padding:80px 24px 40px}
 .logo{font-size:clamp(2.5rem,6vw,4rem);font-weight:700}
 .slogan{font-size:clamp(0.9rem,2vw,1.2rem);color:#5f6368;margin-top:16px;height:1.5em;transition:opacity 0.5s}
@@ -58,7 +73,13 @@ footer p{color:#5f6368;font-size:13px}
 <nav class="topbar">
 <button class="hamburger" onclick="document.getElementById('mm').classList.toggle('open')">☰</button>
 <a href="#" class="dl">커뮤니티</a>
-<a href="#">로그인</a>
+<div class="topbar-right">
+  <!-- 미로그인 -->
+  <button class="btn-login" id="btnLogin" onclick="kakaoLogin()">로그인</button>
+  <!-- 로그인됨 -->
+  <button class="btn-edit" id="btnEdit" style="display:none" onclick="location.href='/pages/mypage.html'">홈페이지 수정</button>
+  <button class="btn-logout" id="btnLogout" style="display:none" onclick="logout()">로그아웃</button>
+</div>
 </nav>
 <div class="mm" id="mm"><a href="#">커뮤니티</a></div>
 <main class="hero">
@@ -72,6 +93,59 @@ footer p{color:#5f6368;font-size:13px}
 </main>
 <footer><p>© 2026 Mogle · 문의: 카카오톡 오픈채팅</p></footer>
 <script>
+// ── Supabase Auth ──
+var SUPABASE_URL = 'https://nboknglklvpmcmwhhgxs.supabase.co';
+var SUPABASE_ANON_KEY = 'sb_publishable_lGtmHgSMxUeVoI-OcdBjXA_M_YdLZgW';
+var supabaseClient = window.supabase.createClient(SUPABASE_URL, SUPABASE_ANON_KEY);
+var currentUser = null;
+
+(async function checkAuth() {
+  var r = await supabaseClient.auth.getSession();
+  if (r.data.session) {
+    currentUser = r.data.session.user;
+    updateAuthUI(true);
+  }
+  supabaseClient.auth.onAuthStateChange(function(event, session) {
+    if (session) {
+      currentUser = session.user;
+      updateAuthUI(true);
+    } else {
+      currentUser = null;
+      updateAuthUI(false);
+    }
+  });
+})();
+
+function updateAuthUI(loggedIn) {
+  var btnLogin = document.getElementById('btnLogin');
+  var btnEdit = document.getElementById('btnEdit');
+  var btnLogout = document.getElementById('btnLogout');
+  if (loggedIn) {
+    btnLogin.style.display = 'none';
+    btnEdit.style.display = '';
+    btnLogout.style.display = '';
+  } else {
+    btnLogin.style.display = '';
+    btnEdit.style.display = 'none';
+    btnLogout.style.display = 'none';
+  }
+}
+
+async function kakaoLogin() {
+  var r = await supabaseClient.auth.signInWithOAuth({
+    provider: 'kakao',
+    options: { redirectTo: window.location.href }
+  });
+  if (r.error) alert('로그인 오류: ' + r.error.message);
+}
+
+async function logout() {
+  await supabaseClient.auth.signOut();
+  currentUser = null;
+  updateAuthUI(false);
+}
+
+// ── Slogan & Cards ──
 var S=['수백만원 하던 병원 홈페이지.','이젠, 모글에서 무료.'],
 P=[{n:'Sapphire',d:'추천: 정형외과, 외과',u:'/templates/sapphire/sapphire_index.html'},{n:'Opal',d:'추천: 내과, 가정의학과',u:'#'},{n:'Ruby',d:'추천: 치과',u:'#'}],
 i=0,t='o',sl=document.getElementById('sl'),cd=document.getElementById('cd');
