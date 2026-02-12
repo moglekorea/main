@@ -1,108 +1,847 @@
 {
-  "hospital_name": "모글병원",
-  "theme_color": "#2563eb",
-  "site_url": "https://www.moglekorea.com/templates/sapphire/",
-  "copyright_year": "2025",
-  "meta_subtitle": "수술센터, 스포츠 재활 관절·척추 수술 전문",
-  "meta_description": "모글병원는 스포츠 재활, 족부 특화, 관절 및 척추 비수술·수술을 전문으로 합니다. 무릎, 어깨, 발목, 허리 등 다양한 질환을 전문적으로 치료합니다.",
-  "meta_keywords": "모글병원, 정형외과, 관절, 척추, 재활, 무릎, 어깨, 허리, 족부, 수술센터, 스포츠재활",
-  "phone": "02-1234-5678",
-  "fax": "02-1234-5679",
-  "email": "info@mogle.com",
-  "address": "서울시 강남구 개포로26길 16",
-  "address_full": "서울시 강남구 개포로26길 16 (강서동)",
-  "postal_code": "28378",
-  "hours": "평일 09:00 - 18:00 / 토요일 09:00 - 13:00",
-  "map_embed": "https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d3165.123456789!2d127.0!3d37.5!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x0%3A0x0!2z7Y-s7Jik7ZSE67OR7JuQ!5e0!3m2!1sko!2skr!4v1234567890",
-  "instagram_url": "https://www.instagram.com/",
-  "youtube_url": "https://www.youtube.com/",
-  "nav_1_name": "병원소개",
-  "nav_2_name": "관절센터",
-  "nav_3_name": "척추센터",
-  "nav_4_name": "족부센터",
-  "nav_5_name": "스포츠 재활센터",
-  "nav_6_name": "운동선수센터",
-  "hero_1_title": "관절·척추 전문<br>모글병원",
-  "hero_1_subtitle": "최첨단 의료 장비와 전문 의료진이 함께합니다",
-  "hero_1_btn": "병원소개 보기",
-  "hero_2_title": "스포츠 재활<br>전문 센터",
-  "hero_2_subtitle": "선수부터 일반인까지 맞춤형 재활 프로그램",
-  "hero_2_btn": "자세히 보기",
-  "hero_3_title": "족부 특화<br>클리닉",
-  "hero_3_subtitle": "발·발목 전문 진료와 수술",
-  "hero_3_btn": "족부센터 보기",
-  "intro_title": "모글병원을 소개합니다",
-  "intro_desc": "무릎, 어깨, 허리, 족부, 외상 골절, 수술, 인공관절, 관절경, 스포츠 손상 및 재활 전문 병원입니다.",
-  "intro_heading": "최고의 의료진과 첨단 장비",
-  "intro_text_1": "모글병원은 환자 중심의 진료 철학을 바탕으로 최고의 의료 서비스를 제공합니다. 풍부한 임상 경험을 갖춘 전문 의료진과 최첨단 의료 장비를 통해 정확한 진단과 효과적인 치료를 제공합니다.",
-  "intro_text_2": "관절, 척추, 족부 분야의 비수술 치료부터 수술까지 환자 상태에 맞는 최적의 치료 방법을 제안합니다.",
-  "dept_1_name": "무릎",
-  "dept_1_desc": "연골손상, 십자인대, 퇴행성관절염, 골절",
-  "dept_2_name": "어깨",
-  "dept_2_desc": "회전근개파열, 오십견, 충돌증후군",
-  "dept_3_name": "척추",
-  "dept_3_desc": "디스크, 협착증, 측만증, 요통",
-  "dept_4_name": "족부",
-  "dept_4_desc": "무지외반증, 족저근막염, 발목인대파열",
-  "doctor_1_name": "김모글 원장",
-  "doctor_1_specialty": "관절·무릎 전문",
-  "doctor_1_desc": "관절경 수술, 인공관절 치환술 전문",
-  "doctor_2_name": "이모글 원장",
-  "doctor_2_specialty": "척추 전문",
-  "doctor_2_desc": "척추 비수술 치료, 최소침습 수술",
-  "doctor_3_name": "박모글 원장",
-  "doctor_3_specialty": "족부·스포츠재활 전문",
-  "doctor_3_desc": "족부 수술, 스포츠 손상 재활",
-  "facility_1_name": "수술센터",
-  "facility_1_desc": "최첨단 장비를 갖춘 무균 수술실",
-  "facility_2_name": "재활센터",
-  "facility_2_desc": "전문 재활 장비와 1:1 맞춤 치료",
-  "facility_3_name": "영상의학센터",
-  "facility_3_desc": "MRI, CT 등 정밀 진단 장비",
-  "footer_desc": "모글병원은 관절·척추 전문 병원으로<br>환자 중심의 진료를 실천합니다.",
-  "image_logo": "sapphire_assets/sapphire_logo_1_200x60.webp",
-  "image_logo_white": "sapphire_assets/sapphire_logowhite_1_200x60.webp",
-  "icon_instagram": "sapphire_assets/sapphire_instagram_1_48x48.webp",
-  "icon_youtube": "sapphire_assets/sapphire_youtube_1_48x48.webp",
-  "image_hero_1": "sapphire_assets/sapphire_hero_1_1920x800.webp",
-  "image_hero_2": "sapphire_assets/sapphire_hero_2_1920x800.webp",
-  "image_hero_3": "sapphire_assets/sapphire_hero_3_1920x800.webp",
-  "image_intro": "sapphire_assets/sapphire_hospital_1_800x600.webp",
-  "image_dept_1": "sapphire_assets/sapphire_knee_1_400x400.webp",
-  "image_dept_2": "sapphire_assets/sapphire_shoulder_1_400x400.webp",
-  "image_dept_3": "sapphire_assets/sapphire_spine_1_400x400.webp",
-  "image_dept_4": "sapphire_assets/sapphire_foot_1_400x400.webp",
-  "image_doctor_1": "sapphire_assets/sapphire_doctor_1_400x500.webp",
-  "image_doctor_2": "sapphire_assets/sapphire_doctor_2_400x500.webp",
-  "image_doctor_3": "sapphire_assets/sapphire_doctor_3_400x500.webp",
-  "image_facility_1": "sapphire_assets/sapphire_surgery_1_800x600.webp",
-  "image_facility_2": "sapphire_assets/sapphire_rehab_1_800x600.webp",
-  "image_facility_3": "sapphire_assets/sapphire_imaging_1_800x600.webp",
-  "icon_location": "sapphire_assets/sapphire_location_1_64x64.webp",
-  "icon_phone": "sapphire_assets/sapphire_phone_1_64x64.webp",
-  "icon_clock": "sapphire_assets/sapphire_clock_1_64x64.webp",
-  "image_about_hero": "sapphire_assets/sapphire_about_hero_1_1920x400.webp",
-  "image_about_interior": "sapphire_assets/sapphire_about_interior_1_800x600.webp",
-  "image_about_gallery_1": "sapphire_assets/sapphire_about_gallery_1_600x400.webp",
-  "image_about_gallery_2": "sapphire_assets/sapphire_about_gallery_2_600x400.webp",
-  "image_joint_hero": "sapphire_assets/sapphire_joint_hero_1_1920x400.webp",
-  "image_joint_intro": "sapphire_assets/sapphire_joint_intro_1_800x600.webp",
-  "image_joint_acl": "sapphire_assets/sapphire_joint_acl_1_400x400.webp",
-  "image_joint_arthritis": "sapphire_assets/sapphire_joint_arthritis_1_400x400.webp",
-  "image_shoulder_frozen": "sapphire_assets/sapphire_shoulder_frozen_1_400x400.webp",
-  "image_treatment_injection": "sapphire_assets/sapphire_treatment_injection_1_600x400.webp",
-  "image_treatment_rehab": "sapphire_assets/sapphire_treatment_rehab_1_600x400.webp",
-  "image_treatment_surgery": "sapphire_assets/sapphire_treatment_surgery_1_600x400.webp",
-  "image_spine_hero": "sapphire_assets/sapphire_spine_hero_1_1920x400.webp",
-  "image_spine_intro": "sapphire_assets/sapphire_spine_intro_1_800x600.webp",
-  "image_spine_turtle": "sapphire_assets/sapphire_spine_turtle_1_400x400.webp",
-  "image_spine_stenosis": "sapphire_assets/sapphire_spine_stenosis_1_400x400.webp",
-  "image_spine_disc": "sapphire_assets/sapphire_spine_disc_1_400x400.webp",
-  "image_sports_hero": "sapphire_assets/sapphire_sports_hero_1_1920x400.webp",
-  "image_sports_intro": "sapphire_assets/sapphire_sports_intro_1_800x600.webp",
-  "image_sports_injury": "sapphire_assets/sapphire_sports_injury_1_400x400.webp",
-  "image_sports_post_surgery": "sapphire_assets/sapphire_sports_post_surgery_1_400x400.webp",
-  "image_therapist_1": "sapphire_assets/sapphire_therapist_1_300x300.webp",
-  "image_therapist_2": "sapphire_assets/sapphire_therapist_2_300x300.webp",
-  "image_therapist_3": "sapphire_assets/sapphire_therapist_3_300x300.webp"
+  "_sections": {
+    "basic": {
+      "title": "기본 정보",
+      "badge": "필수",
+      "required": true,
+      "order": 1
+    },
+    "meta": {
+      "title": "SEO / 메타",
+      "badge": "선택",
+      "order": 2
+    },
+    "nav": {
+      "title": "네비게이션",
+      "badge": "선택",
+      "order": 3
+    },
+    "hero": {
+      "title": "히어로 슬라이드",
+      "badge": "선택",
+      "order": 4
+    },
+    "intro": {
+      "title": "병원 소개",
+      "badge": "선택",
+      "order": 5
+    },
+    "dept": {
+      "title": "진료과",
+      "badge": "선택",
+      "order": 6
+    },
+    "doctor": {
+      "title": "의료진",
+      "badge": "선택",
+      "order": 7
+    },
+    "facility": {
+      "title": "시설",
+      "badge": "선택",
+      "order": 8
+    },
+    "footer": {
+      "title": "푸터 / SNS",
+      "badge": "선택",
+      "order": 9
+    },
+    "brand": {
+      "title": "로고 / 아이콘",
+      "badge": "선택",
+      "order": 10
+    },
+    "subpage": {
+      "title": "서브페이지 이미지",
+      "badge": "고급",
+      "order": 11
+    }
+  },
+  "hospital_name": {
+    "value": "모글병원",
+    "section": "basic",
+    "label": "병원명",
+    "type": "text",
+    "order": 1
+  },
+  "theme_color": {
+    "value": "#2563eb",
+    "section": "footer",
+    "label": "테마 색상",
+    "type": "text",
+    "order": 5
+  },
+  "site_url": {
+    "value": "https://www.moglekorea.com/templates/sapphire/",
+    "section": "meta",
+    "label": "사이트 URL",
+    "type": "text",
+    "order": 4
+  },
+  "copyright_year": {
+    "value": "2025",
+    "section": "meta",
+    "label": "저작권 연도",
+    "type": "text",
+    "order": 5
+  },
+  "meta_subtitle": {
+    "value": "수술센터, 스포츠 재활 관절·척추 수술 전문",
+    "section": "meta",
+    "label": "부제목",
+    "type": "text",
+    "order": 1
+  },
+  "meta_description": {
+    "value": "모글병원는 스포츠 재활, 족부 특화, 관절 및 척추 비수술·수술을 전문으로 합니다. 무릎, 어깨, 발목, 허리 등 다양한 질환을 전문적으로 치료합니다.",
+    "section": "meta",
+    "label": "사이트 설명",
+    "type": "textarea",
+    "order": 2
+  },
+  "meta_keywords": {
+    "value": "모글병원, 정형외과, 관절, 척추, 재활, 무릎, 어깨, 허리, 족부, 수술센터, 스포츠재활",
+    "section": "meta",
+    "label": "키워드",
+    "type": "textarea",
+    "order": 3
+  },
+  "phone": {
+    "value": "02-1234-5678",
+    "section": "basic",
+    "label": "전화번호",
+    "type": "text",
+    "order": 2
+  },
+  "fax": {
+    "value": "02-1234-5679",
+    "section": "basic",
+    "label": "팩스",
+    "type": "text",
+    "order": 3
+  },
+  "email": {
+    "value": "info@mogle.com",
+    "section": "basic",
+    "label": "이메일",
+    "type": "text",
+    "order": 4
+  },
+  "address": {
+    "value": "서울시 강남구 개포로26길 16",
+    "section": "basic",
+    "label": "주소 (짧은)",
+    "type": "text",
+    "order": 5
+  },
+  "address_full": {
+    "value": "서울시 강남구 개포로26길 16 (강서동)",
+    "section": "basic",
+    "label": "주소 (전체)",
+    "type": "text",
+    "order": 6
+  },
+  "postal_code": {
+    "value": "28378",
+    "section": "basic",
+    "label": "우편번호",
+    "type": "text",
+    "order": 7
+  },
+  "hours": {
+    "value": "평일 09:00 - 18:00 / 토요일 09:00 - 13:00",
+    "section": "basic",
+    "label": "진료시간",
+    "type": "text",
+    "order": 8
+  },
+  "map_embed": {
+    "value": "https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d3165.123456789!2d127.0!3d37.5!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x0%3A0x0!2z7Y-s7Jik7ZSE67OR7JuQ!5e0!3m2!1sko!2skr!4v1234567890",
+    "section": "footer",
+    "label": "구글맵 임베드 URL",
+    "type": "textarea",
+    "order": 4
+  },
+  "instagram_url": {
+    "value": "https://www.instagram.com/",
+    "section": "footer",
+    "label": "인스타그램 URL",
+    "type": "text",
+    "order": 2
+  },
+  "youtube_url": {
+    "value": "https://www.youtube.com/",
+    "section": "footer",
+    "label": "유튜브 URL",
+    "type": "text",
+    "order": 3
+  },
+  "nav_1_name": {
+    "value": "병원소개",
+    "section": "nav",
+    "label": "메뉴 1",
+    "type": "text",
+    "order": 1
+  },
+  "nav_2_name": {
+    "value": "관절센터",
+    "section": "nav",
+    "label": "메뉴 2",
+    "type": "text",
+    "order": 2
+  },
+  "nav_3_name": {
+    "value": "척추센터",
+    "section": "nav",
+    "label": "메뉴 3",
+    "type": "text",
+    "order": 3
+  },
+  "nav_4_name": {
+    "value": "족부센터",
+    "section": "nav",
+    "label": "메뉴 4",
+    "type": "text",
+    "order": 4
+  },
+  "nav_5_name": {
+    "value": "스포츠 재활센터",
+    "section": "nav",
+    "label": "메뉴 5",
+    "type": "text",
+    "order": 5
+  },
+  "nav_6_name": {
+    "value": "운동선수센터",
+    "section": "nav",
+    "label": "메뉴 6",
+    "type": "text",
+    "order": 6
+  },
+  "hero_1_title": {
+    "value": "관절·척추 전문<br>모글병원",
+    "section": "hero",
+    "label": "슬라이드 1 제목",
+    "type": "text",
+    "order": 1
+  },
+  "hero_1_subtitle": {
+    "value": "최첨단 의료 장비와 전문 의료진이 함께합니다",
+    "section": "hero",
+    "label": "슬라이드 1 부제",
+    "type": "text",
+    "order": 2
+  },
+  "hero_1_btn": {
+    "value": "병원소개 보기",
+    "section": "hero",
+    "label": "슬라이드 1 버튼",
+    "type": "text",
+    "order": 3
+  },
+  "hero_2_title": {
+    "value": "스포츠 재활<br>전문 센터",
+    "section": "hero",
+    "label": "슬라이드 2 제목",
+    "type": "text",
+    "order": 4
+  },
+  "hero_2_subtitle": {
+    "value": "선수부터 일반인까지 맞춤형 재활 프로그램",
+    "section": "hero",
+    "label": "슬라이드 2 부제",
+    "type": "text",
+    "order": 5
+  },
+  "hero_2_btn": {
+    "value": "자세히 보기",
+    "section": "hero",
+    "label": "슬라이드 2 버튼",
+    "type": "text",
+    "order": 6
+  },
+  "hero_3_title": {
+    "value": "족부 특화<br>클리닉",
+    "section": "hero",
+    "label": "슬라이드 3 제목",
+    "type": "text",
+    "order": 7
+  },
+  "hero_3_subtitle": {
+    "value": "발·발목 전문 진료와 수술",
+    "section": "hero",
+    "label": "슬라이드 3 부제",
+    "type": "text",
+    "order": 8
+  },
+  "hero_3_btn": {
+    "value": "족부센터 보기",
+    "section": "hero",
+    "label": "슬라이드 3 버튼",
+    "type": "text",
+    "order": 9
+  },
+  "intro_title": {
+    "value": "모글병원을 소개합니다",
+    "section": "intro",
+    "label": "소개 제목",
+    "type": "text",
+    "order": 1
+  },
+  "intro_desc": {
+    "value": "무릎, 어깨, 허리, 족부, 외상 골절, 수술, 인공관절, 관절경, 스포츠 손상 및 재활 전문 병원입니다.",
+    "section": "intro",
+    "label": "소개 한줄 설명",
+    "type": "text",
+    "order": 2
+  },
+  "intro_heading": {
+    "value": "최고의 의료진과 첨단 장비",
+    "section": "intro",
+    "label": "소개 소제목",
+    "type": "text",
+    "order": 3
+  },
+  "intro_text_1": {
+    "value": "모글병원은 환자 중심의 진료 철학을 바탕으로 최고의 의료 서비스를 제공합니다. 풍부한 임상 경험을 갖춘 전문 의료진과 최첨단 의료 장비를 통해 정확한 진단과 효과적인 치료를 제공합니다.",
+    "section": "intro",
+    "label": "소개 본문 1",
+    "type": "textarea",
+    "order": 4
+  },
+  "intro_text_2": {
+    "value": "관절, 척추, 족부 분야의 비수술 치료부터 수술까지 환자 상태에 맞는 최적의 치료 방법을 제안합니다.",
+    "section": "intro",
+    "label": "소개 본문 2",
+    "type": "textarea",
+    "order": 5
+  },
+  "dept_1_name": {
+    "value": "무릎",
+    "section": "dept",
+    "label": "진료과 1",
+    "type": "text",
+    "order": 1
+  },
+  "dept_1_desc": {
+    "value": "연골손상, 십자인대, 퇴행성관절염, 골절",
+    "section": "dept",
+    "label": "진료과 1 설명",
+    "type": "text",
+    "order": 2
+  },
+  "dept_2_name": {
+    "value": "어깨",
+    "section": "dept",
+    "label": "진료과 2",
+    "type": "text",
+    "order": 3
+  },
+  "dept_2_desc": {
+    "value": "회전근개파열, 오십견, 충돌증후군",
+    "section": "dept",
+    "label": "진료과 2 설명",
+    "type": "text",
+    "order": 4
+  },
+  "dept_3_name": {
+    "value": "척추",
+    "section": "dept",
+    "label": "진료과 3",
+    "type": "text",
+    "order": 5
+  },
+  "dept_3_desc": {
+    "value": "디스크, 협착증, 측만증, 요통",
+    "section": "dept",
+    "label": "진료과 3 설명",
+    "type": "text",
+    "order": 6
+  },
+  "dept_4_name": {
+    "value": "족부",
+    "section": "dept",
+    "label": "진료과 4",
+    "type": "text",
+    "order": 7
+  },
+  "dept_4_desc": {
+    "value": "무지외반증, 족저근막염, 발목인대파열",
+    "section": "dept",
+    "label": "진료과 4 설명",
+    "type": "text",
+    "order": 8
+  },
+  "doctor_1_name": {
+    "value": "김모글 원장",
+    "section": "doctor",
+    "label": "의사 1 이름",
+    "type": "text",
+    "order": 1
+  },
+  "doctor_1_specialty": {
+    "value": "관절·무릎 전문",
+    "section": "doctor",
+    "label": "의사 1 전공",
+    "type": "text",
+    "order": 2
+  },
+  "doctor_1_desc": {
+    "value": "관절경 수술, 인공관절 치환술 전문",
+    "section": "doctor",
+    "label": "의사 1 설명",
+    "type": "text",
+    "order": 3
+  },
+  "doctor_2_name": {
+    "value": "이모글 원장",
+    "section": "doctor",
+    "label": "의사 2 이름",
+    "type": "text",
+    "order": 4
+  },
+  "doctor_2_specialty": {
+    "value": "척추 전문",
+    "section": "doctor",
+    "label": "의사 2 전공",
+    "type": "text",
+    "order": 5
+  },
+  "doctor_2_desc": {
+    "value": "척추 비수술 치료, 최소침습 수술",
+    "section": "doctor",
+    "label": "의사 2 설명",
+    "type": "text",
+    "order": 6
+  },
+  "doctor_3_name": {
+    "value": "박모글 원장",
+    "section": "doctor",
+    "label": "의사 3 이름",
+    "type": "text",
+    "order": 7
+  },
+  "doctor_3_specialty": {
+    "value": "족부·스포츠재활 전문",
+    "section": "doctor",
+    "label": "의사 3 전공",
+    "type": "text",
+    "order": 8
+  },
+  "doctor_3_desc": {
+    "value": "족부 수술, 스포츠 손상 재활",
+    "section": "doctor",
+    "label": "의사 3 설명",
+    "type": "text",
+    "order": 9
+  },
+  "facility_1_name": {
+    "value": "수술센터",
+    "section": "facility",
+    "label": "시설 1 이름",
+    "type": "text",
+    "order": 1
+  },
+  "facility_1_desc": {
+    "value": "최첨단 장비를 갖춘 무균 수술실",
+    "section": "facility",
+    "label": "시설 1 설명",
+    "type": "text",
+    "order": 2
+  },
+  "facility_2_name": {
+    "value": "재활센터",
+    "section": "facility",
+    "label": "시설 2 이름",
+    "type": "text",
+    "order": 3
+  },
+  "facility_2_desc": {
+    "value": "전문 재활 장비와 1:1 맞춤 치료",
+    "section": "facility",
+    "label": "시설 2 설명",
+    "type": "text",
+    "order": 4
+  },
+  "facility_3_name": {
+    "value": "영상의학센터",
+    "section": "facility",
+    "label": "시설 3 이름",
+    "type": "text",
+    "order": 5
+  },
+  "facility_3_desc": {
+    "value": "MRI, CT 등 정밀 진단 장비",
+    "section": "facility",
+    "label": "시설 3 설명",
+    "type": "text",
+    "order": 6
+  },
+  "footer_desc": {
+    "value": "모글병원은 관절·척추 전문 병원으로<br>환자 중심의 진료를 실천합니다.",
+    "section": "footer",
+    "label": "푸터 설명",
+    "type": "textarea",
+    "order": 1
+  },
+  "image_logo": {
+    "value": "sapphire_assets/sapphire_logo_1_200x60.webp",
+    "section": "brand",
+    "label": "로고 (밝은배경)",
+    "type": "image",
+    "order": 1,
+    "dim": "200×60"
+  },
+  "image_logo_white": {
+    "value": "sapphire_assets/sapphire_logowhite_1_200x60.webp",
+    "section": "brand",
+    "label": "로고 (어두운배경)",
+    "type": "image",
+    "order": 2,
+    "dim": "200×60"
+  },
+  "icon_instagram": {
+    "value": "sapphire_assets/sapphire_instagram_1_48x48.webp",
+    "section": "brand",
+    "label": "인스타 아이콘",
+    "type": "image",
+    "order": 3,
+    "dim": "48×48"
+  },
+  "icon_youtube": {
+    "value": "sapphire_assets/sapphire_youtube_1_48x48.webp",
+    "section": "brand",
+    "label": "유튜브 아이콘",
+    "type": "image",
+    "order": 4,
+    "dim": "48×48"
+  },
+  "image_hero_1": {
+    "value": "sapphire_assets/sapphire_hero_1_1920x800.webp",
+    "section": "hero",
+    "label": "히어로 1",
+    "type": "image",
+    "order": 10,
+    "dim": "1920×800"
+  },
+  "image_hero_2": {
+    "value": "sapphire_assets/sapphire_hero_2_1920x800.webp",
+    "section": "hero",
+    "label": "히어로 2",
+    "type": "image",
+    "order": 11,
+    "dim": "1920×800"
+  },
+  "image_hero_3": {
+    "value": "sapphire_assets/sapphire_hero_3_1920x800.webp",
+    "section": "hero",
+    "label": "히어로 3",
+    "type": "image",
+    "order": 12,
+    "dim": "1920×800"
+  },
+  "image_intro": {
+    "value": "sapphire_assets/sapphire_hospital_1_800x600.webp",
+    "section": "intro",
+    "label": "병원 소개",
+    "type": "image",
+    "order": 6,
+    "dim": "800×600"
+  },
+  "image_dept_1": {
+    "value": "sapphire_assets/sapphire_knee_1_400x400.webp",
+    "section": "dept",
+    "label": "진료과 1",
+    "type": "image",
+    "order": 9,
+    "dim": "400×400"
+  },
+  "image_dept_2": {
+    "value": "sapphire_assets/sapphire_shoulder_1_400x400.webp",
+    "section": "dept",
+    "label": "진료과 2",
+    "type": "image",
+    "order": 10,
+    "dim": "400×400"
+  },
+  "image_dept_3": {
+    "value": "sapphire_assets/sapphire_spine_1_400x400.webp",
+    "section": "dept",
+    "label": "진료과 3",
+    "type": "image",
+    "order": 11,
+    "dim": "400×400"
+  },
+  "image_dept_4": {
+    "value": "sapphire_assets/sapphire_foot_1_400x400.webp",
+    "section": "dept",
+    "label": "진료과 4",
+    "type": "image",
+    "order": 12,
+    "dim": "400×400"
+  },
+  "image_doctor_1": {
+    "value": "sapphire_assets/sapphire_doctor_1_400x500.webp",
+    "section": "doctor",
+    "label": "의사 1 사진",
+    "type": "image",
+    "order": 10,
+    "dim": "400×500"
+  },
+  "image_doctor_2": {
+    "value": "sapphire_assets/sapphire_doctor_2_400x500.webp",
+    "section": "doctor",
+    "label": "의사 2 사진",
+    "type": "image",
+    "order": 11,
+    "dim": "400×500"
+  },
+  "image_doctor_3": {
+    "value": "sapphire_assets/sapphire_doctor_3_400x500.webp",
+    "section": "doctor",
+    "label": "의사 3 사진",
+    "type": "image",
+    "order": 12,
+    "dim": "400×500"
+  },
+  "image_facility_1": {
+    "value": "sapphire_assets/sapphire_surgery_1_800x600.webp",
+    "section": "facility",
+    "label": "시설 1",
+    "type": "image",
+    "order": 7,
+    "dim": "800×600"
+  },
+  "image_facility_2": {
+    "value": "sapphire_assets/sapphire_rehab_1_800x600.webp",
+    "section": "facility",
+    "label": "시설 2",
+    "type": "image",
+    "order": 8,
+    "dim": "800×600"
+  },
+  "image_facility_3": {
+    "value": "sapphire_assets/sapphire_imaging_1_800x600.webp",
+    "section": "facility",
+    "label": "시설 3",
+    "type": "image",
+    "order": 9,
+    "dim": "800×600"
+  },
+  "icon_location": {
+    "value": "sapphire_assets/sapphire_location_1_64x64.webp",
+    "section": "brand",
+    "label": "위치 아이콘",
+    "type": "image",
+    "order": 5,
+    "dim": "64×64"
+  },
+  "icon_phone": {
+    "value": "sapphire_assets/sapphire_phone_1_64x64.webp",
+    "section": "brand",
+    "label": "전화 아이콘",
+    "type": "image",
+    "order": 6,
+    "dim": "64×64"
+  },
+  "icon_clock": {
+    "value": "sapphire_assets/sapphire_clock_1_64x64.webp",
+    "section": "brand",
+    "label": "시계 아이콘",
+    "type": "image",
+    "order": 7,
+    "dim": "64×64"
+  },
+  "image_about_hero": {
+    "value": "sapphire_assets/sapphire_about_hero_1_1920x400.webp",
+    "section": "subpage",
+    "label": "소개 히어로",
+    "type": "image",
+    "order": 1,
+    "dim": "1920×400"
+  },
+  "image_about_interior": {
+    "value": "sapphire_assets/sapphire_about_interior_1_800x600.webp",
+    "section": "subpage",
+    "label": "소개 인테리어",
+    "type": "image",
+    "order": 2,
+    "dim": "800×600"
+  },
+  "image_about_gallery_1": {
+    "value": "sapphire_assets/sapphire_about_gallery_1_600x400.webp",
+    "section": "subpage",
+    "label": "소개 갤러리 1",
+    "type": "image",
+    "order": 3,
+    "dim": "600×400"
+  },
+  "image_about_gallery_2": {
+    "value": "sapphire_assets/sapphire_about_gallery_2_600x400.webp",
+    "section": "subpage",
+    "label": "소개 갤러리 2",
+    "type": "image",
+    "order": 4,
+    "dim": "600×400"
+  },
+  "image_joint_hero": {
+    "value": "sapphire_assets/sapphire_joint_hero_1_1920x400.webp",
+    "section": "subpage",
+    "label": "관절 히어로",
+    "type": "image",
+    "order": 5,
+    "dim": "1920×400"
+  },
+  "image_joint_intro": {
+    "value": "sapphire_assets/sapphire_joint_intro_1_800x600.webp",
+    "section": "subpage",
+    "label": "관절 소개",
+    "type": "image",
+    "order": 6,
+    "dim": "800×600"
+  },
+  "image_joint_acl": {
+    "value": "sapphire_assets/sapphire_joint_acl_1_400x400.webp",
+    "section": "subpage",
+    "label": "십자인대",
+    "type": "image",
+    "order": 7,
+    "dim": "400×400"
+  },
+  "image_joint_arthritis": {
+    "value": "sapphire_assets/sapphire_joint_arthritis_1_400x400.webp",
+    "section": "subpage",
+    "label": "관절염",
+    "type": "image",
+    "order": 8,
+    "dim": "400×400"
+  },
+  "image_shoulder_frozen": {
+    "value": "sapphire_assets/sapphire_shoulder_frozen_1_400x400.webp",
+    "section": "subpage",
+    "label": "오십견",
+    "type": "image",
+    "order": 9,
+    "dim": "400×400"
+  },
+  "image_treatment_injection": {
+    "value": "sapphire_assets/sapphire_treatment_injection_1_600x400.webp",
+    "section": "subpage",
+    "label": "주사치료",
+    "type": "image",
+    "order": 10,
+    "dim": "600×400"
+  },
+  "image_treatment_rehab": {
+    "value": "sapphire_assets/sapphire_treatment_rehab_1_600x400.webp",
+    "section": "subpage",
+    "label": "재활치료",
+    "type": "image",
+    "order": 11,
+    "dim": "600×400"
+  },
+  "image_treatment_surgery": {
+    "value": "sapphire_assets/sapphire_treatment_surgery_1_600x400.webp",
+    "section": "subpage",
+    "label": "수술치료",
+    "type": "image",
+    "order": 12,
+    "dim": "600×400"
+  },
+  "image_spine_hero": {
+    "value": "sapphire_assets/sapphire_spine_hero_1_1920x400.webp",
+    "section": "subpage",
+    "label": "척추 히어로",
+    "type": "image",
+    "order": 13,
+    "dim": "1920×400"
+  },
+  "image_spine_intro": {
+    "value": "sapphire_assets/sapphire_spine_intro_1_800x600.webp",
+    "section": "subpage",
+    "label": "척추 소개",
+    "type": "image",
+    "order": 14,
+    "dim": "800×600"
+  },
+  "image_spine_turtle": {
+    "value": "sapphire_assets/sapphire_spine_turtle_1_400x400.webp",
+    "section": "subpage",
+    "label": "거북목",
+    "type": "image",
+    "order": 15,
+    "dim": "400×400"
+  },
+  "image_spine_stenosis": {
+    "value": "sapphire_assets/sapphire_spine_stenosis_1_400x400.webp",
+    "section": "subpage",
+    "label": "협착증",
+    "type": "image",
+    "order": 16,
+    "dim": "400×400"
+  },
+  "image_spine_disc": {
+    "value": "sapphire_assets/sapphire_spine_disc_1_400x400.webp",
+    "section": "subpage",
+    "label": "디스크",
+    "type": "image",
+    "order": 17,
+    "dim": "400×400"
+  },
+  "image_sports_hero": {
+    "value": "sapphire_assets/sapphire_sports_hero_1_1920x400.webp",
+    "section": "subpage",
+    "label": "스포츠 히어로",
+    "type": "image",
+    "order": 18,
+    "dim": "1920×400"
+  },
+  "image_sports_intro": {
+    "value": "sapphire_assets/sapphire_sports_intro_1_800x600.webp",
+    "section": "subpage",
+    "label": "스포츠 소개",
+    "type": "image",
+    "order": 19,
+    "dim": "800×600"
+  },
+  "image_sports_injury": {
+    "value": "sapphire_assets/sapphire_sports_injury_1_400x400.webp",
+    "section": "subpage",
+    "label": "스포츠 손상",
+    "type": "image",
+    "order": 20,
+    "dim": "400×400"
+  },
+  "image_sports_post_surgery": {
+    "value": "sapphire_assets/sapphire_sports_post_surgery_1_400x400.webp",
+    "section": "subpage",
+    "label": "수술후 재활",
+    "type": "image",
+    "order": 21,
+    "dim": "400×400"
+  },
+  "image_therapist_1": {
+    "value": "sapphire_assets/sapphire_therapist_1_300x300.webp",
+    "section": "subpage",
+    "label": "치료사 1",
+    "type": "image",
+    "order": 22,
+    "dim": "300×300"
+  },
+  "image_therapist_2": {
+    "value": "sapphire_assets/sapphire_therapist_2_300x300.webp",
+    "section": "subpage",
+    "label": "치료사 2",
+    "type": "image",
+    "order": 23,
+    "dim": "300×300"
+  },
+  "image_therapist_3": {
+    "value": "sapphire_assets/sapphire_therapist_3_300x300.webp",
+    "section": "subpage",
+    "label": "치료사 3",
+    "type": "image",
+    "order": 24,
+    "dim": "300×300"
+  }
 }

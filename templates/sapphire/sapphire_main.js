@@ -2,7 +2,15 @@
 document.addEventListener('DOMContentLoaded', function() {
   fetch('sapphire_config.json')
     .then(res => res.json())
-    .then(config => {
+    .then(rawConfig => {
+      // flat config (legacy) 또는 확장 config ({value, section, ...}) 모두 지원
+      var config = {};
+      Object.keys(rawConfig).forEach(function(key) {
+        if (key === '_sections') return;
+        var entry = rawConfig[key];
+        config[key] = (entry && typeof entry === 'object' && 'value' in entry) ? entry.value : entry;
+      });
+
       function replaceInNode(node) {
         if (node.nodeType === Node.TEXT_NODE) {
           let text = node.textContent;
