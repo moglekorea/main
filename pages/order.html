@@ -810,205 +810,50 @@ window.confirmDeploy = async function() {
 (function() {
   'use strict';
 
-  // ── Config 섹션 정의 ──
-  // config.json의 키를 의미 있는 섹션으로 그룹핑
-  const SECTIONS = [
-    {
-      id: 'basic',
-      title: '기본 정보',
-      badge: '필수',
-      required: true,
-      open: true,
-      fields: [
-        { key: 'hospital_name', label: '병원명', type: 'text' },
-        { key: 'phone', label: '전화번호', type: 'text' },
-        { key: 'fax', label: '팩스', type: 'text' },
-        { key: 'email', label: '이메일', type: 'text' },
-        { key: 'address', label: '주소 (짧은)', type: 'text' },
-        { key: 'address_full', label: '주소 (전체)', type: 'text' },
-        { key: 'postal_code', label: '우편번호', type: 'text' },
-        { key: 'hours', label: '진료시간', type: 'text' },
-      ]
-    },
-    {
-      id: 'meta',
-      title: 'SEO / 메타',
-      badge: '선택',
-      fields: [
-        { key: 'meta_subtitle', label: '부제목', type: 'text' },
-        { key: 'meta_description', label: '사이트 설명', type: 'textarea' },
-        { key: 'meta_keywords', label: '키워드', type: 'textarea' },
-        { key: 'site_url', label: '사이트 URL', type: 'text' },
-        { key: 'copyright_year', label: '저작권 연도', type: 'text' },
-      ]
-    },
-    {
-      id: 'nav',
-      title: '네비게이션',
-      badge: '선택',
-      fields: [
-        { key: 'nav_1_name', label: '메뉴 1', type: 'text' },
-        { key: 'nav_2_name', label: '메뉴 2', type: 'text' },
-        { key: 'nav_3_name', label: '메뉴 3', type: 'text' },
-        { key: 'nav_4_name', label: '메뉴 4', type: 'text' },
-        { key: 'nav_5_name', label: '메뉴 5', type: 'text' },
-        { key: 'nav_6_name', label: '메뉴 6', type: 'text' },
-      ]
-    },
-    {
-      id: 'hero',
-      title: '히어로 슬라이드',
-      badge: '선택',
-      fields: [
-        { key: 'hero_1_title', label: '슬라이드 1 제목', type: 'text' },
-        { key: 'hero_1_subtitle', label: '슬라이드 1 부제', type: 'text' },
-        { key: 'hero_1_btn', label: '슬라이드 1 버튼', type: 'text' },
-        { key: 'hero_2_title', label: '슬라이드 2 제목', type: 'text' },
-        { key: 'hero_2_subtitle', label: '슬라이드 2 부제', type: 'text' },
-        { key: 'hero_2_btn', label: '슬라이드 2 버튼', type: 'text' },
-        { key: 'hero_3_title', label: '슬라이드 3 제목', type: 'text' },
-        { key: 'hero_3_subtitle', label: '슬라이드 3 부제', type: 'text' },
-        { key: 'hero_3_btn', label: '슬라이드 3 버튼', type: 'text' },
-      ],
-      images: [
-        { key: 'image_hero_1', label: '히어로 1', dim: '1920×800' },
-        { key: 'image_hero_2', label: '히어로 2', dim: '1920×800' },
-        { key: 'image_hero_3', label: '히어로 3', dim: '1920×800' },
-      ]
-    },
-    {
-      id: 'intro',
-      title: '병원 소개',
-      badge: '선택',
-      fields: [
-        { key: 'intro_title', label: '소개 제목', type: 'text' },
-        { key: 'intro_desc', label: '소개 한줄 설명', type: 'text' },
-        { key: 'intro_heading', label: '소개 소제목', type: 'text' },
-        { key: 'intro_text_1', label: '소개 본문 1', type: 'textarea' },
-        { key: 'intro_text_2', label: '소개 본문 2', type: 'textarea' },
-      ],
-      images: [
-        { key: 'image_intro', label: '병원 소개', dim: '800×600' },
-      ]
-    },
-    {
-      id: 'dept',
-      title: '진료과',
-      badge: '선택',
-      fields: [
-        { key: 'dept_1_name', label: '진료과 1', type: 'text' },
-        { key: 'dept_1_desc', label: '진료과 1 설명', type: 'text' },
-        { key: 'dept_2_name', label: '진료과 2', type: 'text' },
-        { key: 'dept_2_desc', label: '진료과 2 설명', type: 'text' },
-        { key: 'dept_3_name', label: '진료과 3', type: 'text' },
-        { key: 'dept_3_desc', label: '진료과 3 설명', type: 'text' },
-        { key: 'dept_4_name', label: '진료과 4', type: 'text' },
-        { key: 'dept_4_desc', label: '진료과 4 설명', type: 'text' },
-      ],
-      images: [
-        { key: 'image_dept_1', label: '진료과 1', dim: '400×400' },
-        { key: 'image_dept_2', label: '진료과 2', dim: '400×400' },
-        { key: 'image_dept_3', label: '진료과 3', dim: '400×400' },
-        { key: 'image_dept_4', label: '진료과 4', dim: '400×400' },
-      ]
-    },
-    {
-      id: 'doctor',
-      title: '의료진',
-      badge: '선택',
-      fields: [
-        { key: 'doctor_1_name', label: '의사 1 이름', type: 'text' },
-        { key: 'doctor_1_specialty', label: '의사 1 전공', type: 'text' },
-        { key: 'doctor_1_desc', label: '의사 1 설명', type: 'text' },
-        { key: 'doctor_2_name', label: '의사 2 이름', type: 'text' },
-        { key: 'doctor_2_specialty', label: '의사 2 전공', type: 'text' },
-        { key: 'doctor_2_desc', label: '의사 2 설명', type: 'text' },
-        { key: 'doctor_3_name', label: '의사 3 이름', type: 'text' },
-        { key: 'doctor_3_specialty', label: '의사 3 전공', type: 'text' },
-        { key: 'doctor_3_desc', label: '의사 3 설명', type: 'text' },
-      ],
-      images: [
-        { key: 'image_doctor_1', label: '의사 1 사진', dim: '400×500' },
-        { key: 'image_doctor_2', label: '의사 2 사진', dim: '400×500' },
-        { key: 'image_doctor_3', label: '의사 3 사진', dim: '400×500' },
-      ]
-    },
-    {
-      id: 'facility',
-      title: '시설',
-      badge: '선택',
-      fields: [
-        { key: 'facility_1_name', label: '시설 1 이름', type: 'text' },
-        { key: 'facility_1_desc', label: '시설 1 설명', type: 'text' },
-        { key: 'facility_2_name', label: '시설 2 이름', type: 'text' },
-        { key: 'facility_2_desc', label: '시설 2 설명', type: 'text' },
-        { key: 'facility_3_name', label: '시설 3 이름', type: 'text' },
-        { key: 'facility_3_desc', label: '시설 3 설명', type: 'text' },
-      ],
-      images: [
-        { key: 'image_facility_1', label: '시설 1', dim: '800×600' },
-        { key: 'image_facility_2', label: '시설 2', dim: '800×600' },
-        { key: 'image_facility_3', label: '시설 3', dim: '800×600' },
-      ]
-    },
-    {
-      id: 'footer',
-      title: '푸터 / SNS',
-      badge: '선택',
-      fields: [
-        { key: 'footer_desc', label: '푸터 설명', type: 'textarea' },
-        { key: 'instagram_url', label: '인스타그램 URL', type: 'text' },
-        { key: 'youtube_url', label: '유튜브 URL', type: 'text' },
-        { key: 'map_embed', label: '구글맵 임베드 URL', type: 'textarea' },
-        { key: 'theme_color', label: '테마 색상', type: 'text' },
-      ]
-    },
-    {
-      id: 'brand',
-      title: '로고 / 아이콘',
-      badge: '선택',
-      images: [
-        { key: 'image_logo', label: '로고 (밝은배경)', dim: '200×60' },
-        { key: 'image_logo_white', label: '로고 (어두운배경)', dim: '200×60' },
-        { key: 'icon_instagram', label: '인스타 아이콘', dim: '48×48' },
-        { key: 'icon_youtube', label: '유튜브 아이콘', dim: '48×48' },
-        { key: 'icon_location', label: '위치 아이콘', dim: '64×64' },
-        { key: 'icon_phone', label: '전화 아이콘', dim: '64×64' },
-        { key: 'icon_clock', label: '시계 아이콘', dim: '64×64' },
-      ]
-    },
-    {
-      id: 'subpage',
-      title: '서브페이지 이미지',
-      badge: '고급',
-      images: [
-        { key: 'image_about_hero', label: '소개 히어로', dim: '1920×400' },
-        { key: 'image_about_interior', label: '소개 인테리어', dim: '800×600' },
-        { key: 'image_about_gallery_1', label: '소개 갤러리 1', dim: '600×400' },
-        { key: 'image_about_gallery_2', label: '소개 갤러리 2', dim: '600×400' },
-        { key: 'image_joint_hero', label: '관절 히어로', dim: '1920×400' },
-        { key: 'image_joint_intro', label: '관절 소개', dim: '800×600' },
-        { key: 'image_joint_acl', label: '십자인대', dim: '400×400' },
-        { key: 'image_joint_arthritis', label: '관절염', dim: '400×400' },
-        { key: 'image_shoulder_frozen', label: '오십견', dim: '400×400' },
-        { key: 'image_treatment_injection', label: '주사치료', dim: '600×400' },
-        { key: 'image_treatment_rehab', label: '재활치료', dim: '600×400' },
-        { key: 'image_treatment_surgery', label: '수술치료', dim: '600×400' },
-        { key: 'image_spine_hero', label: '척추 히어로', dim: '1920×400' },
-        { key: 'image_spine_intro', label: '척추 소개', dim: '800×600' },
-        { key: 'image_spine_turtle', label: '거북목', dim: '400×400' },
-        { key: 'image_spine_stenosis', label: '협착증', dim: '400×400' },
-        { key: 'image_spine_disc', label: '디스크', dim: '400×400' },
-        { key: 'image_sports_hero', label: '스포츠 히어로', dim: '1920×400' },
-        { key: 'image_sports_intro', label: '스포츠 소개', dim: '800×600' },
-        { key: 'image_sports_injury', label: '스포츠 손상', dim: '400×400' },
-        { key: 'image_sports_post_surgery', label: '수술후 재활', dim: '400×400' },
-        { key: 'image_therapist_1', label: '치료사 1', dim: '300×300' },
-        { key: 'image_therapist_2', label: '치료사 2', dim: '300×300' },
-        { key: 'image_therapist_3', label: '치료사 3', dim: '300×300' },
-      ]
-    },
-  ];
+  // ── Config에서 SECTIONS 동적 빌드 ──
+  // config.json의 _sections + 각 키의 메타데이터에서 자동 생성
+  var SECTIONS = [];
+
+  function buildSections(rawConfig) {
+    var sectionsDef = rawConfig._sections || {};
+    // 섹션 목록을 order 순으로 정렬
+    var sectionIds = Object.keys(sectionsDef).sort(function(a, b) {
+      return (sectionsDef[a].order || 0) - (sectionsDef[b].order || 0);
+    });
+    // 각 키를 섹션별로 분류
+    var fieldsBySec = {};
+    var imagesBySec = {};
+    Object.keys(rawConfig).forEach(function(key) {
+      if (key === '_sections') return;
+      var entry = rawConfig[key];
+      if (!entry || typeof entry !== 'object' || !entry.section) return;
+      var secId = entry.section;
+      if (entry.type === 'image') {
+        if (!imagesBySec[secId]) imagesBySec[secId] = [];
+        imagesBySec[secId].push({ key: key, label: entry.label, dim: entry.dim || '', order: entry.order || 0 });
+      } else {
+        if (!fieldsBySec[secId]) fieldsBySec[secId] = [];
+        fieldsBySec[secId].push({ key: key, label: entry.label, type: entry.type || 'text', order: entry.order || 0 });
+      }
+    });
+    // SECTIONS 배열 생성
+    SECTIONS = [];
+    sectionIds.forEach(function(secId) {
+      var def = sectionsDef[secId];
+      var fields = (fieldsBySec[secId] || []).sort(function(a, b) { return a.order - b.order; });
+      var images = (imagesBySec[secId] || []).sort(function(a, b) { return a.order - b.order; });
+      if (fields.length === 0 && images.length === 0) return;
+      SECTIONS.push({
+        id: secId,
+        title: def.title || secId,
+        badge: def.badge || '',
+        required: !!def.required,
+        open: !!def.required,
+        fields: fields,
+        images: images
+      });
+    });
+  }
 
   // ── State ──
   let originalConfig = {};
@@ -1054,7 +899,15 @@ window.confirmDeploy = async function() {
       try {
         const res = await fetch('../templates/' + templateName + '/' + templateName + '_config.json');
         if (!res.ok) throw new Error(res.status);
-        originalConfig = await res.json();
+        var rawConfig = await res.json();
+        buildSections(rawConfig);
+        // originalConfig = flat values only
+        originalConfig = {};
+        Object.keys(rawConfig).forEach(function(k) {
+          if (k === '_sections') return;
+          var entry = rawConfig[k];
+          originalConfig[k] = (entry && typeof entry === 'object' && 'value' in entry) ? entry.value : entry;
+        });
         window.originalConfig = originalConfig;
       } catch (e) {
         showFormError('템플릿을 불러올 수 없습니다.');
@@ -1076,7 +929,15 @@ window.confirmDeploy = async function() {
       try {
         const res = await fetch('../templates/' + templateName + '/' + templateName + '_config.json');
         if (!res.ok) throw new Error(res.status + ' ' + res.statusText);
-        originalConfig = await res.json();
+        var rawConfig = await res.json();
+        buildSections(rawConfig);
+        // originalConfig = flat values only (for placeholder, preview, deploy)
+        originalConfig = {};
+        Object.keys(rawConfig).forEach(function(k) {
+          if (k === '_sections') return;
+          var entry = rawConfig[k];
+          originalConfig[k] = (entry && typeof entry === 'object' && 'value' in entry) ? entry.value : entry;
+        });
         window.originalConfig = originalConfig;
       } catch (e) {
         showFormError(templateName + ' 템플릿을 불러올 수 없습니다.');
@@ -1273,97 +1134,122 @@ window.confirmDeploy = async function() {
     return str.replace(/&/g,'&amp;').replace(/"/g,'&quot;').replace(/</g,'&lt;').replace(/>/g,'&gt;');
   }
 
+  // ── Preview: shared transform logic ──
+  async function buildPreviewConfig() {
+    var mergedConfig = JSON.parse(JSON.stringify(originalConfig));
+    document.querySelectorAll('.field-input').forEach(function(inp) {
+      var key = inp.dataset.key;
+      var val = inp.value.trim();
+      if (val && key in mergedConfig) {
+        mergedConfig[key] = val;
+      }
+    });
+    var baseUrl = new URL('../templates/' + templateName + '/', window.location.href).href;
+    var imageDataUrls = {};
+    for (var key of Object.keys(uploadedImages)) {
+      var file = uploadedImages[key];
+      imageDataUrls[key] = await new Promise(function(resolve) {
+        var reader = new FileReader();
+        reader.onload = function() { resolve(reader.result); };
+        reader.readAsDataURL(file);
+      });
+    }
+    Object.keys(mergedConfig).forEach(function(key) {
+      if (key.startsWith('image_') || key.startsWith('icon_')) {
+        if (imageDataUrls[key]) {
+          mergedConfig[key] = imageDataUrls[key];
+        } else {
+          mergedConfig[key] = baseUrl + mergedConfig[key];
+        }
+      }
+    });
+    return { mergedConfig: mergedConfig, baseUrl: baseUrl };
+  }
+
+  function transformHtml(html, mergedConfig, baseUrl) {
+    html = html.replace(/src=""\s*data-src="/g, 'src="');
+    Object.keys(mergedConfig).forEach(function(key) {
+      var regex = new RegExp('\\{\\{' + key + '\\}\\}', 'g');
+      html = html.replace(regex, mergedConfig[key]);
+    });
+    html = html.replace(/data-bg="([^"]+)"/g, function(match, url) {
+      return 'style="background-image:url(\'' + url + '\')" ' + match;
+    });
+    html = html.replace(/<head([^>]*)>/i, '<head$1><base href="' + baseUrl + '">');
+    html = html.replace(/<script[^>]*sapphire_main\.js[^>]*>[\s\S]*?<\/script>/gi, '');
+    html = html.replace('</head>', '<style>.fade-in,.fade-in-left{opacity:1!important;transform:none!important;}</style></head>');
+    html = html.replace(/<script[^>]*buy\.js[^>]*>[\s\S]*?<\/script>/gi, '');
+    return html;
+  }
+
+  function injectLinkInterceptor(iframe, mergedConfig, baseUrl) {
+    try {
+      var iframeDoc = iframe.contentDocument || iframe.contentWindow.document;
+      var links = iframeDoc.querySelectorAll('a[href]');
+      links.forEach(function(a) {
+        var href = a.getAttribute('href');
+        if (!href) return;
+        // Only intercept template subpage links (templateName_xxx.html pattern)
+        if (href.indexOf(templateName + '_') === -1 || href.indexOf('.html') === -1) return;
+        a.addEventListener('click', function(e) {
+          e.preventDefault();
+          loadPreviewPage(href, mergedConfig, baseUrl);
+        });
+      });
+    } catch(err) {
+      // cross-origin safety
+    }
+  }
+
+  async function loadPreviewPage(pageFile, mergedConfig, baseUrl) {
+    var iframe = document.getElementById('previewIframe');
+    iframe.srcdoc = '<div style="display:flex;align-items:center;justify-content:center;height:100vh;font-family:sans-serif;color:#999;">불러오는 중...</div>';
+    try {
+      var url = baseUrl + pageFile;
+      var res = await fetch(url);
+      if (!res.ok) throw new Error(res.status);
+      var html = await res.text();
+      html = transformHtml(html, mergedConfig, baseUrl);
+      iframe.srcdoc = html;
+      iframe.onload = function() {
+        injectLinkInterceptor(iframe, mergedConfig, baseUrl);
+        iframe.onload = null;
+      };
+    } catch(err) {
+      iframe.srcdoc = '<div style="display:flex;align-items:center;justify-content:center;height:100vh;font-family:sans-serif;color:#dc2626;padding:20px;text-align:center;">미리보기를 불러올 수 없습니다.<br><small>' + err.message + '</small></div>';
+    }
+  }
+
   // ── Preview ──
   window.openPreview = async function() {
-    const overlay = document.getElementById('previewOverlay');
-    const iframe = document.getElementById('previewIframe');
+    var overlay = document.getElementById('previewOverlay');
+    var iframe = document.getElementById('previewIframe');
 
-    // Show overlay with loading state
     overlay.classList.add('show');
     document.body.style.overflow = 'hidden';
     iframe.srcdoc = '<div style="display:flex;align-items:center;justify-content:center;height:100vh;font-family:sans-serif;color:#999;">불러오는 중...</div>';
 
     try {
-      // 1. Fetch template HTML
-      const templateUrl = `../templates/${templateName}/${templateName}_index.html`;
-      const res = await fetch(templateUrl);
-      if (!res.ok) throw new Error(`템플릿 HTML 로드 실패: ${res.status}`);
-      let html = await res.text();
+      var config = await buildPreviewConfig();
+      var mergedConfig = config.mergedConfig;
+      var baseUrl = config.baseUrl;
 
-      // 2. Build merged config (original + user edits)
-      const mergedConfig = JSON.parse(JSON.stringify(originalConfig));
+      var templateUrl = baseUrl + templateName + '_index.html';
+      var res = await fetch(templateUrl);
+      if (!res.ok) throw new Error('템플릿 HTML 로드 실패: ' + res.status);
+      var html = await res.text();
 
-      document.querySelectorAll('.field-input').forEach(inp => {
-        const key = inp.dataset.key;
-        const val = inp.value.trim();
-        if (val && key in mergedConfig) {
-          mergedConfig[key] = val;
-        }
-      });
-
-      // 3. Replace image keys with data URLs (uploaded) or absolute paths (default)
-      const baseUrl = new URL(`../templates/${templateName}/`, window.location.href).href;
-
-      // Convert uploaded files to base64 data URLs
-      const imageDataUrls = {};
-      for (const key of Object.keys(uploadedImages)) {
-        const file = uploadedImages[key];
-        imageDataUrls[key] = await new Promise((resolve) => {
-          const reader = new FileReader();
-          reader.onload = () => resolve(reader.result);
-          reader.readAsDataURL(file);
-        });
-      }
-
-      Object.keys(mergedConfig).forEach(key => {
-        if (key.startsWith('image_') || key.startsWith('icon_')) {
-          if (imageDataUrls[key]) {
-            // Uploaded image → base64 data URL
-            mergedConfig[key] = imageDataUrls[key];
-          } else {
-            // Default image → absolute URL
-            mergedConfig[key] = baseUrl + mergedConfig[key];
-          }
-        }
-      });
-
-      // 4. Fix HTML structure BEFORE replacing placeholders
-      //    Convert src="" data-src="{{xxx}}" → src="{{xxx}}"
-      //    Convert data-bg="{{xxx}}" → will handle after replacement
-      html = html.replace(/src=""\s*data-src="/g, 'src="');
-
-      // 5. Replace all {{key}} placeholders
-      Object.keys(mergedConfig).forEach(key => {
-        const regex = new RegExp('\\{\\{' + key + '\\}\\}', 'g');
-        html = html.replace(regex, mergedConfig[key]);
-      });
-
-      // 6. Handle data-bg for background images (hero slides etc.)
-      //    Convert data-bg="url" to style="background-image:url('url')"
-      html = html.replace(/data-bg="([^"]+)"/g, function(match, url) {
-        return `style="background-image:url('${url}')" ${match}`;
-      });
-
-      // 7. Inject <base href> for CSS/JS relative paths
-      html = html.replace(/<head([^>]*)>/i, `<head$1><base href="${baseUrl}">`);
-
-      // 8. Remove sapphire_main.js (it re-fetches config and overwrites our replacements)
-      html = html.replace(/<script[^>]*sapphire_main\.js[^>]*>[\s\S]*?<\/script>/gi, '');
-
-      // 8.5. Override fade-in animations (ScrollAnimations in main.js no longer adds .visible)
-      html = html.replace('</head>', '<style>.fade-in,.fade-in-left{opacity:1!important;transform:none!important;}</style></head>');
-
-      // 9. Remove buy.js (floating button not needed in preview)
-      html = html.replace(/<script[^>]*buy\.js[^>]*>[\s\S]*?<\/script>/gi, '');
-
-      // 10. Set iframe content
+      html = transformHtml(html, mergedConfig, baseUrl);
       iframe.srcdoc = html;
+
+      iframe.onload = function() {
+        injectLinkInterceptor(iframe, mergedConfig, baseUrl);
+        iframe.onload = null;
+      };
 
     } catch (e) {
       console.error('Preview error:', e);
-      iframe.srcdoc = `<div style="display:flex;align-items:center;justify-content:center;height:100vh;font-family:sans-serif;color:#dc2626;padding:20px;text-align:center;">
-        미리보기를 불러올 수 없습니다.<br><small>${e.message}</small>
-      </div>`;
+      iframe.srcdoc = '<div style="display:flex;align-items:center;justify-content:center;height:100vh;font-family:sans-serif;color:#dc2626;padding:20px;text-align:center;">미리보기를 불러올 수 없습니다.<br><small>' + e.message + '</small></div>';
     }
   };
 
