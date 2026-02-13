@@ -489,14 +489,17 @@ textarea.field-input {
       <div class="gauge-track"><div class="gauge-fill" style="width:100%;"></div></div>
       <div style="font-size:12px;color:var(--text-sub);text-align:right;margin-top:6px;">100%</div>
       <a href="#" id="completeSiteUrl" target="_blank" style="display:block;margin-top:16px;font-size:14px;color:var(--success);font-weight:700;word-break:break-all;"></a>
-      <button class="btn btn-primary" id="btnViewSite" onclick="" style="margin-top:16px;width:100%;">사이트 보기</button>
+      <div class="deploy-btns" style="margin-top:16px;">
+        <button class="btn btn-primary" id="btnViewSite" onclick="">사이트 보기</button>
+        <button class="btn btn-secondary" onclick="navigateAfterDeploy(false)">닫기</button>
+      </div>
     </div>
     <!-- Phase 4: Error -->
     <div id="deployPhaseError" style="display:none;text-align:center;">
       <h3 style="font-size:16px;margin-bottom:12px;" id="errorTitle">문제가 발생했습니다</h3>
       <div class="gauge-track"><div class="gauge-fill gauge-error" id="gaugeError"></div></div>
       <p style="font-size:13px;color:var(--text-sub);margin-top:12px;" id="errorMessage">잠시 후 다시 시도해주세요</p>
-      <button class="btn btn-secondary" onclick="closeDeployModal()" style="margin-top:16px;width:100%;">닫기</button>
+      <button class="btn btn-secondary" onclick="navigateAfterDeploy(true)" style="margin-top:16px;width:100%;">닫기</button>
     </div>
     <!-- Edit confirm phase -->
     <div id="deployPhaseEditConfirm" style="display:none;">
@@ -805,6 +808,31 @@ window.confirmDeploy = async function() {
     showError('문제가 발생했습니다', '네트워크 오류: ' + e.message);
   }
 };
+
+// ── Navigate after deploy (close/outside click) ──
+window.navigateAfterDeploy = function(isError) {
+  if (isError && !window.editMode) {
+    location.href = '/';
+  } else {
+    location.href = '/pages/mypage.html';
+  }
+};
+
+// ── Deploy overlay outside click ──
+document.getElementById('deployOverlay').addEventListener('click', function(e) {
+  if (e.target !== this) return; // 모달 내부 클릭 무시
+  var complete = document.getElementById('deployPhaseComplete');
+  var error = document.getElementById('deployPhaseError');
+  if (complete.style.display !== 'none' && complete.style.display !== '') {
+    navigateAfterDeploy(false);
+  } else if (error.style.display !== 'none' && error.style.display !== '') {
+    navigateAfterDeploy(true);
+  } else if (document.getElementById('deployPhaseProgress').style.display !== 'none' && document.getElementById('deployPhaseProgress').style.display !== '') {
+    // 진행 중: 무시
+  } else {
+    closeDeployModal();
+  }
+});
 </script>
 <script>
 (function() {
@@ -1176,8 +1204,7 @@ window.confirmDeploy = async function() {
       return 'style="background-image:url(\'' + url + '\')" ' + match;
     });
     html = html.replace(/<head([^>]*)>/i, '<head$1><base href="' + baseUrl + '">');
-    html = html.replace(/<script[^>]*sapphire_main\.js[^>]*>[\s\S]*?<\/script>/gi, '');
-    html = html.replace('</head>', '<style>.fade-in,.fade-in-left{opacity:1!important;transform:none!important;}</style></head>');
+    html = html.replace(/fetch\(['"][^'"]*config\.json['"]\)/g, "fetch('data:application/json;charset=utf-8,{}')");
     html = html.replace(/<script[^>]*buy\.js[^>]*>[\s\S]*?<\/script>/gi, '');
     return html;
   }
