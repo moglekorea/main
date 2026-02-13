@@ -911,14 +911,12 @@ document.getElementById('deployOverlay').addEventListener('click', function(e) {
       window.editRepoName = repo;
 
       // Fetch existing config from deployed site
+      var editConfig = null;
       try {
         const configRes = await fetch('https://moglekorea.github.io/' + repo + '/config.json?t=' + Date.now());
         if (!configRes.ok) throw new Error(configRes.status);
-        var editConfig = await configRes.json();
+        editConfig = await configRes.json();
       } catch (e) {
-        showFormError('기존 사이트의 설정을 불러올 수 없습니다.');
-        return;
-      }
 
       templateName = params.get('template') || 'sapphire';
       window.templateName = templateName;
