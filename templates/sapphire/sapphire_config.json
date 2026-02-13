@@ -55,6 +55,12 @@
       "title": "서브페이지 이미지",
       "badge": "고급",
       "order": 11
+    },
+    "therapist": {
+      "title": "치료사",
+      "badge": "선택",
+      "required": false,
+      "order": 12
     }
   },
   "hospital_name": {
@@ -843,5 +849,26 @@
     "type": "image",
     "order": 24,
     "dim": "300×300"
+  },
+  "therapist_1_name": {
+    "value": "박모글",
+    "section": "therapist",
+    "label": "치료사 1 이름",
+    "type": "text",
+    "order": 81
+  },
+  "therapist_2_name": {
+    "value": "최모글",
+    "section": "therapist",
+    "label": "치료사 2 이름",
+    "type": "text",
+    "order": 82
+  },
+  "therapist_3_name": {
+    "value": "양모글",
+    "section": "therapist",
+    "label": "치료사 3 이름",
+    "type": "text",
+    "order": 83
   }
 }
