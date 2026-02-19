@@ -1,7 +1,9 @@
 ﻿// Config Loader - 페이지 로드 시 {{placeholder}} 치환
 document.addEventListener('DOMContentLoaded', function() {
-  fetch('sapphire_config.json')
-    .then(res => res.json())
+
+  fetch('config.json').catch(function() { return fetch('sapphire_config.json'); })
+    .then(function(res) { if (!res.ok) throw new Error(res.status); return res.json(); })
+    
     .then(rawConfig => {
       // flat config (legacy) 또는 확장 config ({value, section, ...}) 모두 지원
       var config = {};
