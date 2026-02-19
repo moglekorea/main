@@ -1119,7 +1119,11 @@ document.getElementById('deployOverlay').addEventListener('click', function(e) {
 
   window.removeImage = function(key) {
     delete uploadedImages[key];
-    const preview = document.getElementById('preview_' + key);
+    // edit mode: 삭제된 이미지는 기본 템플릿 이미지로 복원
+    if (window._editConfig && key in window._editConfig) {
+      delete window._editConfig[key];
+    }
+    const preview = document.getElementById('preview_' + key);  
     preview.style.display = 'none';
     preview.querySelector('img').src = '';
     // Reset file input
