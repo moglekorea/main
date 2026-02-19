@@ -1194,15 +1194,19 @@ document.getElementById('deployOverlay').addEventListener('click', function(e) {
         reader.readAsDataURL(file);
       });
     }
+    
     Object.keys(mergedConfig).forEach(function(key) {
       if (key.startsWith('image_') || key.startsWith('icon_')) {
         if (imageDataUrls[key]) {
           mergedConfig[key] = imageDataUrls[key];
+        } else if (editMode && editRepoName) {
+          mergedConfig[key] = 'https://moglekorea.github.io/' + editRepoName + '/' + mergedConfig[key];
         } else {
           mergedConfig[key] = baseUrl + mergedConfig[key];
         }
       }
     });
+
     return { mergedConfig: mergedConfig, baseUrl: baseUrl };
   }
 
