@@ -819,20 +819,18 @@ window.navigateAfterDeploy = function(isError) {
 };
 
 // ── Deploy overlay outside click ──
+
 document.getElementById('deployOverlay').addEventListener('click', function(e) {
-  if (e.target !== this) return; // 모달 내부 클릭 무시
+  if (e.target !== this) return;
+  var progress = document.getElementById('deployPhaseProgress');
   var complete = document.getElementById('deployPhaseComplete');
   var error = document.getElementById('deployPhaseError');
-  if (complete.style.display !== 'none' && complete.style.display !== '') {
-    navigateAfterDeploy(false);
-  } else if (error.style.display !== 'none' && error.style.display !== '') {
-    navigateAfterDeploy(true);
-  } else if (document.getElementById('deployPhaseProgress').style.display !== 'none' && document.getElementById('deployPhaseProgress').style.display !== '') {
-    // 진행 중: 무시
-  } else {
-    closeDeployModal();
+  if (progress.offsetParent !== null || complete.offsetParent !== null || error.offsetParent !== null) {
+    return;
   }
+  closeDeployModal();
 });
+  
 </script>
 <script>
 (function() {
