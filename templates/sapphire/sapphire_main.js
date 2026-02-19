@@ -49,7 +49,16 @@ document.addEventListener('DOMContentLoaded', function() {
       }
 
       replaceInNode(document.body);
+
+      // <title> 치환 (head 영역은 body 순회에 포함 안 됨)
+      var titleText = document.title;
+      Object.keys(config).forEach(function(key) {
+        titleText = titleText.replace(new RegExp('\\{\\{' + key + '\\}\\}', 'g'), config[key]);
+      });
+      document.title = titleText;
+
       if (typeof initOwlCarousel === 'function') initOwlCarousel();
+      
     })
     .catch(err => console.warn('Config load failed:', err));
 });
