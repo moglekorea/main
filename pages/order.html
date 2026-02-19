@@ -977,6 +977,12 @@ document.getElementById('deployOverlay').addEventListener('click', function(e) {
 
     renderForm();
 
+
+    window._editConfig = editConfig;
+    if (editMode && editConfig) {
+      prefillForm(editConfig);
+    }
+    
     // Edit mode: pre-fill with existing config
     if (editMode && editConfig) {
       prefillForm(editConfig);
@@ -1176,8 +1182,16 @@ document.getElementById('deployOverlay').addEventListener('click', function(e) {
 
   // ── Preview: shared transform logic ──
   async function buildPreviewConfig() {
+
     var mergedConfig = JSON.parse(JSON.stringify(originalConfig));
-    document.querySelectorAll('.field-input').forEach(function(inp) {
+    // Edit mode: overlay deployed config values
+    if (editMode && window._editConfig) {
+      Object.keys(window._editConfig).forEach(function(k) {
+        if (k in mergedConfig) mergedConfig[k] = window._editConfig[k];
+      });
+    }
+    document.querySelectorAll('.field-input').forEach(function(inp) {    
+
       var key = inp.dataset.key;
       var val = inp.value.trim();
       if (val && key in mergedConfig) {
