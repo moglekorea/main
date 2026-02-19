@@ -983,11 +983,6 @@ document.getElementById('deployOverlay').addEventListener('click', function(e) {
       prefillForm(editConfig);
     }
     
-    // Edit mode: pre-fill with existing config
-    if (editMode && editConfig) {
-      prefillForm(editConfig);
-    }
-
     // Restore draft from sessionStorage (after login redirect)
     var restored = restoreDraft();
     if (restored && currentUser) {
