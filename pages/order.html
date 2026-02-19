@@ -999,11 +999,21 @@ document.getElementById('deployOverlay').addEventListener('click', function(e) {
       const key = inp.dataset.key;
       if (key && config[key] !== undefined && config[key] !== null) {
         const val = String(config[key]);
-        // Skip image paths
         if (val && !val.startsWith('sapphire_assets/') && !val.startsWith('assets/')) {
           inp.value = val;
         }
       }
+    });
+    // Image preview for edit mode
+    Object.keys(config).forEach(function(key) {
+      if (!key.startsWith('image_') && !key.startsWith('icon_')) return;
+      var val = String(config[key]);
+      if (!val || (!val.startsWith('assets/') && !val.startsWith('sapphire_assets/'))) return;
+      var preview = document.getElementById('preview_' + key);
+      if (!preview) return;
+      var imgUrl = 'https://moglekorea.github.io/' + editRepoName + '/' + val;
+      preview.querySelector('img').src = imgUrl;
+      preview.style.display = 'block';
     });
   }
 
