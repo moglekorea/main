@@ -1,0 +1,275 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+  <meta charset="utf-8">
+  <meta http-equiv="X-UA-Compatible" content="IE=edge">
+  <meta name="theme-color" content="{{theme_color}}">
+  <meta name="msapplication-navbutton-color" content="{{theme_color}}">
+  <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
+  <meta name="viewport" content="width=device-width,viewport-fit=cover,initial-scale=1.0,minimum-scale=0,maximum-scale=10,user-scalable=yes">
+
+  <title>{{hospital_name}} | {{nav_3_name}}</title>
+  <meta name="application-name" content="{{hospital_name}}">
+  <meta name="msapplication-tooltip" content="{{hospital_name}}">
+  <meta name="author" content="{{hospital_name}}">
+  <meta name="title" content="{{hospital_name}} | {{nav_3_name}}">
+  <meta name="description" content="{{hospital_name}} 교정센터 - 투명교정, 세라믹교정, 설측교정 전문">
+  <meta name="keywords" content="{{meta_keywords}}, 치아교정, 투명교정, 세라믹교정, 설측교정, 부분교정, 인비절라인">
+
+  <!-- Open Graph -->
+  <meta property="og:type" content="website">
+  <meta property="og:url" content="{{site_url}}pearl_ortho.html">
+  <meta property="og:title" content="{{hospital_name}} | {{nav_3_name}}">
+  <meta property="og:description" content="{{hospital_name}} 교정센터 - 투명교정, 세라믹교정, 설측교정 전문">
+  <meta property="og:site_name" content="{{hospital_name}}">
+  <meta property="og:locale" content="ko_KR">
+  <meta property="og:image" content="{{site_url}}assets/og.webp">
+  <meta property="og:image:width" content="1200">
+  <meta property="og:image:height" content="627">
+
+  <!-- Twitter Card -->
+  <meta name="twitter:card" content="summary_large_image">
+  <meta name="twitter:title" content="{{hospital_name}} | {{nav_3_name}}">
+  <meta name="twitter:description" content="{{hospital_name}} 교정센터 - 투명교정, 세라믹교정, 설측교정 전문">
+
+  <!-- Schema.org -->
+  <meta itemprop="name" content="{{hospital_name}} | {{nav_3_name}}">
+  <meta itemprop="description" content="{{hospital_name}} 교정센터 - 투명교정, 세라믹교정, 설측교정 전문">
+  <meta itemprop="keywords" content="{{meta_keywords}}, 치아교정, 투명교정, 세라믹교정, 설측교정, 부분교정, 인비절라인">
+
+  <!-- Nate -->
+  <meta name="nate:title" content="{{hospital_name}} | {{nav_3_name}}">
+  <meta name="nate:site_name" content="{{hospital_name}}">
+  <meta name="nate:description" content="{{hospital_name}} 교정센터 - 투명교정, 세라믹교정, 설측교정 전문">
+  <meta name="nate:keywords" content="{{meta_keywords}}, 치아교정, 투명교정, 세라믹교정, 설측교정, 부분교정, 인비절라인">
+
+  <!-- Favicon -->
+  <link rel="canonical" href="{{site_url}}pearl_ortho.html">
+  <link rel="apple-touch-icon-precomposed" sizes="152x152" href="assets/favicon.webp">
+  <link rel="icon" type="image/png" href="assets/favicon.webp" sizes="196x196">
+  <meta name="msapplication-TileImage" content="assets/favicon.webp">
+  <meta name="msapplication-square310x310logo" content="assets/favicon.webp">
+
+  <!-- Google Fonts -->
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Noto+Sans+KR:wght@400;500;700&display=swap" rel="stylesheet">
+
+  <!-- CSS Libraries -->
+  <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css">
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/OwlCarousel2/2.3.4/assets/owl.carousel.min.css">
+
+  <!-- Custom CSS -->
+  <link rel="stylesheet" href="pearl_style.css">
+  <script src="../../pages/buy.js"></script>
+</head>
+<body>
+  <!-- Header -->
+  <header class="header header--scrolled" id="doz_header">
+    <div class="header__inner">
+      <div class="header__logo">
+        <a href="pearl_index.html">
+          <img src="" data-src="{{image_logo}}" alt="{{hospital_name}}" class="logo-img">
+        </a>
+      </div>
+      <nav class="header__nav">
+        <div class="header__nav-item header__nav-item--dropdown">
+          <a href="pearl_about.html" class="header__nav-link">{{nav_1_name}} <span class="dropdown-arrow">▾</span></a>
+          <ul class="header__dropdown">
+            <li><a href="pearl_about.html">{{nav_1_name}}</a></li>
+            <li><a href="pearl_about.html#doctors">의료진</a></li>
+            <li><a href="pearl_about.html#facilities">시설안내</a></li>
+          </ul>
+        </div>
+        <div class="header__nav-item">
+          <a href="pearl_implant.html" class="header__nav-link">{{nav_2_name}}</a>
+        </div>
+        <div class="header__nav-item">
+          <a href="pearl_ortho.html" class="header__nav-link">{{nav_3_name}}</a>
+        </div>
+        <div class="header__nav-item">
+          <a href="pearl_cosmetic.html" class="header__nav-link">{{nav_5_name}}</a>
+        </div>
+      </nav>
+      <button class="header__menu-toggle" aria-label="메뉴 열기">
+        <span></span>
+        <span></span>
+        <span></span>
+      </button>
+    </div>
+  </header>
+
+  <!-- Mobile Navigation -->
+  <nav class="mobile-nav">
+    <ul class="mobile-nav__list">
+      <li class="mobile-nav__item mobile-nav__item--accordion">
+        <a href="#" class="mobile-nav__link mobile-nav__accordion-toggle">{{nav_1_name}} <span class="accordion-arrow">▾</span></a>
+        <ul class="mobile-nav__submenu">
+          <li><a href="pearl_about.html" class="mobile-nav__sublink">{{nav_1_name}}</a></li>
+          <li><a href="pearl_about.html#doctors" class="mobile-nav__sublink">의료진</a></li>
+          <li><a href="pearl_about.html#facilities" class="mobile-nav__sublink">시설안내</a></li>
+        </ul>
+      </li>
+      <li class="mobile-nav__item">
+        <a href="pearl_implant.html" class="mobile-nav__link">{{nav_2_name}}</a>
+      </li>
+      <li class="mobile-nav__item">
+        <a href="pearl_ortho.html" class="mobile-nav__link">{{nav_3_name}}</a>
+      </li>
+      <li class="mobile-nav__item">
+        <a href="pearl_cosmetic.html" class="mobile-nav__link">{{nav_5_name}}</a>
+      </li>
+    </ul>
+  </nav>
+  <!-- Subpage Hero Banner -->
+  <section class="subpage-hero" style="" data-bg="{{image_ortho_hero}}">
+    <div class="subpage-hero__overlay"></div>
+    <div class="subpage-hero__content">
+      <h1 class="subpage-hero__title">{{nav_3_name}}</h1>
+      <p class="subpage-hero__breadcrumb">홈 > {{nav_3_name}}</p>
+    </div>
+  </section>
+
+  <!-- Center Intro -->
+  <section class="section-block">
+    <div class="container">
+      <div class="section-header">
+        <p class="section-header__subtitle">Orthodontic Center</p>
+        <h2 class="section-header__title">치아교정 전문 진료</h2>
+        <p class="section-header__desc">환자 맞춤형 교정 솔루션으로 가지런하고 건강한 치열을 만들어 드립니다</p>
+      </div>
+      <div class="row">
+        <div class="col col-6">
+          <div class="fade-in">
+            <img src="" data-src="{{image_ortho_intro}}" alt="{{nav_3_name}}" class="rounded shadow">
+          </div>
+        </div>
+        <div class="col col-6">
+          <div class="fade-in" data-delay="200">
+            <h3>맞춤형 교정 치료</h3>
+            <p>정밀 3D 구강 스캔과 디지털 분석을 통해 최적의 교정 계획을 수립합니다. 환자의 치아 상태와 생활 패턴을 고려한 맞춤 교정을 제공합니다.</p>
+            <p>투명교정, 세라믹교정, 설측교정 등 다양한 교정 옵션으로 심미성과 효과를 모두 충족합니다.</p>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- Procedure Cards -->
+  <section class="section-block section-block--gray" id="procedures">
+    <div class="container">
+      <div class="section-header">
+        <p class="section-header__subtitle">Procedures</p>
+        <h2 class="section-header__title">시술 안내</h2>
+      </div>
+      <div class="row">
+        <div class="col col-3">
+          <div class="disease-card fade-in">
+            <div class="disease-card__icon">
+              <img src="" data-src="{{image_ortho_clear}}" alt="투명교정">
+            </div>
+            <h4 class="disease-card__title">투명교정</h4>
+            <p class="disease-card__desc">투명한 장치를 사용하여 교정 중에도 자연스러운 미소를 유지할 수 있습니다. 탈착이 가능해 위생 관리가 용이합니다.</p>
+          </div>
+        </div>
+        <div class="col col-3">
+          <div class="disease-card fade-in" data-delay="100">
+            <div class="disease-card__icon">
+              <img src="" data-src="{{image_ortho_ceramic}}" alt="세라믹교정">
+            </div>
+            <h4 class="disease-card__title">세라믹교정</h4>
+            <p class="disease-card__desc">치아색과 유사한 세라믹 브라켓을 사용하여 눈에 띄지 않으면서 효과적인 교정이 가능합니다.</p>
+          </div>
+        </div>
+        <div class="col col-3">
+          <div class="disease-card fade-in" data-delay="200">
+            <div class="disease-card__icon">
+              <img src="" data-src="{{image_ortho_lingual}}" alt="설측교정">
+            </div>
+            <h4 class="disease-card__title">설측교정</h4>
+            <p class="disease-card__desc">치아 안쪽에 장치를 부착하여 겉으로 전혀 보이지 않는 교정 방법입니다.</p>
+          </div>
+        </div>
+        <div class="col col-3">
+          <div class="disease-card fade-in" data-delay="300">
+            <div class="disease-card__icon">
+              <img src="" data-src="{{image_ortho_partial}}" alt="부분교정">
+            </div>
+            <h4 class="disease-card__title">부분교정</h4>
+            <p class="disease-card__desc">전체가 아닌 특정 부위만 집중적으로 교정하여 짧은 기간 내에 개선 효과를 얻을 수 있습니다.</p>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+  <!-- CTA Section -->
+  <section class="section-block section-block--brand">
+    <div class="container">
+      <div class="cta-content text-center">
+        <h2 class="cta-title">상담이 필요하신가요?</h2>
+        <p class="cta-desc">궁금한 점이 있으시면 언제든 연락주세요. 친절하게 안내해 드리겠습니다.</p>
+        <a href="tel:{{phone}}" class="btn btn--white btn--lg">전화 상담하기</a>
+      </div>
+    </div>
+  </section>
+  <!-- Footer -->
+  <footer class="footer">
+    <div class="footer__inner">
+      <div class="footer__grid">
+        <div class="footer__col">
+          <div class="footer__logo">
+            <img src="" data-src="{{image_logo_white}}" alt="{{hospital_name}}">
+          </div>
+          <p class="footer__desc">
+            {{footer_desc}}
+          </p>
+          <div class="footer__social">
+            <a href="{{instagram_url}}" target="_blank" aria-label="Instagram">
+              <img src="" data-src="{{icon_instagram}}" alt="Instagram">
+            </a>
+            <a href="{{youtube_url}}" target="_blank" aria-label="YouTube">
+              <img src="" data-src="{{icon_youtube}}" alt="YouTube">
+            </a>
+          </div>
+        </div>
+        <div class="footer__col">
+          <h5 class="footer__title">진료센터</h5>
+          <ul class="footer__list">
+            <li><a href="pearl_implant.html">{{nav_2_name}}</a></li>
+            <li><a href="pearl_ortho.html">{{nav_3_name}}</a></li>
+            <li><a href="pearl_cosmetic.html">{{nav_5_name}}</a></li>
+          </ul>
+        </div>
+        <div class="footer__col">
+          <h5 class="footer__title">연락처</h5>
+          <div class="footer__contact-item">
+            <span>전화: {{phone}}</span>
+          </div>
+          <div class="footer__contact-item">
+            <span>팩스: {{fax}}</span>
+          </div>
+          <div class="footer__contact-item">
+            <span>이메일: {{email}}</span>
+          </div>
+          <div class="footer__contact-item">
+            <span>{{address}}</span>
+          </div>
+        </div>
+      </div>
+      <div class="footer__bottom">
+        <p class="footer__copyright">
+          &copy; {{copyright_year}} {{hospital_name}}. All rights reserved.
+        </p>
+      </div>
+    </div>
+  </footer>
+
+  <!-- JS Libraries -->
+  <script src="https://code.jquery.com/jquery-3.7.1.min.js"></script>
+  <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/OwlCarousel2/2.3.4/owl.carousel.min.js"></script>
+
+  <!-- Custom JS -->
+  <script src="pearl_main.js"></script>
+</body>
+</html>

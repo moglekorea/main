@@ -998,7 +998,7 @@ document.getElementById('deployOverlay').addEventListener('click', function(e) {
       const key = inp.dataset.key;
       if (key && config[key] !== undefined && config[key] !== null) {
         const val = String(config[key]);
-        if (val && !val.startsWith('sapphire_assets/') && !val.startsWith('assets/')) {
+        if (val && !val.includes('_assets/') && !val.startsWith('assets/')) {
           inp.value = val;
         }
       }
@@ -1007,7 +1007,7 @@ document.getElementById('deployOverlay').addEventListener('click', function(e) {
     Object.keys(config).forEach(function(key) {
       if (!key.startsWith('image_') && !key.startsWith('icon_')) return;
       var val = String(config[key]);
-      if (!val || (!val.startsWith('assets/') && !val.startsWith('sapphire_assets/'))) return;
+      if (!val || (!val.startsWith('assets/') && !val.includes('_assets/'))) return;
       var preview = document.getElementById('preview_' + key);
       if (!preview) return;
       var imgUrl = 'https://moglekorea.github.io/' + editRepoName + '/' + val;
